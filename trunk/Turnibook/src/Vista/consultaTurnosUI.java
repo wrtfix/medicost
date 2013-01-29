@@ -542,7 +542,8 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         fila = tablaAgenda.getSelectedRow();
         Operaciones o = new Operaciones();
         //hora y dia le paso para que borre        
-        o.borrar(tablaAgenda.getValueAt(fila,HORA).toString(),calendario.getSelection().toString(),id_profesional);
+        String fecha = nuevaFecha(calendario.getSelection().toString());
+        o.borrar(tablaAgenda.getValueAt(fila,HORA).toString(),fecha,id_profesional);
         
         for (int i=1;i<tablaAgenda.getRowCount();i++){
             tablaAgenda.setValueAt(null, fila, i);
@@ -557,14 +558,17 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         Operaciones o  = new Operaciones();
         int fila=0;
         int max= tablaAgenda.getRowCount();
+        String actual = nuevaFecha(calendario.getSelection().toString());
+        o.conectar();
         while(fila < max){           
             if (tablaAgenda.getValueAt(fila,NOMBRE)!=null){
-                String actual = calendario.getSelection().toString();
                 if (!o.existeTurno(actual, tablaAgenda.getValueAt(fila,HORA).toString())) {
-                    o.insertar("insert into turno(documento,telefono,asistencia,descripcion,os,nombre,hora,fecha,id_profesional) values ('"+tablaAgenda.getValueAt(fila,DOC)+"','"+tablaAgenda.getValueAt(fila,TEL)+"','"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"','"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"','"+tablaAgenda.getValueAt(fila,OS)+"','"+tablaAgenda.getValueAt(fila,NOMBRE)+"','"+tablaAgenda.getValueAt(fila,HORA)+"','"+actual+"','"+id_profesional+"')");
+                    String sql = "insert into turno(documento,telefono,asistencia,descripcion,os,nombre,hora,fecha,id_profesional) values ('"+tablaAgenda.getValueAt(fila,DOC)+"','"+tablaAgenda.getValueAt(fila,TEL)+"','"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"','"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"','"+tablaAgenda.getValueAt(fila,OS)+"','"+tablaAgenda.getValueAt(fila,NOMBRE)+"','"+tablaAgenda.getValueAt(fila,HORA)+"','"+actual+"','"+id_profesional+"')";
+                    o.insertar(sql);
                 }
                 else {
-                   o.insertar("update turno set documento='"+tablaAgenda.getValueAt(fila,DOC)+"' , telefono='"+tablaAgenda.getValueAt(fila,TEL)+"' , asistencia='"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"' , descripcion='"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"' , os='"+tablaAgenda.getValueAt(fila,OS)+"' , nombre='"+tablaAgenda.getValueAt(fila,NOMBRE)+"' where hora='"+tablaAgenda.getValueAt(fila,HORA)+"' and fecha='"+actual+"' and id_profesional='"+id_profesional+"'");
+                    String sql = "update turno set documento='"+tablaAgenda.getValueAt(fila,DOC)+"' , telefono='"+tablaAgenda.getValueAt(fila,TEL)+"' , asistencia='"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"' , descripcion='"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"' , os='"+tablaAgenda.getValueAt(fila,OS)+"' , nombre='"+tablaAgenda.getValueAt(fila,NOMBRE)+"' where hora='"+tablaAgenda.getValueAt(fila,HORA)+"' and fecha='"+actual+"' and id_profesional='"+id_profesional+"'";
+                    o.insertar(sql);
                 }
             }
              fila++;
@@ -600,7 +604,12 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         generarTabla();
         tablaAgenda.setEnabled(false);
     }//GEN-LAST:event_calendarioOnSelectionChange
-
+    private String nuevaFecha(String fecha){
+        String[] actual = fecha.split("/");
+        actual[0] = actual[0].replaceAll("\\[", "");
+        actual[2] = actual[2].replaceAll("\\]", "");
+        return actual[2]+actual[1]+actual[0];
+    }
     private void generarTabla(){
          Operaciones o = new Operaciones();
         ArrayList<String> dia = new ArrayList<String>();
@@ -615,8 +624,11 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         String intervalo = o.getIntervalo(dia.get(calendario.getSelectedDate().getTime().getDay()), id_horario);        
         //Separo las variables inicio fin intervalo
         String[] res = intervalo.split(":");        
-        String actual = calendario.getSelection().toString();
+        
+        String actual = nuevaFecha(calendario.getSelection().toString());
+        
         o.generarHorario(Integer.valueOf(res[0]), Integer.valueOf(res[1]), Integer.valueOf(res[2]),tablaAgenda,id_profesional,actual);
+        
     }
     
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -624,7 +636,15 @@ public class consultaTurnosUI extends javax.swing.JFrame {
        tablaAgenda.setEnabled(false);
       
     }//GEN-LAST:event_formWindowOpened
-
+    private String fechaFormateada(String fecha){
+        String resultado="";
+        resultado = String.valueOf(fecha.charAt(0))+String.valueOf(fecha.charAt(1));
+        resultado = "/"+resultado ;
+        resultado = String.valueOf(fecha.charAt(2))+String.valueOf(fecha.charAt(3))+resultado;
+        resultado = "/"+resultado ;
+        resultado = String.valueOf(fecha.charAt(4))+String.valueOf(fecha.charAt(5))+resultado;
+        return resultado;
+    }
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         try {
             Operaciones o=new Operaciones();
@@ -632,8 +652,8 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yy", new Locale("es_ES"));
             Date fechaDate = new Date();
             String fecha = formateador.format(fechaDate);
- 
-            String sql = "select nombre,fecha,hora  from turno where fecha >= '["+fecha+"]' ";
+            String nuevaFecha = nuevaFecha("["+fecha+"]");
+            String sql = "select nombre,fecha,hora  from turno where fecha >= "+nuevaFecha;
             //busco por dni
             if (Dni.isSelected())
                 sql = sql + "and documento like '"+buscar1.getText()+"%'";
@@ -649,7 +669,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             r=o.consultar(sql);      
             DefaultListModel list = new DefaultListModel();
             while (r.next()){      
-               list.addElement("      "+r.getString("nombre")+"     "+r.getString("fecha") +"     "+r.getString("hora")  );   
+               list.addElement("      "+r.getString("nombre")+"     "+fechaFormateada(r.getString("fecha")) +"     "+r.getString("hora")  );   
             }
             lista.setModel(list);
             r.close();
