@@ -97,7 +97,9 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         botonBuscar = new java.awt.Button();
         jScrollPane2 = new javax.swing.JScrollPane();
         lista = new javax.swing.JList();
-        botonProximo = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        notas = new javax.swing.JTextArea();
+        gnota = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -348,13 +350,6 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     lista.setForeground(new java.awt.Color(102, 102, 255));
     jScrollPane2.setViewportView(lista);
 
-    botonProximo.setText("Proximo Turno");
-    botonProximo.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            botonProximoActionPerformed(evt);
-        }
-    });
-
     javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
     panel1.setLayout(panel1Layout);
     panel1Layout.setHorizontalGroup(
@@ -362,7 +357,6 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         .addGroup(panel1Layout.createSequentialGroup()
             .addGap(17, 17, 17)
             .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(botonProximo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2)
                 .addGroup(panel1Layout.createSequentialGroup()
                     .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -398,10 +392,48 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                         .addComponent(buscar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(botonProximo)
-            .addContainerGap(18, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
+
+    notas.setBackground(new java.awt.Color(240, 240, 240));
+    notas.setColumns(20);
+    notas.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
+    notas.setForeground(new java.awt.Color(255, 51, 102));
+    notas.setLineWrap(true);
+    notas.setRows(5);
+    notas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Notas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe Print", 0, 10), new java.awt.Color(102, 0, 153))); // NOI18N
+    notas.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            notasMouseClicked(evt);
+        }
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+            notasMousePressed(evt);
+        }
+    });
+    notas.addContainerListener(new java.awt.event.ContainerAdapter() {
+        public void componentAdded(java.awt.event.ContainerEvent evt) {
+            notasComponentAdded(evt);
+        }
+    });
+    notas.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            notasFocusGained(evt);
+        }
+    });
+    notas.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyPressed(java.awt.event.KeyEvent evt) {
+            notasKeyPressed(evt);
+        }
+    });
+    jScrollPane3.setViewportView(notas);
+
+    gnota.setText("Guardar");
+    gnota.setEnabled(false);
+    gnota.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            gnotaActionPerformed(evt);
+        }
+    });
 
     jMenu3.setText("Ayuda");
 
@@ -448,7 +480,11 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                     .addComponent(jButton1))
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                    .addGap(62, 62, 62)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                        .addComponent(gnota, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGap(51, 51, 51)
                     .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(13, 13, 13))
                 .addComponent(jScrollPane1))
@@ -457,12 +493,20 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(calendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(calendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(22, 22, 22)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(gnota)
+                    .addGap(27, 27, 27)))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(2, 2, 2)
@@ -744,31 +788,29 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             botonBuscar.setEnabled(false);
     }//GEN-LAST:event_buscar3KeyTyped
 
-    private void botonProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonProximoActionPerformed
-        try {
-            //Obtengo la fecha actual
-            SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yy", new Locale("es_ES"));
-            Date fechaDate = new Date();
-            String fecha = formateador.format(fechaDate);
-            
-            //Genero la consulta
-            String sql = "select nombre,fecha,hora  from turno where fecha >= '["+fecha+"]' ";   
-            sql = sql + "and id_profesional ='"+id_profesional+"' and  os='ioma' group by fecha order by fecha desc";
-            
-            Operaciones o = new Operaciones();        
-            ResultSet r=o.consultar(sql);      
-            DefaultListModel list = new DefaultListModel();
-            if (r.next()){
-                JOptionPane.showMessageDialog(null, r.getString("fecha"));
-            }else{
-                JOptionPane.showMessageDialog(null, "No hay proximos turnos dados actualmente");
-            }
-            
-            r.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(consultaTurnosUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_botonProximoActionPerformed
+    private void gnotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gnotaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gnotaActionPerformed
+
+    private void notasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_notasKeyPressed
+             // TODO add your handling code here:
+    }//GEN-LAST:event_notasKeyPressed
+
+    private void notasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notasMouseClicked
+                 gnota.enable(true);                // TODO add your handling code here:
+    }//GEN-LAST:event_notasMouseClicked
+
+    private void notasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notasMousePressed
+             // TODO add your handling code here:
+    }//GEN-LAST:event_notasMousePressed
+
+    private void notasFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_notasFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_notasFocusGained
+
+    private void notasComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_notasComponentAdded
+      // TODO add your handling code here:
+    }//GEN-LAST:event_notasComponentAdded
    
     
     /**
@@ -812,7 +854,6 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private javax.swing.JButton bguardar;
     private javax.swing.JButton bmodificar;
     private java.awt.Button botonBuscar;
-    private javax.swing.JButton botonProximo;
     private javax.swing.JTextField buscar1;
     private javax.swing.JTextField buscar2;
     private javax.swing.JTextField buscar3;
@@ -822,6 +863,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private datechooser.beans.DateChooserDialog dateChooserDialog2;
     private datechooser.beans.DateChooserDialog dateChooserDialog3;
     private datechooser.beans.DateChooserPanel dateChooserPanel1;
+    private javax.swing.JButton gnota;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
@@ -833,8 +875,10 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JList lista;
+    private javax.swing.JTextArea notas;
     private javax.swing.JCheckBox obraSocial;
     private java.awt.Panel panel1;
     private javax.swing.JTable tablaAgenda;
