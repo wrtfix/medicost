@@ -40,7 +40,6 @@ public class Operaciones extends Conexion{
         boolean valor = true;
         conectar();
         try {
-            
             consulta.executeUpdate(sql);
             JOptionPane.showMessageDialog(null, sql);
         } catch (SQLException e) {
@@ -88,12 +87,35 @@ public class Operaciones extends Conexion{
         
     }
     
-      public String IdHorario(){
+      public String IdHorario(String id_profesional){
         conectar();
         ResultSet resultado;
         try {
-            resultado = consulta.executeQuery("select count(*) from horario");
-            String ret = resultado.getString(1);
+            String sql = "select id_horario from profesional where id_profesional='"+id_profesional+"'";
+            resultado = consulta.executeQuery(sql);
+            String ret = "";
+            if(resultado.next()){
+                 ret = resultado.getString("id_horario");
+            }
+            consulta.close();
+            return ret;
+        } catch (SQLException ex) {
+            Logger.getLogger(Operaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
+        public String ultimoIdHorario(){
+        conectar();
+        ResultSet resultado;
+        try {
+            String sql = "select max(id_horario) from horario";
+            resultado = consulta.executeQuery(sql);
+            String ret = "";
+            if(resultado.next()){
+                 ret = resultado.getString(1);
+            }
             consulta.close();
             return ret;
         } catch (SQLException ex) {
@@ -151,7 +173,10 @@ public class Operaciones extends Conexion{
         String intervalo ="";
         try {
             resultado = consulta.executeQuery("select "+dia+"_desde, "+dia+"_hasta , intervalo from horario where id_horario="+id_horario);
-            intervalo = resultado.getString(dia+"_desde") +":"+resultado.getString(dia+"_hasta")+":"+resultado.getString("intervalo");
+            if (resultado.next())
+                intervalo = resultado.getString(dia+"_desde") +":"+resultado.getString(dia+"_hasta")+":"+resultado.getString("intervalo");
+            else 
+                intervalo = "fin";
             consulta.close();
         } catch (SQLException ex) {
             Logger.getLogger(Operaciones.class.getName()).log(Level.SEVERE, null, ex);
@@ -173,9 +198,12 @@ public class Operaciones extends Conexion{
         ResultSet res = null;
         try {
             res = consulta.executeQuery("select * from turno where fecha ='"+fecha+"' and id_profesional ='"+id_profesional+"'");
-        while(inicio<fin+1){
+        while(inicio<fin){
             if (aux != 0) {
-                hora = inicio + ":" + aux;
+                if (aux==60){
+                    hora = inicio+1 + ":00";
+                }else
+                    hora = inicio + ":" + aux;
             } else {
                 hora = inicio + ":00";
             }
@@ -213,7 +241,7 @@ public class Operaciones extends Conexion{
                 Logger.getLogger(consultaTurnosUI.class.getName()).log(Level.SEVERE, null, ex);
             }
             aux = aux + intervalo;
-            if (aux >= 60) {
+            if (aux > 60) {
                 aux = aux - 60;
                 inicio = inicio + 1;
             }
@@ -229,6 +257,32 @@ public class Operaciones extends Conexion{
         
         
     }
-    
+    public String getIdProfesional(String nombre,String mail){
+        conectar();
+        ResultSet resultado;
+        try {
+            resultado = consulta.executeQuery("select max(id_profesional) from profesional");
+            String ret = resultado.getString(1);
+            consulta.close();
+            return ret;
+        } catch (SQLException ex) {
+            Logger.getLogger(Operaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    public ResultSet getHorarios(String id_horario){
+        conectar();
+        ResultSet resultado = null;
+        try {
+            String sql = "select * from horario where id_horario = '"+id_horario+"'";
+            resultado = consulta.executeQuery(sql);
+            return resultado;
+       }
+        catch (SQLException ex) {
+            Logger.getLogger(Operaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
+    }
    
 }

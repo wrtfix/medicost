@@ -22,7 +22,8 @@ import turnibook.Operaciones;
  * @author wrtfix
  */
 public class Usuarios extends javax.swing.JFrame {
-
+    private String id_horario = "";
+    private String id_profesional = "";
     /**
      * Creates new form Usuarios
      */
@@ -65,8 +66,7 @@ public class Usuarios extends javax.swing.JFrame {
         botonAgregar = new javax.swing.JToggleButton();
         botonEliminar = new javax.swing.JToggleButton();
         botonGuardar = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        botonGenerar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         intervalo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -94,6 +94,10 @@ public class Usuarios extends javax.swing.JFrame {
         checkDescanso = new javax.swing.JCheckBox();
         descanso = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        botonAgenda = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        mail = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -111,9 +115,14 @@ public class Usuarios extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Numero de Profesional", "Nombre", "Password"
+                "Numero de Profesional", "Nombre", "Password", "Mail"
             }
         ));
+        tablaProfesional.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaProfesionalMouseClicked(evt);
+            }
+        });
         tablaProfesional.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
@@ -161,23 +170,24 @@ public class Usuarios extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Regresar");
-
-        jButton2.setText("Generar");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        botonGenerar.setText("Generar");
+        botonGenerar.setEnabled(false);
+        botonGenerar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
+                botonGenerarMouseClicked(evt);
             }
         });
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        botonGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                botonGenerarActionPerformed(evt);
             }
         });
 
         jLabel1.setText("Intervalors de turno");
 
-        jLabel4.setText("Dias Laborales:");
+        intervalo.setText("15");
+
+        jLabel4.setText("Dias Laborales");
 
         checkLunes.setText("Lunes");
         checkLunes.addActionListener(new java.awt.event.ActionListener() {
@@ -208,10 +218,10 @@ public class Usuarios extends javax.swing.JFrame {
         });
 
         lunesDesde.setEditable(false);
-        lunesDesde.setText("Desde");
+        lunesDesde.setText("0");
 
         lunesHasta.setEditable(false);
-        lunesHasta.setText("Hasta");
+        lunesHasta.setText("0");
         lunesHasta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lunesHastaActionPerformed(evt);
@@ -219,22 +229,27 @@ public class Usuarios extends javax.swing.JFrame {
         });
 
         martesHasta.setEditable(false);
-        martesHasta.setText("Hasta");
+        martesHasta.setText("0");
 
         martesDesde.setEditable(false);
-        martesDesde.setText("Desde");
+        martesDesde.setText("0");
+        martesDesde.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                martesDesdeActionPerformed(evt);
+            }
+        });
 
         miercolesHasta.setEditable(false);
-        miercolesHasta.setText("Hasta");
+        miercolesHasta.setText("0");
 
         miercolesDesde.setEditable(false);
-        miercolesDesde.setText("Desde");
+        miercolesDesde.setText("0");
 
         juevesHasta.setEditable(false);
-        juevesHasta.setText("Hasta");
+        juevesHasta.setText("0");
 
         juevesDesde.setEditable(false);
-        juevesDesde.setText("Desde");
+        juevesDesde.setText("0");
 
         checkViernes.setText("Viernes");
         checkViernes.addActionListener(new java.awt.event.ActionListener() {
@@ -244,10 +259,10 @@ public class Usuarios extends javax.swing.JFrame {
         });
 
         viernesDesde.setEditable(false);
-        viernesDesde.setText("Desde");
+        viernesDesde.setText("0");
 
         viernesHasta.setEditable(false);
-        viernesHasta.setText("Hasta");
+        viernesHasta.setText("0");
 
         checkSabado.setText("Sabado");
         checkSabado.addActionListener(new java.awt.event.ActionListener() {
@@ -257,10 +272,10 @@ public class Usuarios extends javax.swing.JFrame {
         });
 
         sabadoDesde.setEditable(false);
-        sabadoDesde.setText("Desde");
+        sabadoDesde.setText("0");
 
         sabadoHasta.setEditable(false);
-        sabadoHasta.setText("Hasta");
+        sabadoHasta.setText("0");
 
         checkDomingo.setText("Domingo");
         checkDomingo.addActionListener(new java.awt.event.ActionListener() {
@@ -270,10 +285,10 @@ public class Usuarios extends javax.swing.JFrame {
         });
 
         domingoDesde.setEditable(false);
-        domingoDesde.setText("Desde");
+        domingoDesde.setText("0");
 
         domingoHasta.setEditable(false);
-        domingoHasta.setText("Hasta");
+        domingoHasta.setText("0");
 
         checkDescanso.setText("Descansos");
         checkDescanso.addActionListener(new java.awt.event.ActionListener() {
@@ -285,7 +300,19 @@ public class Usuarios extends javax.swing.JFrame {
         descanso.setEditable(false);
         descanso.setText("0");
 
-        jLabel5.setText("Horario");
+        jLabel5.setText("Hasta");
+
+        botonAgenda.setText("Agenda");
+        botonAgenda.setEnabled(false);
+        botonAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgendaActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Mail");
+
+        jLabel8.setText("Desde");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -294,48 +321,23 @@ public class Usuarios extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nombreProfesional)
-                            .addComponent(contraProfesional)))
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(checkDomingo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4)
-                            .addComponent(checkLunes, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(checkSabado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(checkViernes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(checkJueves, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(checkMiercoles, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(checkMartes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lunesDesde)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lunesHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(martesDesde)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(martesHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(miercolesDesde)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(miercolesHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(checkDomingo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(checkLunes, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(checkSabado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(checkViernes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(checkJueves, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(checkMiercoles, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(checkMartes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(botonAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -345,42 +347,71 @@ public class Usuarios extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(domingoDesde)
-                                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(botonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(domingoHasta)
-                                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addComponent(botonGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(juevesDesde, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(viernesDesde))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(viernesHasta)
+                                            .addComponent(juevesHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(martesDesde)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(martesHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(miercolesDesde)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(miercolesHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lunesDesde)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel8)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(lunesHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(juevesDesde, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(viernesDesde))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(viernesHasta)
-                                    .addComponent(juevesHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addGap(158, 158, 158))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(checkDescanso)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(descanso, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(intervalo, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(botonEliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonGuardar)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(checkDescanso)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(descanso, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(intervalo, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(4, 4, 4))
+                                .addComponent(jLabel7)
+                                .addGap(24, 24, 24)
+                                .addComponent(jTextField2))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nombreProfesional)
+                                    .addComponent(contraProfesional)
+                                    .addComponent(mail))))
+                        .addGap(4, 4, 4))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,14 +422,18 @@ public class Usuarios extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nombreProfesional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel3))
-                    .addComponent(contraProfesional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(contraProfesional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(mail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEliminar)
-                    .addComponent(botonGuardar))
+                    .addComponent(botonEliminar))
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -416,7 +451,8 @@ public class Usuarios extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(checkLunes)
@@ -453,10 +489,14 @@ public class Usuarios extends javax.swing.JFrame {
                     .addComponent(domingoDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(domingoHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(botonGenerar)
+                        .addComponent(botonGuardar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(botonAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         pack();
@@ -471,7 +511,7 @@ public class Usuarios extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) tablaProfesional.getModel();
             while(resultado.next()){
                 //Obtengo los elementos de resultado.getString(numero de columna)
-                model.addRow(new Object[]{resultado.getString(1),resultado.getString(3), resultado.getString(4)});
+                model.addRow(new Object[]{resultado.getString(1),resultado.getString(3), resultado.getString(4),resultado.getString(5)});
             }
         } catch (SQLException ex) {
             Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
@@ -506,7 +546,7 @@ public class Usuarios extends javax.swing.JFrame {
         if(!nombreProfesional.getText().isEmpty() && !contraProfesional.getText().isEmpty()){
             DefaultTableModel model = (DefaultTableModel) tablaProfesional.getModel();
             //Cargar los profesionales existentes
-            model.addRow(new Object[]{model.getRowCount()+1,nombreProfesional.getText(), contraProfesional.getText()});
+            model.addRow(new Object[]{model.getRowCount()+1,nombreProfesional.getText(), contraProfesional.getText(),mail.getText()});
             
             
         }else
@@ -519,14 +559,19 @@ public class Usuarios extends javax.swing.JFrame {
         botonGuardar.setEnabled(true);
     }//GEN-LAST:event_tablaProfesionalKeyPressed
     
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+    private void botonGenerarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGenerarMouseClicked
             Operaciones o = new Operaciones();
-            o.insertar("insert into horario(lunes_desde, lunes_hasta,martes_desde,martes_hasta,miercoles_desde,miercoles_hasta,jueves_desde, jueves_hasta, viernes_desde, viernes_hasta, sabado_desde, sabado_hasta, domingo_desde, domingo_hasta, intervalo, descansos ) values('" + lunesDesde.getText() + "','" + lunesHasta.getText() + "','" + martesDesde.getText() + "','" + martesHasta.getText() + "','" + miercolesDesde.getText() + "','" + miercolesHasta.getText() + "','" + juevesDesde.getText() + "','" + juevesHasta.getText() + "','" + viernesDesde.getText() + "','" + viernesHasta.getText() + "','" + sabadoDesde.getText() + "','" + sabadoHasta.getText() + "','" + domingoDesde.getText() + "','" + domingoHasta.getText() + "'," + intervalo.getText() + ","+descanso.getText()+")");
+            String sql = "insert into horario(lunes_desde, lunes_hasta,martes_desde,martes_hasta,miercoles_desde,miercoles_hasta,jueves_desde, jueves_hasta, viernes_desde, viernes_hasta, sabado_desde, sabado_hasta, domingo_desde, domingo_hasta, intervalo, descansos ) values('" ;
+            sql = sql + lunesDesde.getText() + "','" + lunesHasta.getText() + "','" + martesDesde.getText() + "','" + martesHasta.getText() + "','" + miercolesDesde.getText() + "','" + miercolesHasta.getText() + "','" + juevesDesde.getText() + "','" + juevesHasta.getText() + "','" + viernesDesde.getText() + "','" + viernesHasta.getText() + "','" + sabadoDesde.getText() + "','" + sabadoHasta.getText() + "','" + domingoDesde.getText() + "','" + domingoHasta.getText() + "'," + intervalo.getText() + ","+descanso.getText()+")";
             
-            o.insertar("insert into profesional(id_horario,nombre,clave) values ("+o.IdHorario() +",'"+nombreProfesional.getText()+"','"+contraProfesional.getText()+"')");
+            o.insertar(sql);
+            id_horario = o.ultimoIdHorario();
+            
+            String sql2 = "insert into profesional(id_horario,nombre,clave,email) values ("+id_horario +",'"+nombreProfesional.getText()+"','"+contraProfesional.getText()+"','"+mail.getText()+"')";
+            o.insertar(sql2);
+            
             JOptionPane.showMessageDialog(null, "Se genero el horario ");
-      
-    }//GEN-LAST:event_jButton2MouseClicked
+    }//GEN-LAST:event_botonGenerarMouseClicked
 
     private void lunesHastaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lunesHastaActionPerformed
         // TODO add your handling code here:
@@ -558,9 +603,9 @@ public class Usuarios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_checkMartesActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void botonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGenerarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_botonGenerarActionPerformed
 
     private void checkMiercolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkMiercolesActionPerformed
          if(checkMiercoles.isSelected()){
@@ -579,6 +624,8 @@ public class Usuarios extends javax.swing.JFrame {
         if(checkJueves.isSelected()){
             juevesDesde.setEditable(true);
             juevesHasta.setEditable(true);
+            juevesDesde.setText("");
+            juevesHasta.setText("");
         }
         else{
             juevesDesde.setEditable(false);
@@ -592,7 +639,6 @@ public class Usuarios extends javax.swing.JFrame {
             viernesHasta.setEditable(true);
             viernesDesde.setText("");
             viernesHasta.setText("");
-            
         }
         else{
             viernesDesde.setEditable(false);
@@ -636,6 +682,59 @@ public class Usuarios extends javax.swing.JFrame {
         descanso.setEditable(false);
     }//GEN-LAST:event_checkDescansoActionPerformed
 
+    private void botonAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgendaActionPerformed
+            consultaTurnosUI ct = new consultaTurnosUI();
+            
+            Operaciones o = new Operaciones();
+            id_profesional = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),0).toString();
+            ct.setId_horario(o.IdHorario(id_profesional));
+            ct.setId_profesional(id_profesional);
+            if(!"null".equals(mail.getText())){
+                ct.setId_profesional(mail.getText());
+            }
+            ct.setLocationRelativeTo(null);
+            ct.setVisible(true);
+            ct.pack();
+            this.setVisible(false);
+    }//GEN-LAST:event_botonAgendaActionPerformed
+
+    private void martesDesdeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_martesDesdeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_martesDesdeActionPerformed
+
+    private void tablaProfesionalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesionalMouseClicked
+        try {
+            botonGenerar.setEnabled(true);
+            botonAgenda.setEnabled(true);
+            id_profesional = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),0).toString();
+            Operaciones o = new Operaciones();
+            String id = o.IdHorario(id_profesional);
+            ResultSet res = o.getHorarios(id);
+            
+            if (res.next()){
+            lunesDesde.setText(res.getString("lunes_desde"));
+            lunesHasta.setText(res.getString("lunes_hasta"));
+            martesDesde.setText(res.getString("martes_desde"));
+            martesHasta.setText(res.getString("martes_hasta"));
+            miercolesDesde.setText(res.getString("miercoles_desde"));
+            miercolesHasta.setText(res.getString("miercoles_hasta"));
+            juevesDesde.setText(res.getString("jueves_desde"));
+            juevesHasta.setText(res.getString("jueves_hasta"));
+            viernesDesde.setText(res.getString("viernes_desde"));
+            viernesHasta.setText(res.getString("viernes_hasta"));
+            sabadoDesde.setText(res.getString("sabado_desde"));
+            sabadoHasta.setText(res.getString("sabado_hasta"));
+            domingoDesde.setText(res.getString("domingo_desde"));
+            domingoHasta.setText(res.getString("domingo_hasta"));
+            intervalo.setText(res.getString("intervalo"));
+            }
+            res.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_tablaProfesionalMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -671,8 +770,10 @@ public class Usuarios extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonAgenda;
     private javax.swing.JToggleButton botonAgregar;
     private javax.swing.JToggleButton botonEliminar;
+    private javax.swing.JButton botonGenerar;
     private javax.swing.JToggleButton botonGuardar;
     private javax.swing.JCheckBox checkDescanso;
     private javax.swing.JCheckBox checkDomingo;
@@ -687,14 +788,14 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JTextField domingoDesde;
     private javax.swing.JTextField domingoHasta;
     private javax.swing.JTextField intervalo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField2;
@@ -702,6 +803,7 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JTextField juevesHasta;
     private javax.swing.JTextField lunesDesde;
     private javax.swing.JTextField lunesHasta;
+    private javax.swing.JTextField mail;
     private javax.swing.JTextField martesDesde;
     private javax.swing.JTextField martesHasta;
     private javax.swing.JTextField miercolesDesde;
