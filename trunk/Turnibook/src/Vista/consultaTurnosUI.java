@@ -43,7 +43,16 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private static int HORA = 0;
     private String id_horario;
     private String id_profesional;
+    private String email;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     public String getId_profesional() {
         return id_profesional;
     }
@@ -620,19 +629,21 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private void generarTabla(){
          Operaciones o = new Operaciones();
         ArrayList<String> dia = new ArrayList<String>();
+        dia.add("domingo");
         dia.add("lunes");
         dia.add("martes");
         dia.add("miercoles");
         dia.add("jueves");
         dia.add("viernes");
         dia.add("sabado");
-        dia.add("domingo");
         // Con esto hago la consulta de cual horario pertenece al profesional con ese id_horario en el dia de la semana 
         String intervalo = o.getIntervalo(dia.get(calendario.getSelectedDate().getTime().getDay()), id_horario);        
         //Separo las variables inicio fin intervalo
-        String[] res = intervalo.split(":");        
-        String actual = calendario.getSelection().toString();
-        o.generarHorario(Integer.valueOf(res[0]), Integer.valueOf(res[1]), Integer.valueOf(res[2]),tablaAgenda,id_profesional,actual);
+        if (!"fin".equals(intervalo)){
+            String[] res = intervalo.split(":");        
+            String actual = calendario.getSelection().toString();
+            o.generarHorario(Integer.valueOf(res[0]), Integer.valueOf(res[1]), Integer.valueOf(res[2]),tablaAgenda,id_profesional,actual);
+        }
     }
     
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -698,7 +709,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String destino ="julietapoume@gmail.com";
+        String destino =email;
         String asunto="Turnos que corresponden al dia: "+calendario.getSelection().toString();
         String contenido = "Horario Nombre Documento Telefono Obra Social \n";
         

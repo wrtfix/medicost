@@ -45,6 +45,11 @@ public class Login extends javax.swing.JFrame {
         setBackground(new java.awt.Color(0, 51, 204));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Nombre");
 
@@ -156,24 +161,31 @@ public class Login extends javax.swing.JFrame {
             this.setVisible(false);
         }else
         {
-            Operaciones o = new Operaciones();
-            
-            ResultSet resultado = o.consultar("select * from profesional where nombre like '"+nombre+"' and clave like '"+pass+"'");
-            if (resultado !=null){
-                try {
-                    consultaTurnosUI ct = new consultaTurnosUI();
-                    ct.setId_horario(resultado.getString("id_horario"));
-                    ct.setId_profesional(resultado.getString("id_profesional"));
-                    ct.setLocationRelativeTo(null);
-                    ct.setVisible(true);
-                    ct.pack();
-                    this.setVisible(false);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                 
-            }else
-                JOptionPane.showMessageDialog(null, "Nombre de usuario o password incorrectos");
+            try {
+                Operaciones o = new Operaciones();
+                
+                ResultSet resultado = o.consultar("select * from profesional where nombre like '"+nombre+"' and clave like '"+pass+"'");
+                if (resultado.next()){
+                    try {
+                        consultaTurnosUI ct = new consultaTurnosUI();
+                        ct.setId_horario(resultado.getString("id_horario"));
+                        ct.setId_profesional(resultado.getString("id_profesional"));
+                        if(!"null".equals(resultado.getString("email"))){
+                            ct.setId_profesional(resultado.getString("email"));
+                        }
+                        ct.setLocationRelativeTo(null);
+                        ct.setVisible(true);
+                        ct.pack();
+                        this.setVisible(false);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     
+                }else
+                    JOptionPane.showMessageDialog(null, "Nombre de usuario o password incorrectos");
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }//GEN-LAST:event_botonLoginActionPerformed
@@ -181,6 +193,11 @@ public class Login extends javax.swing.JFrame {
     private void botonLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_botonLoginKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_botonLoginKeyPressed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // Seleccion accion por default
+        this.getRootPane().setDefaultButton(botonLogin);
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
