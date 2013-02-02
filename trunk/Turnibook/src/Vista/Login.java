@@ -53,12 +53,17 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1.setText("Nombre");
 
-        jTextField1.setText("julieta");
+        jTextField1.setText("wrtfix");
         jTextField1.setName("textNombre"); // NOI18N
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Contraseña");
 
-        jPasswordField1.setText("julieta");
+        jPasswordField1.setText("hanna64");
         jPasswordField1.setName("textPass"); // NOI18N
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,6 +203,10 @@ public class Login extends javax.swing.JFrame {
         // Seleccion accion por default
         this.getRootPane().setDefaultButton(botonLogin);
     }//GEN-LAST:event_formWindowOpened
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
