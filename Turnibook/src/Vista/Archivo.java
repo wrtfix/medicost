@@ -25,9 +25,9 @@ class Archivo {
      
      }
      
-     public void crearTxt(String texto){
+     public void crearTxt(String texto,String nombre){
            File f;
-           f = new File("notas");
+           f = new File(nombre);
            //Escritura
             try{
                 FileWriter w = new FileWriter(f);
@@ -41,9 +41,9 @@ class Archivo {
             }catch(IOException e){};
       }
      
-     public String leerTxt(){
+     public String leerTxt(String nombre){
                        
-            File f = new File( "C:notas" );
+            File f = new File( "C:"+nombre );
             BufferedReader entrada;
             String r = "";
             try {
