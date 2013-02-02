@@ -496,17 +496,24 @@ public class Usuarios extends javax.swing.JFrame {
             String mail = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),3).toString();
             String sql = null;
             String sql2 = null;
-            String id_horario = o.ultimoIdHorario();
+            
             if (!o.existeProfesional(id_profesional)){
+                
                 sql = "insert into horario(lunes_desde, lunes_hasta,martes_desde,martes_hasta,miercoles_desde,miercoles_hasta,jueves_desde, jueves_hasta, viernes_desde, viernes_hasta, sabado_desde, sabado_hasta, domingo_desde, domingo_hasta, intervalo ) values('" ;
                 sql = sql + lunesDesde.getText() + "','" + lunesHasta.getText() + "','" + martesDesde.getText() + "','" + martesHasta.getText() + "','" + miercolesDesde.getText() + "','" + miercolesHasta.getText() + "','" + juevesDesde.getText() + "','" + juevesHasta.getText() + "','" + viernesDesde.getText() + "','" + viernesHasta.getText() + "','" + sabadoDesde.getText() + "','" + sabadoHasta.getText() + "','" + domingoDesde.getText() + "','" + domingoHasta.getText() + "'," + intervalo.getText() +")";
+                o.insertar(sql);
+                String id_horario = o.ultimoIdHorario();
                 sql2 = "insert into profesional(id_horario,nombre,clave,email) values ("+id_horario +",'"+nombre+"','"+clave+"','"+mail+"')";
+                o.insertar(sql2);
             }else{
+                String id_horario = o.IdHorario(id_profesional);
                 sql = "update horario set lunes_desde='"+lunesDesde.getText()+"' , lunes_hasta='"+lunesHasta.getText()+"' , martes_desde='"+martesDesde.getText()+"' , martes_hasta='"+ martesHasta.getText() +"' , miercoles_desde='"+miercolesHasta.getText()+"' , miercoles_hasta='"+miercolesHasta.getText()+"' , jueves_desde='"+juevesDesde.getText()+"' , jueves_hasta='"+juevesHasta.getText()+"' , viernes_desde='"+viernesDesde.getText()+"' , viernes_hasta='"+viernesHasta.getText()+"' , sabado_desde='"+sabadoDesde.getText()+"' , sabado_hasta='"+sabadoHasta.getText()+"' , domingo_desde='"+domingoDesde.getText()+"' , domingo_hasta='"+domingoHasta.getText()+"' , intervalo='"+intervalo.getText()+"' where id_horario='"+id_horario+"'";
+                o.insertar(sql);
                 sql2 = "update profesional set nombre='"+nombre+"' , clave='"+clave+"' , email='"+mail+"' where id_profesional='"+id_profesional+"'";
+                o.insertar(sql2);
             }
-            o.insertar(sql);
-            o.insertar(sql2);
+            
+            
                 
             
             JOptionPane.showMessageDialog(null, "Se genero el horario ");
