@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package Vista;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
