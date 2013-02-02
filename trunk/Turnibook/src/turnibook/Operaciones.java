@@ -7,6 +7,7 @@
 package turnibook;
 
 
+import java.sql.Time;
 import Vista.consultaTurnosUI;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
 
 public class Operaciones extends Conexion{
@@ -41,10 +43,14 @@ public class Operaciones extends Conexion{
         conectar();
         try {
             consulta.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, sql);
+           // JOptionPane.showMessageDialog(null, sql);
+           //Mostrar cartelito abajo q se cargo correctamente
+         
         } catch (SQLException e) {
             valor = false;
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            //JOptionPane.showMessageDialog(null, e.getMessage());
+           
+         
         } finally {
             try {
                 consulta.close();
@@ -66,7 +72,7 @@ public class Operaciones extends Conexion{
                 System.out.println("Mensaje:"+e.getMessage());
                 System.out.println("Estado:"+e.getSQLState());
                 System.out.println("Codigo del error:"+e.getErrorCode());
-                JOptionPane.showMessageDialog(null, ""+e.getMessage());
+               // JOptionPane.showMessageDialog(null, ""+e.getMessage());
             }       
     }
     
@@ -80,7 +86,7 @@ public class Operaciones extends Conexion{
                 System.out.println("Mensaje:"+e.getMessage());
                 System.out.println("Estado:"+e.getSQLState());
                 System.out.println("Codigo del error:"+e.getErrorCode());
-                JOptionPane.showMessageDialog(null, ""+e.getMessage());
+              //  JOptionPane.showMessageDialog(null, ""+e.getMessage());
             }
         
         return resultado;
@@ -174,7 +180,7 @@ public class Operaciones extends Conexion{
         try {
             resultado = consulta.executeQuery("select "+dia+"_desde, "+dia+"_hasta , intervalo from horario where id_horario="+id_horario);
             if (resultado.next())
-                intervalo = resultado.getString(dia+"_desde") +":"+resultado.getString(dia+"_hasta")+":"+resultado.getString("intervalo");
+                intervalo = resultado.getString(dia+"_desde") +"-"+resultado.getString(dia+"_hasta")+"-"+resultado.getString("intervalo");
             else 
                 intervalo = "fin";
             consulta.close();
@@ -185,11 +191,36 @@ public class Operaciones extends Conexion{
     }
     
     
-    public void generarHorario(Integer inicio, Integer fin,Integer intervalo, JTable tablaAgenda, String id_profesional, String fecha){
+    public void generarHorario(String inicio, String fin,Integer intervalo, JTable tablaAgenda, String id_profesional, String fecha){
+        
+       Integer h_inicio;
+       Integer m_inicio=0;
+       Integer h_fin;
+       Integer m_fin=0;
+       
+       
+       if (inicio.contains(":")){
+           String[] aux = inicio.split(":");
+           h_inicio=Integer.valueOf(aux[0]);
+           m_inicio=Integer.valueOf(aux[1]);
+       }
+       else{
+           h_inicio=Integer.valueOf(inicio);
+       }
+         if (fin.contains(":")){
+           String[] aux = inicio.split(":");
+           h_fin=Integer.valueOf(aux[0]);
+           m_fin=Integer.valueOf(aux[1]);
+       }
+         else{
+           h_fin=Integer.valueOf(fin);
+         }
+        
+        
         tablaAgenda.setEnabled(true);
         int i=0;
         int fila=0;
-        int aux=0;
+        int aux=m_inicio;
         String hora;   
         
         DefaultTableModel model = (DefaultTableModel) tablaAgenda.getModel();
@@ -198,14 +229,14 @@ public class Operaciones extends Conexion{
         ResultSet res = null;
         try {
             res = consulta.executeQuery("select * from turno where fecha ='"+fecha+"' and id_profesional ='"+id_profesional+"'");
-        while(inicio<fin){
+        while(h_inicio < h_fin){
             if (aux != 0) {
                 if (aux==60){
-                    hora = inicio+1 + ":00";
+                    hora = h_inicio+1 + ":00";
                 }else
-                    hora = inicio + ":" + aux;
+                    hora = h_inicio + ":" + aux;
             } else {
-                hora = inicio + ":00";
+                hora = h_inicio + ":00";
             }
             model.addRow(new Object[7]);
             model.setValueAt(hora,fila,HORA); 
@@ -243,7 +274,8 @@ public class Operaciones extends Conexion{
             aux = aux + intervalo;
             if (aux > 60) {
                 aux = aux - 60;
-                inicio = inicio + 1;
+                h_inicio = h_inicio + 1;
+                
             }
             fila++;
             i++;

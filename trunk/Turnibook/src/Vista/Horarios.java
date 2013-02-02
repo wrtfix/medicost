@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import javax.swing.JToolBar;
 import turnibook.Operaciones;
 
 /**
@@ -11,6 +12,7 @@ import turnibook.Operaciones;
  * @author wrtfix
  */
 public class Horarios extends javax.swing.JFrame {
+    private JToolBar aviso;
 
     /**
      * Creates new form Agenda

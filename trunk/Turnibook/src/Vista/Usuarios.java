@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
 import turnibook.Operaciones;
 
@@ -22,6 +23,7 @@ import turnibook.Operaciones;
  * @author wrtfix
  */
 public class Usuarios extends javax.swing.JFrame {
+    private JToolBar aviso;
     /**
      * Creates new form Usuarios
      */
