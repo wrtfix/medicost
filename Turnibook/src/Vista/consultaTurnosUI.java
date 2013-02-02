@@ -701,10 +701,10 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                 sql = sql + " and documento like '"+buscar1.getText()+"%'";
             
                 
-            if (Dni.isSelected() && Nombre.isSelected())
+            if (Nombre.isSelected() && Nombre.isSelected())
                 sql = sql + " and nombre like '"+buscar2.getText()+"%'";
             
-            if ( (Dni.isSelected() || Nombre.isSelected()) && obraSocial.isSelected())
+            if ( (obraSocial.isSelected() || Nombre.isSelected()) && obraSocial.isSelected())
                 sql = sql + " and os like '"+buscar3.getText()+"%'";
             
             
