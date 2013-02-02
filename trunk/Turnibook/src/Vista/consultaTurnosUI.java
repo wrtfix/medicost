@@ -242,7 +242,6 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             return canEdit [columnIndex];
         }
     });
-    tablaAgenda.setColumnSelectionAllowed(true);
     tablaAgenda.setEnabled(false);
     tablaAgenda.setSelectionBackground(new java.awt.Color(255, 204, 204));
     tablaAgenda.setSelectionForeground(new java.awt.Color(0, 0, 0));
@@ -562,7 +561,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
 //Elimino una fila seleccionada.
     private void beliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beliminarActionPerformed
          
-        tablaAgenda.setEnabled(true);
+     
         int fila;
         fila = tablaAgenda.getSelectedRow();
         Operaciones o = new Operaciones();
@@ -578,7 +577,12 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_beliminarActionPerformed
 //Guardo todas las filas
     private void bguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bguardarActionPerformed
-        
+        if (tablaAgenda.isCellEditable(tablaAgenda.getSelectedRow(),tablaAgenda.getSelectedColumn()) )
+        {
+            tablaAgenda.editCellAt(0, 0);
+     
+            JOptionPane.showMessageDialog(null,"es editable");   
+        }
         Operaciones o  = new Operaciones();
         int fila=0;
         int max= tablaAgenda.getRowCount();
@@ -650,7 +654,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
        generarTabla();
        tablaAgenda.setEnabled(false);
        Archivo a=new Archivo();       
-       String nota = a.leerTxt();
+       String nota = a.leerTxt(id_profesional);
        notas.append(nota);
       
     }//GEN-LAST:event_formWindowOpened
@@ -821,7 +825,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private void gnotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gnotaActionPerformed
          String n=notas.getText();
           Archivo a = new Archivo();
-          a.crearTxt(n);
+          a.crearTxt(n,id_profesional);
     }//GEN-LAST:event_gnotaActionPerformed
 
     private void notasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_notasKeyPressed
@@ -860,7 +864,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
       if (JOptionPane.YES_OPTION == confirmado)
         {
             Archivo a = new Archivo(); 
-            a.crearTxt("");
+            a.crearTxt("",id_profesional);
             notas.setText("");
         }    
                 
