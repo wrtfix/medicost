@@ -71,7 +71,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     public consultaTurnosUI() {
         initComponents();
     }
-
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -401,7 +401,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                         .addComponent(buscar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addGap(18, 18, 18)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addContainerGap(69, Short.MAX_VALUE))
     );
 
     notas.setBackground(new java.awt.Color(240, 240, 240));
@@ -485,8 +485,8 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
                     .addComponent(bmodificar)
                     .addGap(32, 32, 32)
                     .addComponent(beliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -496,7 +496,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addGap(18, 18, 18)
                     .addComponent(jButton1))
-                .addGroup(layout.createSequentialGroup()
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(62, 62, 62)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -504,11 +504,11 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                             .addComponent(gnota, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(bnota, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
                     .addGap(51, 51, 51)
                     .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(10, 10, 10))
-                .addComponent(jScrollPane1))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
             .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -523,14 +523,14 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addGap(11, 11, 11)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(gnota)
                                 .addComponent(bnota)))
                         .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(27, 27, 27)))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(2, 2, 2)
@@ -541,7 +541,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                     .addComponent(bmodificar)
                     .addComponent(jButton1)
                     .addComponent(jButton2)))
-            .addGap(2, 2, 2))
+            .addGap(24, 24, 24))
     );
 
     getAccessibleContext().setAccessibleDescription("");
@@ -602,10 +602,9 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private void bguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bguardarActionPerformed
         if (tablaAgenda.isCellEditable(tablaAgenda.getSelectedRow(),tablaAgenda.getSelectedColumn()) )
         {
-            tablaAgenda.editCellAt(0, 0);
-     
-            JOptionPane.showMessageDialog(null,"es editable");   
+            tablaAgenda.editCellAt(0, 0);            
         }
+        
         Operaciones o  = new Operaciones();
         int fila=0;
         int max= tablaAgenda.getRowCount();
@@ -615,6 +614,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             if (tablaAgenda.getValueAt(fila,NOMBRE)!=null){
                 if (!o.existeTurno(actual, tablaAgenda.getValueAt(fila,HORA).toString())) {
                     String sql = "insert into turno(documento,telefono,asistencia,descripcion,os,nombre,hora,fecha,id_profesional) values ('"+tablaAgenda.getValueAt(fila,DOC)+"','"+tablaAgenda.getValueAt(fila,TEL)+"','"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"','"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"','"+tablaAgenda.getValueAt(fila,OS)+"','"+tablaAgenda.getValueAt(fila,NOMBRE)+"','"+tablaAgenda.getValueAt(fila,HORA)+"','"+actual+"','"+id_profesional+"')";
+                   
                     o.insertar(sql);
                 }
                 else {
@@ -669,11 +669,11 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         String intervalo = o.getIntervalo(dia.get(calendario.getSelectedDate().getTime().getDay()), id_horario);        
         //Separo las variables inicio fin intervalo
         if (!"fin".equals(intervalo)){
-            String[] res = intervalo.split(":");        
+            String[] res = intervalo.split("-");        
         
         String actual = nuevaFecha(calendario.getSelection().toString());
         
-            o.generarHorario(Integer.valueOf(res[0]), Integer.valueOf(res[1]), Integer.valueOf(res[2]),tablaAgenda,id_profesional,actual);
+            o.generarHorario(res[0], res[1], Integer.valueOf(res[2]),tablaAgenda,id_profesional,actual);
         
         }
     }
