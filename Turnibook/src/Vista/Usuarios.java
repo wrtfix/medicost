@@ -22,8 +22,6 @@ import turnibook.Operaciones;
  * @author wrtfix
  */
 public class Usuarios extends javax.swing.JFrame {
-    private String id_horario = "";
-    private String id_profesional = "";
     /**
      * Creates new form Usuarios
      */
@@ -35,10 +33,7 @@ public class Usuarios extends javax.swing.JFrame {
               {
                  int fila = tablaProfesional.rowAtPoint(e.getPoint());
                  int columna = tablaProfesional.columnAtPoint(e.getPoint());
-                 if ((fila > -1) && (columna > -1)){
-                     botonEliminar.setEnabled(true);
-                 }
-                     
+                    
               }
         });
         agregarProfesionales();
@@ -59,13 +54,9 @@ public class Usuarios extends javax.swing.JFrame {
         nombreProfesional = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         contraProfesional = new javax.swing.JPasswordField();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProfesional = new javax.swing.JTable();
         botonAgregar = new javax.swing.JToggleButton();
-        botonEliminar = new javax.swing.JToggleButton();
-        botonGuardar = new javax.swing.JToggleButton();
         botonGenerar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         intervalo = new javax.swing.JTextField();
@@ -91,8 +82,6 @@ public class Usuarios extends javax.swing.JFrame {
         checkDomingo = new javax.swing.JCheckBox();
         domingoDesde = new javax.swing.JTextField();
         domingoHasta = new javax.swing.JTextField();
-        checkDescanso = new javax.swing.JCheckBox();
-        descanso = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         botonAgenda = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -103,12 +92,11 @@ public class Usuarios extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Configuracion de Usuario");
+        setResizable(false);
 
         jLabel2.setText("Nombre");
 
         jLabel3.setText("Contraseña");
-
-        jLabel7.setText("Nombre");
 
         tablaProfesional.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -134,6 +122,9 @@ public class Usuarios extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tablaProfesionalKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tablaProfesionalKeyTyped(evt);
+            }
         });
         jScrollPane1.setViewportView(tablaProfesional);
 
@@ -149,24 +140,6 @@ public class Usuarios extends javax.swing.JFrame {
         botonAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonAgregarActionPerformed(evt);
-            }
-        });
-
-        botonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/eliminar.gif"))); // NOI18N
-        botonEliminar.setText("Eliminar");
-        botonEliminar.setEnabled(false);
-        botonEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botonEliminarMouseClicked(evt);
-            }
-        });
-
-        botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icoGuardar.gif"))); // NOI18N
-        botonGuardar.setText("Guardar");
-        botonGuardar.setEnabled(false);
-        botonGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botonGuardarMouseClicked(evt);
             }
         });
 
@@ -290,16 +263,6 @@ public class Usuarios extends javax.swing.JFrame {
         domingoHasta.setEditable(false);
         domingoHasta.setText("0");
 
-        checkDescanso.setText("Descansos");
-        checkDescanso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkDescansoActionPerformed(evt);
-            }
-        });
-
-        descanso.setEditable(false);
-        descanso.setText("0");
-
         jLabel5.setText("Hasta");
 
         botonAgenda.setText("Agenda");
@@ -325,19 +288,18 @@ public class Usuarios extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(checkDomingo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(botonAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(checkLunes, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(checkSabado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(checkViernes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(checkJueves, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(checkMiercoles, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(checkMartes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(botonAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(checkDomingo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(checkLunes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(checkSabado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(checkViernes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(checkJueves, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(checkMiercoles, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(checkMartes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
                                 .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -345,9 +307,7 @@ public class Usuarios extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(sabadoHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(domingoDesde)
-                                            .addComponent(botonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(domingoDesde)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(domingoHasta)
@@ -379,38 +339,26 @@ public class Usuarios extends javax.swing.JFrame {
                                             .addComponent(jLabel5)
                                             .addComponent(lunesHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(checkDescanso)
-                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(descanso, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(intervalo, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(intervalo, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonEliminar)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(24, 24, 24)
-                                .addComponent(jTextField2))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nombreProfesional)
-                                    .addComponent(contraProfesional)
-                                    .addComponent(mail))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(contraProfesional)
+                            .addComponent(nombreProfesional)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(mail, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(4, 4, 4))))
         );
         layout.setVerticalGroup(
@@ -422,37 +370,28 @@ public class Usuarios extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nombreProfesional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addGap(27, 27, 27))
+                        .addGap(24, 24, 24))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(contraProfesional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(mail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel3)
+                        .addComponent(contraProfesional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEliminar))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(mail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(intervalo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkDescanso)
-                    .addComponent(descanso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel8))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel8)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(checkLunes)
@@ -488,11 +427,8 @@ public class Usuarios extends javax.swing.JFrame {
                     .addComponent(checkDomingo)
                     .addComponent(domingoDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(domingoHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(botonGenerar)
-                        .addComponent(botonGuardar))
+                    .addComponent(botonGenerar)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(botonAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -521,7 +457,7 @@ public class Usuarios extends javax.swing.JFrame {
     private void botonAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonAgregarMouseClicked
     }//GEN-LAST:event_botonAgregarMouseClicked
 
-    private void botonEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarMouseClicked
+    private void removerTabla(){
         int row = tablaProfesional.getSelectedRow();
         if (row>=0){
              DefaultTableModel model = (DefaultTableModel) tablaProfesional.getModel();
@@ -529,15 +465,7 @@ public class Usuarios extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Debe seleccionar algun profesional");
         }
-            
-    }//GEN-LAST:event_botonEliminarMouseClicked
-
-    private void botonGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarMouseClicked
-        //Agregar logica de guardar en la base de datos
-        botonGuardar.setEnabled(false);
-        tablaProfesional.clearSelection();
-    }//GEN-LAST:event_botonGuardarMouseClicked
-
+    }
     private void tablaProfesionalInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tablaProfesionalInputMethodTextChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaProfesionalInputMethodTextChanged
@@ -556,19 +484,30 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_botonAgregarActionPerformed
 
     private void tablaProfesionalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaProfesionalKeyPressed
-        botonGuardar.setEnabled(true);
+
     }//GEN-LAST:event_tablaProfesionalKeyPressed
     
     private void botonGenerarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGenerarMouseClicked
             Operaciones o = new Operaciones();
-            String sql = "insert into horario(lunes_desde, lunes_hasta,martes_desde,martes_hasta,miercoles_desde,miercoles_hasta,jueves_desde, jueves_hasta, viernes_desde, viernes_hasta, sabado_desde, sabado_hasta, domingo_desde, domingo_hasta, intervalo, descansos ) values('" ;
-            sql = sql + lunesDesde.getText() + "','" + lunesHasta.getText() + "','" + martesDesde.getText() + "','" + martesHasta.getText() + "','" + miercolesDesde.getText() + "','" + miercolesHasta.getText() + "','" + juevesDesde.getText() + "','" + juevesHasta.getText() + "','" + viernesDesde.getText() + "','" + viernesHasta.getText() + "','" + sabadoDesde.getText() + "','" + sabadoHasta.getText() + "','" + domingoDesde.getText() + "','" + domingoHasta.getText() + "'," + intervalo.getText() + ","+descanso.getText()+")";
-            
+                        
+            String nombre = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),1).toString();
+            String id_profesional = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),0).toString();
+            String clave = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),2).toString();
+            String mail = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),3).toString();
+            String sql = null;
+            String sql2 = null;
+            String id_horario = o.ultimoIdHorario();
+            if (!o.existeProfesional(id_profesional)){
+                sql = "insert into horario(lunes_desde, lunes_hasta,martes_desde,martes_hasta,miercoles_desde,miercoles_hasta,jueves_desde, jueves_hasta, viernes_desde, viernes_hasta, sabado_desde, sabado_hasta, domingo_desde, domingo_hasta, intervalo ) values('" ;
+                sql = sql + lunesDesde.getText() + "','" + lunesHasta.getText() + "','" + martesDesde.getText() + "','" + martesHasta.getText() + "','" + miercolesDesde.getText() + "','" + miercolesHasta.getText() + "','" + juevesDesde.getText() + "','" + juevesHasta.getText() + "','" + viernesDesde.getText() + "','" + viernesHasta.getText() + "','" + sabadoDesde.getText() + "','" + sabadoHasta.getText() + "','" + domingoDesde.getText() + "','" + domingoHasta.getText() + "'," + intervalo.getText() +")";
+                sql2 = "insert into profesional(id_horario,nombre,clave,email) values ("+id_horario +",'"+nombre+"','"+clave+"','"+mail+"')";
+            }else{
+                sql = "update horario set lunes_desde='"+lunesDesde.getText()+"' , lunes_hasta='"+lunesHasta.getText()+"' , martes_desde='"+martesDesde.getText()+"' , martes_hasta='"+ martesHasta.getText() +"' , miercoles_desde='"+miercolesHasta.getText()+"' , miercoles_hasta='"+miercolesHasta.getText()+"' , jueves_desde='"+juevesDesde.getText()+"' , jueves_hasta='"+juevesHasta.getText()+"' , viernes_desde='"+viernesDesde.getText()+"' , viernes_hasta='"+viernesHasta.getText()+"' , sabado_desde='"+sabadoDesde.getText()+"' , sabado_hasta='"+sabadoHasta.getText()+"' , domingo_desde='"+domingoDesde.getText()+"' , domingo_hasta='"+domingoHasta.getText()+"' , intervalo='"+intervalo.getText()+"' where id_horario='"+id_horario+"'";
+                sql2 = "update profesional set nombre='"+nombre+"' , clave='"+clave+"' , email='"+mail+"' where id_profesional='"+id_profesional+"'";
+            }
             o.insertar(sql);
-            id_horario = o.ultimoIdHorario();
-            
-            String sql2 = "insert into profesional(id_horario,nombre,clave,email) values ("+id_horario +",'"+nombreProfesional.getText()+"','"+contraProfesional.getText()+"','"+mail.getText()+"')";
             o.insertar(sql2);
+                
             
             JOptionPane.showMessageDialog(null, "Se genero el horario ");
     }//GEN-LAST:event_botonGenerarMouseClicked
@@ -581,8 +520,8 @@ public class Usuarios extends javax.swing.JFrame {
        if(checkLunes.isSelected()){
             lunesDesde.setEditable(true);
             lunesHasta.setEditable(true);
-            lunesDesde.setText("");
-            lunesHasta.setText("");
+            lunesDesde.grabFocus();
+                   
         }
         else{
             lunesDesde.setEditable(false);
@@ -594,8 +533,7 @@ public class Usuarios extends javax.swing.JFrame {
          if(checkMartes.isSelected()){
             martesDesde.setEditable(true);
             martesHasta.setEditable(true);
-            martesDesde.setText("");
-            martesHasta.setText("");
+            miercolesDesde.grabFocus();
         }
         else{
             martesDesde.setEditable(false);
@@ -611,8 +549,7 @@ public class Usuarios extends javax.swing.JFrame {
          if(checkMiercoles.isSelected()){
             miercolesDesde.setEditable(true);
             miercolesHasta.setEditable(true);
-            miercolesDesde.setText("");
-            miercolesHasta.setText("");
+            miercolesDesde.grabFocus();
         }
         else{
             miercolesDesde.setEditable(false);
@@ -624,8 +561,7 @@ public class Usuarios extends javax.swing.JFrame {
         if(checkJueves.isSelected()){
             juevesDesde.setEditable(true);
             juevesHasta.setEditable(true);
-            juevesDesde.setText("");
-            juevesHasta.setText("");
+            juevesDesde.grabFocus();
         }
         else{
             juevesDesde.setEditable(false);
@@ -637,8 +573,7 @@ public class Usuarios extends javax.swing.JFrame {
         if(checkViernes.isSelected()){
             viernesDesde.setEditable(true);
             viernesHasta.setEditable(true);
-            viernesDesde.setText("");
-            viernesHasta.setText("");
+            viernesDesde.grabFocus();
         }
         else{
             viernesDesde.setEditable(false);
@@ -650,8 +585,7 @@ public class Usuarios extends javax.swing.JFrame {
                 if(checkSabado.isSelected()){
             sabadoDesde.setEditable(true);
             sabadoHasta.setEditable(true);
-            sabadoDesde.setText("");
-            sabadoHasta.setText("");
+            sabadoDesde.grabFocus();
             
         }
         else{
@@ -662,10 +596,9 @@ public class Usuarios extends javax.swing.JFrame {
 
     private void checkDomingoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkDomingoActionPerformed
             if(checkDomingo.isSelected()){
+            domingoDesde.grabFocus();
             domingoDesde.setEditable(true);
             domingoHasta.setEditable(true);
-            domingoDesde.setText("");
-            domingoHasta.setText("");
         }
         else{
             domingoDesde.setEditable(false);
@@ -673,25 +606,14 @@ public class Usuarios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_checkDomingoActionPerformed
 
-    private void checkDescansoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkDescansoActionPerformed
-         if(checkDescanso.isSelected()){
-            descanso.setEditable(true);
-            descanso.setText("");
-         }
-        else
-        descanso.setEditable(false);
-    }//GEN-LAST:event_checkDescansoActionPerformed
-
     private void botonAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgendaActionPerformed
             consultaTurnosUI ct = new consultaTurnosUI();
             
             Operaciones o = new Operaciones();
-            id_profesional = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),0).toString();
+            String id_profesional = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),0).toString();
             ct.setId_horario(o.IdHorario(id_profesional));
             ct.setId_profesional(id_profesional);
-            if(!"null".equals(mail.getText())){
-                ct.setId_profesional(mail.getText());
-            }
+            ct.setEmail(tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),3).toString());
             ct.setLocationRelativeTo(null);
             ct.setVisible(true);
             ct.pack();
@@ -706,7 +628,7 @@ public class Usuarios extends javax.swing.JFrame {
         try {
             botonGenerar.setEnabled(true);
             botonAgenda.setEnabled(true);
-            id_profesional = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),0).toString();
+            String id_profesional = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),0).toString();
             Operaciones o = new Operaciones();
             String id = o.IdHorario(id_profesional);
             ResultSet res = o.getHorarios(id);
@@ -734,6 +656,9 @@ public class Usuarios extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_tablaProfesionalMouseClicked
+
+    private void tablaProfesionalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaProfesionalKeyTyped
+    }//GEN-LAST:event_tablaProfesionalKeyTyped
 
     /**
      * @param args the command line arguments
@@ -772,10 +697,7 @@ public class Usuarios extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgenda;
     private javax.swing.JToggleButton botonAgregar;
-    private javax.swing.JToggleButton botonEliminar;
     private javax.swing.JButton botonGenerar;
-    private javax.swing.JToggleButton botonGuardar;
-    private javax.swing.JCheckBox checkDescanso;
     private javax.swing.JCheckBox checkDomingo;
     private javax.swing.JCheckBox checkJueves;
     private javax.swing.JCheckBox checkLunes;
@@ -784,7 +706,6 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JCheckBox checkSabado;
     private javax.swing.JCheckBox checkViernes;
     private javax.swing.JPasswordField contraProfesional;
-    private javax.swing.JTextField descanso;
     private javax.swing.JTextField domingoDesde;
     private javax.swing.JTextField domingoHasta;
     private javax.swing.JTextField intervalo;
@@ -794,11 +715,9 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField juevesDesde;
     private javax.swing.JTextField juevesHasta;
     private javax.swing.JTextField lunesDesde;

@@ -55,7 +55,7 @@ public class Operaciones extends Conexion{
         }
         return valor;
     }
-    //hacer q borre!
+    
     public void borrar(String hora,String fecha,String id ){
         
         conectar();
@@ -284,5 +284,50 @@ public class Operaciones extends Conexion{
         }
         return resultado;
     }
-   
+    public void eliminarProfesional(String id_profesional){
+        conectar();
+        ResultSet res = null;
+        try {
+            String sql = "delete from profesional where id_profesional='"+id_profesional+"'";
+            res = consulta.executeQuery(sql);
+            consulta.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Operaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    public void eliminarHorario(String id_horario){
+        conectar();
+        ResultSet res = null;
+        try {
+            String sql = "delete from horario where id_horario='"+id_horario+"'";
+            res = consulta.executeQuery(sql);
+            consulta.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Operaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public boolean existeProfesional(String id_profesional) {
+        conectar();
+        ResultSet resultado;
+
+        try {
+            String sql = "select * from profesional where id_profesional='" + id_profesional + "'";
+            resultado = consulta.executeQuery(sql);
+            if (resultado.next()) {
+                consulta.close();
+                return true;
+            } else {
+                consulta.close();
+                return false;
+
+            }
+
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Operaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
+    }
 }
