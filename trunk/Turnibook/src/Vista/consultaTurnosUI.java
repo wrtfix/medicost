@@ -565,7 +565,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         resultado = "/" + resultado;
         resultado = String.valueOf(fecha.charAt(2)) + String.valueOf(fecha.charAt(3)) + resultado;
         resultado = "/" + resultado;
-        resultado = String.valueOf(fecha.charAt(4)) + String.valueOf(fecha.charAt(5)) + resultado;
+        resultado = String.valueOf(fecha.charAt(4)) + resultado;
         return resultado;
     }
 
@@ -573,6 +573,11 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         String[] actual = fecha.split("/");
         actual[0] = actual[0].replaceAll("\\[", "");
         actual[2] = actual[2].replaceAll("\\]", "");
+        if (Integer.valueOf(actual[0])<10){
+            actual[0] = String.valueOf(Integer.valueOf(actual[0]));
+        }else{
+            return actual[2] + actual[1] + actual[0];
+        }
         return actual[2] + actual[1] + actual[0];
     }
     //Elimino una fila seleccionada.
@@ -690,10 +695,10 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             Date fechaDate = new Date();
             String fecha = formateador.format(fechaDate);
             String nuevaFecha = nuevaFecha("["+fecha+"]");
-            String sql = "select nombre,fecha,hora  from turno where fecha >= "+nuevaFecha;
+            String sql = "select nombre,fecha,hora  from turno where fecha >="+nuevaFecha;
             //busco por dni
             if (Dni.isSelected())
-                sql = sql + "and documento like '"+buscar1.getText()+"%'";
+                sql = sql + " and documento like '"+buscar1.getText()+"%'";
             
                 
             if (Dni.isSelected() && Nombre.isSelected())
