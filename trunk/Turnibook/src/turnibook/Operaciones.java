@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,19 +39,19 @@ public class Operaciones extends Conexion{
         super();
     }
     
-    public boolean insertar(String sql) {
+    public boolean insertar(String sql,JTextField aviso) {
         boolean valor = true;
         conectar();
         try {
             consulta.executeUpdate(sql);
            // JOptionPane.showMessageDialog(null, sql);
            //Mostrar cartelito abajo q se cargo correctamente
-         
+          aviso.setText("Los datos se guardaron correctamente");
         } catch (SQLException e) {
             valor = false;
             //JOptionPane.showMessageDialog(null, e.getMessage());
            
-         
+            aviso.setText("No se inserto correctamente,intente nuevamente");
         } finally {
             try {
                 consulta.close();

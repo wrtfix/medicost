@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
 import turnibook.Operaciones;
@@ -23,7 +24,7 @@ import turnibook.Operaciones;
  * @author wrtfix
  */
 public class Usuarios extends javax.swing.JFrame {
-    private JToolBar aviso;
+  
     /**
      * Creates new form Usuarios
      */
@@ -89,6 +90,7 @@ public class Usuarios extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         mail = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        aviso1 = new javax.swing.JTextField();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -114,10 +116,10 @@ public class Usuarios extends javax.swing.JFrame {
             }
         });
         tablaProfesional.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 tablaProfesionalInputMethodTextChanged(evt);
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
         tablaProfesional.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -279,6 +281,14 @@ public class Usuarios extends javax.swing.JFrame {
 
         jLabel8.setText("Desde");
 
+        aviso1.setEditable(false);
+        aviso1.setBorder(null);
+        aviso1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aviso1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -346,9 +356,6 @@ public class Usuarios extends javax.swing.JFrame {
                                 .addComponent(intervalo, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1))
                         .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -361,7 +368,12 @@ public class Usuarios extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(mail, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(4, 4, 4))))
+                        .addGap(4, 4, 4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(aviso1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,6 +446,8 @@ public class Usuarios extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(botonAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(aviso1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -490,35 +504,7 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaProfesionalKeyPressed
     
     private void botonGenerarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGenerarMouseClicked
-            Operaciones o = new Operaciones();
-                        
-            String nombre = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),1).toString();
-            String id_profesional = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),0).toString();
-            String clave = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),2).toString();
-            String mail = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),3).toString();
-            String sql = null;
-            String sql2 = null;
             
-            if (!o.existeProfesional(id_profesional)){
-                
-                sql = "insert into horario(lunes_desde, lunes_hasta,martes_desde,martes_hasta,miercoles_desde,miercoles_hasta,jueves_desde, jueves_hasta, viernes_desde, viernes_hasta, sabado_desde, sabado_hasta, domingo_desde, domingo_hasta, intervalo ) values('" ;
-                sql = sql + lunesDesde.getText() + "','" + lunesHasta.getText() + "','" + martesDesde.getText() + "','" + martesHasta.getText() + "','" + miercolesDesde.getText() + "','" + miercolesHasta.getText() + "','" + juevesDesde.getText() + "','" + juevesHasta.getText() + "','" + viernesDesde.getText() + "','" + viernesHasta.getText() + "','" + sabadoDesde.getText() + "','" + sabadoHasta.getText() + "','" + domingoDesde.getText() + "','" + domingoHasta.getText() + "'," + intervalo.getText() +")";
-                o.insertar(sql);
-                String id_horario = o.ultimoIdHorario();
-                sql2 = "insert into profesional(id_horario,nombre,clave,email) values ("+id_horario +",'"+nombre+"','"+clave+"','"+mail+"')";
-                o.insertar(sql2);
-            }else{
-                String id_horario = o.IdHorario(id_profesional);
-                sql = "update horario set lunes_desde='"+lunesDesde.getText()+"' , lunes_hasta='"+lunesHasta.getText()+"' , martes_desde='"+martesDesde.getText()+"' , martes_hasta='"+ martesHasta.getText() +"' , miercoles_desde='"+miercolesHasta.getText()+"' , miercoles_hasta='"+miercolesHasta.getText()+"' , jueves_desde='"+juevesDesde.getText()+"' , jueves_hasta='"+juevesHasta.getText()+"' , viernes_desde='"+viernesDesde.getText()+"' , viernes_hasta='"+viernesHasta.getText()+"' , sabado_desde='"+sabadoDesde.getText()+"' , sabado_hasta='"+sabadoHasta.getText()+"' , domingo_desde='"+domingoDesde.getText()+"' , domingo_hasta='"+domingoHasta.getText()+"' , intervalo='"+intervalo.getText()+"' where id_horario='"+id_horario+"'";
-                o.insertar(sql);
-                sql2 = "update profesional set nombre='"+nombre+"' , clave='"+clave+"' , email='"+mail+"' where id_profesional='"+id_profesional+"'";
-                o.insertar(sql2);
-            }
-            
-            
-                
-            
-            JOptionPane.showMessageDialog(null, "Se genero el horario ");
     }//GEN-LAST:event_botonGenerarMouseClicked
 
     private void lunesHastaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lunesHastaActionPerformed
@@ -551,7 +537,34 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_checkMartesActionPerformed
 
     private void botonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGenerarActionPerformed
-        // TODO add your handling code here:
+        Operaciones o = new Operaciones();
+                        
+            String nombre = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),1).toString();
+            String id_profesional = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),0).toString();
+            String clave = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),2).toString();
+            String mail = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),3).toString();
+            String sql = null;
+            String sql2 = null;
+            
+            if (!o.existeProfesional(id_profesional)){
+                
+                sql = "insert into horario(lunes_desde, lunes_hasta,martes_desde,martes_hasta,miercoles_desde,miercoles_hasta,jueves_desde, jueves_hasta, viernes_desde, viernes_hasta, sabado_desde, sabado_hasta, domingo_desde, domingo_hasta, intervalo ) values('" ;
+                sql = sql + lunesDesde.getText() + "','" + lunesHasta.getText() + "','" + martesDesde.getText() + "','" + martesHasta.getText() + "','" + miercolesDesde.getText() + "','" + miercolesHasta.getText() + "','" + juevesDesde.getText() + "','" + juevesHasta.getText() + "','" + viernesDesde.getText() + "','" + viernesHasta.getText() + "','" + sabadoDesde.getText() + "','" + sabadoHasta.getText() + "','" + domingoDesde.getText() + "','" + domingoHasta.getText() + "'," + intervalo.getText() +")";
+            
+            
+                o.insertar(sql,aviso1);
+                String id_horario = o.ultimoIdHorario();
+                sql2 = "insert into profesional(id_horario,nombre,clave,email) values ("+id_horario +",'"+nombre+"','"+clave+"','"+mail+"')";
+                o.insertar(sql2,aviso1);
+            }else{
+                String id_horario = o.IdHorario(id_profesional);
+                sql = "update horario set lunes_desde='"+lunesDesde.getText()+"' , lunes_hasta='"+lunesHasta.getText()+"' , martes_desde='"+martesDesde.getText()+"' , martes_hasta='"+ martesHasta.getText() +"' , miercoles_desde='"+miercolesDesde.getText()+"' , miercoles_hasta='"+miercolesHasta.getText()+"' , jueves_desde='"+juevesDesde.getText()+"' , jueves_hasta='"+juevesHasta.getText()+"' , viernes_desde='"+viernesDesde.getText()+"' , viernes_hasta='"+viernesHasta.getText()+"' , sabado_desde='"+sabadoDesde.getText()+"' , sabado_hasta='"+sabadoHasta.getText()+"' , domingo_desde='"+domingoDesde.getText()+"' , domingo_hasta='"+domingoHasta.getText()+"' , intervalo='"+intervalo.getText()+"' where id_horario='"+id_horario+"'";
+            
+                o.insertar(sql,aviso1); 
+                sql2 = "update profesional set nombre='"+nombre+"' , clave='"+clave+"' , email='"+mail+"' where id_profesional='"+id_profesional+"'";
+                o.insertar(sql2,aviso1);
+            }
+            
     }//GEN-LAST:event_botonGenerarActionPerformed
 
     private void checkMiercolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkMiercolesActionPerformed
@@ -669,6 +682,10 @@ public class Usuarios extends javax.swing.JFrame {
     private void tablaProfesionalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaProfesionalKeyTyped
     }//GEN-LAST:event_tablaProfesionalKeyTyped
 
+    private void aviso1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aviso1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_aviso1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -704,6 +721,7 @@ public class Usuarios extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField aviso1;
     private javax.swing.JButton botonAgenda;
     private javax.swing.JToggleButton botonAgregar;
     private javax.swing.JButton botonGenerar;
