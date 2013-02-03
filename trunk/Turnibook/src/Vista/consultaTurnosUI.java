@@ -106,11 +106,13 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         botonBuscar = new java.awt.Button();
         jScrollPane2 = new javax.swing.JScrollPane();
         lista = new javax.swing.JList();
+        proximo = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         notas = new javax.swing.JTextArea();
         gnota = new javax.swing.JButton();
         bnota = new javax.swing.JButton();
         aviso = new javax.swing.JTextField();
+        Sobreturno = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -174,399 +176,373 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             }
         });
 
-        calendario.setCurrentView(new datechooser.view.appearance.AppearancesList("custom",
-            new datechooser.view.appearance.ViewAppearance("custom",
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
-                    new java.awt.Color(255, 0, 102),
-                    new java.awt.Color(255, 153, 153),
-                    false,
-                    true,
-                    new datechooser.view.appearance.swing.ButtonPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
-                    new java.awt.Color(255, 0, 102),
-                    new java.awt.Color(255, 153, 153),
-                    true,
-                    true,
-                    new datechooser.view.appearance.swing.ButtonPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
-                    new java.awt.Color(204, 0, 204),
-                    new java.awt.Color(153, 0, 153),
-                    false,
-                    true,
-                    new datechooser.view.appearance.swing.ButtonPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
-                    new java.awt.Color(128, 128, 128),
-                    new java.awt.Color(0, 0, 255),
-                    false,
-                    true,
-                    new datechooser.view.appearance.swing.LabelPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
-                    new java.awt.Color(0, 0, 0),
-                    new java.awt.Color(0, 0, 255),
-                    false,
-                    true,
-                    new datechooser.view.appearance.swing.LabelPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
-                    new java.awt.Color(0, 0, 0),
-                    new java.awt.Color(255, 0, 0),
-                    false,
-                    false,
-                    new datechooser.view.appearance.swing.ButtonPainter()),
-                (datechooser.view.BackRenderer)null,
-                false,
-                true)));
-    calendario.setNothingAllowed(false);
-    calendario.setWeekStyle(datechooser.view.WeekDaysStyle.FULL);
-    calendario.setNavigateFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11));
-    calendario.setBehavior(datechooser.model.multiple.MultyModelBehavior.SELECT_PERIOD);
-    calendario.addSelectionChangedListener(new datechooser.events.SelectionChangedListener() {
-        public void onSelectionChange(datechooser.events.SelectionChangedEvent evt) {
-            calendarioOnSelectionChange(evt);
-        }
-    });
+        calendario.setNothingAllowed(false);
+        calendario.setWeekStyle(datechooser.view.WeekDaysStyle.FULL);
+        calendario.setNavigateFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11));
+        calendario.setBehavior(datechooser.model.multiple.MultyModelBehavior.SELECT_PERIOD);
+        calendario.addSelectionChangedListener(new datechooser.events.SelectionChangedListener() {
+            public void onSelectionChange(datechooser.events.SelectionChangedEvent evt) {
+                calendarioOnSelectionChange(evt);
+            }
+        });
 
-    tablaAgenda.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
+        tablaAgenda.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        },
-        new String [] {
-            "Hora", "Paciente", "Dni", "Telefono", "Obra Social", "Otra descripcion", "Asistencia"
-        }
-    ) {
-        Class[] types = new Class [] {
-            java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
-        };
-        boolean[] canEdit = new boolean [] {
-            false, true, true, true, true, true, true
-        };
+            },
+            new String [] {
+                "Hora", "Paciente", "Dni", "Telefono", "Obra Social", "Otra descripcion", "Asistencia"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true
+            };
 
-        public Class getColumnClass(int columnIndex) {
-            return types [columnIndex];
-        }
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-        public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return canEdit [columnIndex];
-        }
-    });
-    tablaAgenda.setEnabled(false);
-    tablaAgenda.setSelectionBackground(new java.awt.Color(255, 204, 204));
-    tablaAgenda.setSelectionForeground(new java.awt.Color(0, 0, 0));
-    tablaAgenda.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            tablaAgendaMouseClicked(evt);
-        }
-    });
-    tablaAgenda.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-        public void mouseMoved(java.awt.event.MouseEvent evt) {
-            tablaAgendaMouseMoved(evt);
-        }
-    });
-    tablaAgenda.addContainerListener(new java.awt.event.ContainerAdapter() {
-        public void componentAdded(java.awt.event.ContainerEvent evt) {
-            tablaAgendaComponentAdded(evt);
-        }
-    });
-    jScrollPane1.setViewportView(tablaAgenda);
-    tablaAgenda.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaAgenda.setEnabled(false);
+        tablaAgenda.setSelectionBackground(new java.awt.Color(255, 204, 204));
+        tablaAgenda.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        tablaAgenda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaAgendaMouseClicked(evt);
+            }
+        });
+        tablaAgenda.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                tablaAgendaMouseMoved(evt);
+            }
+        });
+        tablaAgenda.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                tablaAgendaComponentAdded(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaAgenda);
+        tablaAgenda.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-    jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icono_impresora.jpg"))); // NOI18N
-    jButton1.setText("Imprimir");
-    jButton1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton1ActionPerformed(evt);
-        }
-    });
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icono_impresora.jpg"))); // NOI18N
+        jButton1.setText("Imprimir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-    jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icono_carta3.jpg"))); // NOI18N
-    jButton2.setText("Enviar");
-    jButton2.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton2ActionPerformed(evt);
-        }
-    });
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icono_carta3.jpg"))); // NOI18N
+        jButton2.setText("Enviar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-    panel1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
+        panel1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
 
-    Dni.setText("Dni");
-    Dni.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            DniMouseClicked(evt);
-        }
-    });
-    Dni.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            DniActionPerformed(evt);
-        }
-    });
+        Dni.setText("Dni");
+        Dni.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DniMouseClicked(evt);
+            }
+        });
+        Dni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DniActionPerformed(evt);
+            }
+        });
 
-    Nombre.setText("Nombre");
-    Nombre.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            NombreMouseClicked(evt);
-        }
-    });
-    Nombre.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            NombreActionPerformed(evt);
-        }
-    });
+        Nombre.setText("Nombre");
+        Nombre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NombreMouseClicked(evt);
+            }
+        });
+        Nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NombreActionPerformed(evt);
+            }
+        });
 
-    obraSocial.setText("O.S");
-    obraSocial.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            obraSocialMouseClicked(evt);
-        }
-    });
-    obraSocial.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            obraSocialActionPerformed(evt);
-        }
-    });
+        obraSocial.setText("O.S");
+        obraSocial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                obraSocialMouseClicked(evt);
+            }
+        });
+        obraSocial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                obraSocialActionPerformed(evt);
+            }
+        });
 
-    buscar1.setEnabled(false);
-    buscar1.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyPressed(java.awt.event.KeyEvent evt) {
-            buscar1KeyPressed(evt);
-        }
-        public void keyTyped(java.awt.event.KeyEvent evt) {
-            buscar1KeyTyped(evt);
-        }
-    });
+        buscar1.setEnabled(false);
+        buscar1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                buscar1KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                buscar1KeyTyped(evt);
+            }
+        });
 
-    buscar2.setEnabled(false);
-    buscar2.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyPressed(java.awt.event.KeyEvent evt) {
-            buscar2KeyPressed(evt);
-        }
-        public void keyTyped(java.awt.event.KeyEvent evt) {
-            buscar2KeyTyped(evt);
-        }
-    });
+        buscar2.setEnabled(false);
+        buscar2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                buscar2KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                buscar2KeyTyped(evt);
+            }
+        });
 
-    buscar3.setEnabled(false);
-    buscar3.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyTyped(java.awt.event.KeyEvent evt) {
-            buscar3KeyTyped(evt);
-        }
-    });
+        buscar3.setEnabled(false);
+        buscar3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                buscar3KeyTyped(evt);
+            }
+        });
 
-    botonBuscar.setActionCommand("buscar");
-    botonBuscar.setEnabled(false);
-    botonBuscar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    botonBuscar.setLabel("Buscar");
-    botonBuscar.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            botonBuscarActionPerformed(evt);
-        }
-    });
+        botonBuscar.setActionCommand("buscar");
+        botonBuscar.setEnabled(false);
+        botonBuscar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        botonBuscar.setLabel("Buscar");
+        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarActionPerformed(evt);
+            }
+        });
 
-    lista.setBackground(new java.awt.Color(240, 240, 240));
-    lista.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-    lista.setForeground(new java.awt.Color(102, 102, 255));
-    jScrollPane2.setViewportView(lista);
+        lista.setBackground(new java.awt.Color(240, 240, 240));
+        lista.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        lista.setForeground(new java.awt.Color(102, 102, 255));
+        jScrollPane2.setViewportView(lista);
 
-    javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
-    panel1.setLayout(panel1Layout);
-    panel1Layout.setHorizontalGroup(
-        panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(panel1Layout.createSequentialGroup()
-            .addGap(17, 17, 17)
-            .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
-                .addGroup(panel1Layout.createSequentialGroup()
-                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(obraSocial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                        .addComponent(Dni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(buscar1)
-                        .addComponent(buscar2)
-                        .addComponent(buscar3))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addContainerGap())
-    );
-    panel1Layout.setVerticalGroup(
-        panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(panel1Layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(panel1Layout.createSequentialGroup()
-                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(buscar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Dni))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(buscar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Nombre))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(obraSocial)
-                        .addComponent(buscar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addGap(18, 18, 18)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(73, Short.MAX_VALUE))
-    );
+        proximo.setText("Proximo Turno");
+        proximo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                proximoActionPerformed(evt);
+            }
+        });
 
-    notas.setBackground(new java.awt.Color(240, 240, 240));
-    notas.setColumns(20);
-    notas.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
-    notas.setForeground(new java.awt.Color(255, 51, 102));
-    notas.setLineWrap(true);
-    notas.setRows(5);
-    notas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Notas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe Print", 0, 10), new java.awt.Color(102, 0, 153))); // NOI18N
-    notas.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            notasMouseClicked(evt);
-        }
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            notasMousePressed(evt);
-        }
-    });
-    notas.addContainerListener(new java.awt.event.ContainerAdapter() {
-        public void componentAdded(java.awt.event.ContainerEvent evt) {
-            notasComponentAdded(evt);
-        }
-    });
-    notas.addFocusListener(new java.awt.event.FocusAdapter() {
-        public void focusGained(java.awt.event.FocusEvent evt) {
-            notasFocusGained(evt);
-        }
-    });
-    notas.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyPressed(java.awt.event.KeyEvent evt) {
-            notasKeyPressed(evt);
-        }
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            notasKeyReleased(evt);
-        }
-    });
-    jScrollPane3.setViewportView(notas);
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(obraSocial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                            .addComponent(Dni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(buscar1)
+                            .addComponent(buscar2)
+                            .addComponent(buscar3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(proximo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(buscar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Dni))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(buscar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Nombre))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(obraSocial)
+                            .addComponent(buscar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(proximo)
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
 
-    gnota.setText("Guardar");
-    gnota.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            gnotaActionPerformed(evt);
-        }
-    });
+        notas.setBackground(new java.awt.Color(240, 240, 240));
+        notas.setColumns(20);
+        notas.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
+        notas.setForeground(new java.awt.Color(255, 51, 102));
+        notas.setLineWrap(true);
+        notas.setRows(5);
+        notas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Notas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe Print", 0, 10), new java.awt.Color(102, 0, 153))); // NOI18N
+        notas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                notasMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                notasMousePressed(evt);
+            }
+        });
+        notas.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                notasComponentAdded(evt);
+            }
+        });
+        notas.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                notasFocusGained(evt);
+            }
+        });
+        notas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                notasKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                notasKeyReleased(evt);
+            }
+        });
+        jScrollPane3.setViewportView(notas);
 
-    bnota.setText("Borrar");
-    bnota.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            bnotaActionPerformed(evt);
-        }
-    });
+        gnota.setText("Guardar");
+        gnota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gnotaActionPerformed(evt);
+            }
+        });
 
-    aviso.setEditable(false);
-    aviso.setBackground(new java.awt.Color(240, 240, 240));
-    aviso.setBorder(null);
-    aviso.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            avisoActionPerformed(evt);
-        }
-    });
+        bnota.setText("Borrar");
+        bnota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bnotaActionPerformed(evt);
+            }
+        });
 
-    jMenu3.setText("Ayuda");
+        aviso.setEditable(false);
+        aviso.setBorder(null);
+        aviso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                avisoActionPerformed(evt);
+            }
+        });
 
-    jMenuItem2.setText("Tutorial");
-    jMenu3.add(jMenuItem2);
+        Sobreturno.setText("Agrergar Sobreturno");
+        Sobreturno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SobreturnoActionPerformed(evt);
+            }
+        });
 
-    jMenuItem1.setText("Acerca de...");
-    jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jMenuItem1ActionPerformed(evt);
-        }
-    });
-    jMenu3.add(jMenuItem1);
-    jMenu3.add(jSeparator1);
+        jMenu3.setText("Ayuda");
 
-    jMenuItem3.setText("Salir");
-    jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jMenuItem3ActionPerformed(evt);
-        }
-    });
-    jMenu3.add(jMenuItem3);
+        jMenuItem2.setText("Tutorial");
+        jMenu3.add(jMenuItem2);
 
-    jMenuBar1.add(jMenu3);
+        jMenuItem1.setText("Acerca de...");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem1);
+        jMenu3.add(jSeparator1);
 
-    setJMenuBar(jMenuBar1);
+        jMenuItem3.setText("Salir");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(bmodificar)
-                    .addGap(32, 32, 32)
-                    .addComponent(beliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(34, 34, 34)
-                    .addComponent(bguardar)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2)
-                    .addGap(18, 18, 18)
-                    .addComponent(jButton1))
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(62, 62, 62)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(gnota, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bnota, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE))
-                    .addGap(51, 51, 51)
-                    .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(10, 10, 10))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(aviso, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addContainerGap())
-    );
-    layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(calendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(11, 11, 11)
-                            .addComponent(jScrollPane3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(gnota)
-                                .addComponent(bnota)))
-                        .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(27, 27, 27)))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(2, 2, 2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(beliminar)
-                        .addComponent(bguardar)))
+        jMenuBar1.add(jMenu3);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Sobreturno)
+                        .addGap(34, 34, 34)
+                        .addComponent(bmodificar)
+                        .addGap(18, 18, 18)
+                        .addComponent(beliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(bguardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(gnota, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bnota, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE))
+                        .addGap(51, 51, 51)
+                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(aviso, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(calendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addComponent(jScrollPane3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(gnota)
+                                    .addComponent(bnota)))
+                            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(27, 27, 27)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bmodificar)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(aviso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(6, 6, 6))
-    );
+                    .addComponent(jButton2)
+                    .addComponent(bguardar)
+                    .addComponent(beliminar)
+                    .addComponent(Sobreturno, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addComponent(aviso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6))
+        );
 
-    getAccessibleContext().setAccessibleDescription("");
+        getAccessibleContext().setAccessibleDescription("");
 
-    pack();
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void tablaAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAgendaMouseClicked
@@ -939,6 +915,14 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
            aviso.setText(""); 
     }//GEN-LAST:event_formMouseMoved
+
+    private void SobreturnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SobreturnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SobreturnoActionPerformed
+
+    private void proximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proximoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_proximoActionPerformed
    
     
     /**
@@ -978,6 +962,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox Dni;
     private javax.swing.JCheckBox Nombre;
+    private javax.swing.JButton Sobreturno;
     private javax.swing.JTextField aviso;
     private javax.swing.JButton beliminar;
     private javax.swing.JButton bguardar;
@@ -1011,6 +996,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private javax.swing.JTextArea notas;
     private javax.swing.JCheckBox obraSocial;
     private java.awt.Panel panel1;
+    private javax.swing.JButton proximo;
     private javax.swing.JTable tablaAgenda;
     // End of variables declaration//GEN-END:variables
 }
