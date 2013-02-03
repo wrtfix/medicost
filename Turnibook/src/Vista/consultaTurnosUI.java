@@ -7,6 +7,7 @@ package Vista;
 import java.awt.event.ContainerListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,7 +45,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private String id_horario;
     private String id_profesional;
     private String email;
-
+    private int tiempo;
     public String getEmail() {
         return email;
     }
@@ -671,7 +672,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             String[] res = intervalo.split("-");        
         
         String actual = nuevaFecha(calendario.getSelection().toString());
-        
+        tiempo = Integer.valueOf(res[2]);
             o.generarHorario(res[0], res[1], Integer.valueOf(res[2]),tablaAgenda,id_profesional,actual);
         
         }
@@ -917,7 +918,20 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formMouseMoved
 
     private void SobreturnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SobreturnoActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tablaAgenda.getModel();
+        String  t = (String) tablaAgenda.getValueAt(tablaAgenda.getRowCount()-1,0);
+        String[] resultado = t.split(":");
+        int min =  Integer.valueOf(resultado[1]);
+        int hora = Integer.valueOf(resultado[0]);
+        min = min + tiempo;
+        if (min >= 60) {
+            min = min - 60;
+            hora = hora + 1;
+        }
+        if (min==0)
+            model.addRow(new Object[]{hora+":00"});
+        else
+            model.addRow(new Object[]{hora+":"+min});
     }//GEN-LAST:event_SobreturnoActionPerformed
 
     private void proximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proximoActionPerformed
