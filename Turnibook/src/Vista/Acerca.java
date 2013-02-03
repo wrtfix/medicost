@@ -42,7 +42,7 @@ public class Acerca extends javax.swing.JFrame {
         jTextArea2.setColumns(20);
         jTextArea2.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jTextArea2.setRows(4);
-        jTextArea2.setText("\n                                  agendaloYa \nSoftware desarrollado por Jorge Mendiola  y Julieta González.\n");
+        jTextArea2.setText("\n                                  TURNIbook \nSoftware desarrollado por Jorge Mendiola  y Julieta González.\n");
         jTextArea2.setBorder(null);
         jTextArea2.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jTextArea2.setEnabled(false);
