@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import turnibook.Operaciones;
 
@@ -313,7 +314,9 @@ public class Horarios extends javax.swing.JFrame {
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         Operaciones o = new Operaciones();
-        o.insertar("insert into horario values(0,'" + lunesDesde.getText() + "','" + lunesHasta.getText() + "','" + martesDesde.getText() + "','" + martesHasta.getText() + "','" + miercolesDesde.getText() + "','" + miercolesHasta.getText() + "','" + juevesDesde.getText() + "','" + juevesHasta.getText() + "','" + viernesDesde.getText() + "','" + viernesHasta.getText() + "','" + sabadoDesde.getText() + "','" + sabadoHasta.getText() + "','" + domingoDesde.getText() + "','" + domingoHasta.getText() + "',"+intervalo.getText()+",0)");
+        JTextField aviso1 = null;
+      
+        o.insertar("insert into horario values(0,'" + lunesDesde.getText() + "','" + lunesHasta.getText() + "','" + martesDesde.getText() + "','" + martesHasta.getText() + "','" + miercolesDesde.getText() + "','" + miercolesHasta.getText() + "','" + juevesDesde.getText() + "','" + juevesHasta.getText() + "','" + viernesDesde.getText() + "','" + viernesHasta.getText() + "','" + sabadoDesde.getText() + "','" + sabadoHasta.getText() + "','" + domingoDesde.getText() + "','" + domingoHasta.getText() + "',"+intervalo.getText()+",0)",aviso1);
 
     }//GEN-LAST:event_jButton2MouseClicked
 
