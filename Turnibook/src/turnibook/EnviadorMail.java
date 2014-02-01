@@ -23,7 +23,7 @@ public class EnviadorMail {
         
         this.properties = new Properties();
         try {
-            properties.load(this.getClass().getResourceAsStream("base.properties"));
+            properties.load(this.getClass().getResourceAsStream("configuration.properties"));
             miCorreo = this.properties.getProperty("mail.smtp.user");
             miContrasenia = this.properties.getProperty("mail.smtp.password");
         } catch (IOException ex) {
