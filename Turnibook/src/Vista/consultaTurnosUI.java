@@ -21,6 +21,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import turnibook.Archivo;
 import turnibook.CrearPdf;
 import turnibook.EnviadorMail;
 import turnibook.Operaciones;
@@ -114,6 +115,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         bnota = new javax.swing.JButton();
         aviso = new javax.swing.JTextField();
         Sobreturno = new javax.swing.JButton();
+        bcancelar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -151,7 +153,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             }
         });
 
-        beliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/eliminar.gif"))); // NOI18N
+        beliminar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Juliet\\Downloads\\icoeliminar.jpg")); // NOI18N
         beliminar.setText("Eliminar");
         beliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -379,7 +381,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(proximo)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
 
         notas.setBackground(new java.awt.Color(240, 240, 240));
@@ -446,6 +448,20 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             }
         });
 
+        bcancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/eliminar.gif"))); // NOI18N
+        bcancelar.setText("Cancelar");
+        bcancelar.setActionCommand("");
+        bcancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bcancelarMouseClicked(evt);
+            }
+        });
+        bcancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bcancelarActionPerformed(evt);
+            }
+        });
+
         jMenu3.setText("Ayuda");
 
         jMenuItem2.setText("Tutorial");
@@ -485,8 +501,10 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                         .addComponent(bmodificar)
                         .addGap(18, 18, 18)
                         .addComponent(beliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
+                        .addGap(27, 27, 27)
                         .addComponent(bguardar)
+                        .addGap(26, 26, 26)
+                        .addComponent(bcancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
@@ -499,7 +517,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                                 .addComponent(gnota, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(bnota, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE))
+                            .addComponent(jScrollPane3))
                         .addGap(51, 51, 51)
                         .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10))
@@ -528,14 +546,16 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                                     .addComponent(bnota)))
                             .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(27, 27, 27)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bmodificar)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(bguardar)
-                    .addComponent(beliminar)
-                    .addComponent(Sobreturno, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Sobreturno, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bmodificar)
+                        .addComponent(jButton1)
+                        .addComponent(jButton2)
+                        .addComponent(bguardar)
+                        .addComponent(beliminar)
+                        .addComponent(bcancelar)))
                 .addGap(9, 9, 9)
                 .addComponent(aviso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
@@ -551,9 +571,26 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaAgendaMouseClicked
 
     private void bmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmodificarActionPerformed
-  
-        tablaAgenda.setEnabled(true);        
-    
+        if (tablaAgenda.getRowCount()>0){
+            tablaAgenda.setEnabled(true);
+            bcancelar.setEnabled(true);
+            beliminar.setEnabled(true);
+            bguardar.setEnabled(true);
+            bmodificar.setEnabled(false);        
+            calendario.setEnabled(false);        
+            jButton1.setEnabled(false); 
+            jButton2.setEnabled(false); 
+            panel1.setEnabled(false); 
+            botonBuscar.setEnabled(false); 
+            notas.setEnabled(false);
+            proximo.setEnabled(false);           
+            gnota.setEnabled(false);
+            bnota.setEnabled(false);
+            Sobreturno.setEnabled(false);
+            Dni.setEnabled(false);
+            Nombre.setEnabled(false);
+            obraSocial.setEnabled(false);        
+        }
     }//GEN-LAST:event_bmodificarActionPerformed
 
     private String fechaFormateada(String fecha) {
@@ -579,13 +616,13 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }
     //Elimino una fila seleccionada.
     private void beliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beliminarActionPerformed
-
+        if (bmodificar.isEnabled()==false){ 
             int fila;
             fila = tablaAgenda.getSelectedRow();
             Operaciones o = new Operaciones();
             //hora y dia le paso para que borre        
             String fecha = nuevaFecha(calendario.getSelection().toString());
-            o.borrar(tablaAgenda.getValueAt(fila,HORA).toString(),fecha,id_profesional);
+            o.borrarTurno(tablaAgenda.getValueAt(fila,HORA).toString(),fecha,id_profesional);
             int max = tablaAgenda.getColumnCount();    
             for (int i=1;i<max;i++){
                 tablaAgenda.setValueAt(null, fila, i);
@@ -593,40 +630,59 @@ public class consultaTurnosUI extends javax.swing.JFrame {
            
             tablaAgenda.setEnabled(false);        
             aviso.setText("Los datos se eliminaron correctamente");
-
-          
-
-           
+        }  
     }//GEN-LAST:event_beliminarActionPerformed
 //Guardo todas las filas
     private void bguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bguardarActionPerformed
-        if (tablaAgenda.isCellEditable(tablaAgenda.getSelectedRow(),tablaAgenda.getSelectedColumn()) )
-        {
-            tablaAgenda.editCellAt(0, 0);            
-        }
         
-        Operaciones o  = new Operaciones();
-        int fila=0;
-        int max= tablaAgenda.getRowCount();
-        String actual = nuevaFecha(calendario.getSelection().toString());
-        o.conectar();
-        while(fila < max){           
-            if (tablaAgenda.getValueAt(fila,NOMBRE)!=null){
-                if (!o.existeTurno(actual, tablaAgenda.getValueAt(fila,HORA).toString())) {
-                    String sql = "insert into turno(documento,telefono,asistencia,descripcion,os,nombre,hora,fecha,id_profesional) values ('"+tablaAgenda.getValueAt(fila,DOC)+"','"+tablaAgenda.getValueAt(fila,TEL)+"','"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"','"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"','"+tablaAgenda.getValueAt(fila,OS)+"','"+tablaAgenda.getValueAt(fila,NOMBRE)+"','"+tablaAgenda.getValueAt(fila,HORA)+"','"+actual+"','"+id_profesional+"')";
-                   
-                    o.insertar(sql,aviso);
-                }
-                else {
-                    String sql = "update turno set documento='"+tablaAgenda.getValueAt(fila,DOC)+"' , telefono='"+tablaAgenda.getValueAt(fila,TEL)+"' , asistencia='"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"' , descripcion='"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"' , os='"+tablaAgenda.getValueAt(fila,OS)+"' , nombre='"+tablaAgenda.getValueAt(fila,NOMBRE)+"' where hora='"+tablaAgenda.getValueAt(fila,HORA)+"' and fecha='"+actual+"' and id_profesional='"+id_profesional+"'";
-                    o.insertar(sql,aviso);
-                }
+        if (bmodificar.isEnabled()==false){            
+            if (tablaAgenda.isCellEditable(tablaAgenda.getSelectedRow(),tablaAgenda.getSelectedColumn()) )
+            {
+                tablaAgenda.editCellAt(0, 0);            
             }
-             fila++;
-        }              
-        tablaAgenda.clearSelection();
-        tablaAgenda.setEnabled(false);
-        
+
+            Operaciones o  = new Operaciones();
+            int fila=0;
+            int max= tablaAgenda.getRowCount();
+            String actual = nuevaFecha(calendario.getSelection().toString());
+            o.conectar();
+            while(fila < max){           
+                if (tablaAgenda.getValueAt(fila,NOMBRE)!=null){
+                    if (!o.existeTurno(actual, tablaAgenda.getValueAt(fila,HORA).toString())) {
+                        String sql = "insert into turno(documento,telefono,asistencia,descripcion,os,nombre,hora,fecha,id_profesional) values ('"+tablaAgenda.getValueAt(fila,DOC)+"','"+tablaAgenda.getValueAt(fila,TEL)+"','"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"','"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"','"+tablaAgenda.getValueAt(fila,OS)+"','"+tablaAgenda.getValueAt(fila,NOMBRE)+"','"+tablaAgenda.getValueAt(fila,HORA)+"','"+actual+"','"+id_profesional+"')";
+
+                        o.insertar(sql,aviso);
+                    }
+                    else {
+                        String sql = "update turno set documento='"+tablaAgenda.getValueAt(fila,DOC)+"' , telefono='"+tablaAgenda.getValueAt(fila,TEL)+"' , asistencia='"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"' , descripcion='"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"' , os='"+tablaAgenda.getValueAt(fila,OS)+"' , nombre='"+tablaAgenda.getValueAt(fila,NOMBRE)+"' where hora='"+tablaAgenda.getValueAt(fila,HORA)+"' and fecha='"+actual+"' and id_profesional='"+id_profesional+"'";
+                        o.insertar(sql,aviso);
+                    }
+                }
+                 fila++;
+            }              
+            tablaAgenda.clearSelection();
+            tablaAgenda.setEnabled(false);
+            aviso.setText("El turno se guardo correctamente");
+            bmodificar.setEnabled(true);        
+            calendario.setEnabled(true);        
+            jButton1.setEnabled(true); 
+            jButton2.setEnabled(true); 
+            panel1.setEnabled(true); 
+            botonBuscar.setEnabled(true);       
+            proximo.setEnabled(true);           
+            gnota.setEnabled(true);
+            bnota.setEnabled(true);
+            Sobreturno.setEnabled(true);
+            Dni.setEnabled(true);
+            Nombre.setEnabled(true);
+            obraSocial.setEnabled(true);
+            beliminar.setEnabled(false);
+            bguardar.setEnabled(false);
+            notas.setEnabled(true);
+
+
+
+            }
     }//GEN-LAST:event_bguardarActionPerformed
 
     private void bmodificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bmodificarMouseClicked
@@ -647,7 +703,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaAgendaMouseMoved
 
     private void tablaAgendaComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tablaAgendaComponentAdded
-         // TODO add your handling code here:
+                 
     }//GEN-LAST:event_tablaAgendaComponentAdded
 
      
@@ -673,7 +729,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         
         String actual = nuevaFecha(calendario.getSelection().toString());
         tiempo = Integer.valueOf(res[2]);
-            o.generarHorario(res[0], res[1], Integer.valueOf(res[2]),tablaAgenda,id_profesional,actual);
+        o.generarHorario(res[0], res[1], Integer.valueOf(res[2]),tablaAgenda,id_profesional,actual);
         
         }
     }
@@ -937,6 +993,31 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private void proximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proximoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_proximoActionPerformed
+
+    private void bcancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bcancelarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bcancelarMouseClicked
+
+    private void bcancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bcancelarActionPerformed
+            tablaAgenda.setEnabled(false);
+            beliminar.setEnabled(false);
+            bguardar.setEnabled(false);
+            bmodificar.setEnabled(true);        
+            calendario.setEnabled(true);        
+            jButton1.setEnabled(true); 
+            jButton2.setEnabled(true); 
+            panel1.setEnabled(true); 
+            botonBuscar.setEnabled(true); 
+            notas.setEnabled(true);
+            proximo.setEnabled(true);           
+            gnota.setEnabled(true);
+            bnota.setEnabled(true);
+            Sobreturno.setEnabled(true);
+            Dni.setEnabled(true);
+            Nombre.setEnabled(true);
+            obraSocial.setEnabled(true); 
+            bcancelar.setEnabled(false);
+    }//GEN-LAST:event_bcancelarActionPerformed
    
     
     /**
@@ -978,6 +1059,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox Nombre;
     private javax.swing.JButton Sobreturno;
     private javax.swing.JTextField aviso;
+    private javax.swing.JButton bcancelar;
     private javax.swing.JButton beliminar;
     private javax.swing.JButton bguardar;
     private javax.swing.JButton bmodificar;
