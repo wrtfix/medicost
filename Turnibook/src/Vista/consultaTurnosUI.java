@@ -4,6 +4,7 @@
  */
 package Vista;
 
+
 import java.awt.event.ContainerListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +26,8 @@ import turnibook.Archivo;
 import turnibook.CrearPdf;
 import turnibook.EnviadorMail;
 import turnibook.Operaciones;
+import turnibook.*;
+
 
 /**
  *
@@ -72,6 +75,11 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }
     public consultaTurnosUI() {
         initComponents();
+        beliminar.setEnabled(false);
+        bcancelar.setEnabled(false);
+        bguardar.setEnabled(false);
+        Sobreturno.setEnabled(false);
+        
     }
   
     /**
@@ -140,8 +148,11 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             }
         });
 
-        bmodificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/agregar.png"))); // NOI18N
+        bmodificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/modificar.png"))); // NOI18N
         bmodificar.setText("Modificar");
+        bmodificar.setMaximumSize(new java.awt.Dimension(93, 27));
+        bmodificar.setMinimumSize(new java.awt.Dimension(93, 27));
+        bmodificar.setPreferredSize(new java.awt.Dimension(89, 25));
         bmodificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bmodificarMouseClicked(evt);
@@ -153,8 +164,10 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             }
         });
 
-        beliminar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Juliet\\Downloads\\icoeliminar.jpg")); // NOI18N
+        beliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/papelera.gif"))); // NOI18N
         beliminar.setText("Eliminar");
+        beliminar.setMaximumSize(new java.awt.Dimension(93, 27));
+        beliminar.setMinimumSize(new java.awt.Dimension(93, 27));
         beliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 beliminarMouseClicked(evt);
@@ -168,6 +181,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
 
         bguardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icoGuardar.gif"))); // NOI18N
         bguardar.setText("Guardar");
+        bguardar.setPreferredSize(new java.awt.Dimension(89, 25));
         bguardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bguardarMouseClicked(evt);
@@ -381,7 +395,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(proximo)
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         notas.setBackground(new java.awt.Color(240, 240, 240));
@@ -441,7 +455,11 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             }
         });
 
-        Sobreturno.setText("Agrergar Sobreturno");
+        Sobreturno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/ico_agregar.gif"))); // NOI18N
+        Sobreturno.setText("Agregar Sobreturno");
+        Sobreturno.setMaximumSize(new java.awt.Dimension(93, 27));
+        Sobreturno.setMinimumSize(new java.awt.Dimension(93, 27));
+        Sobreturno.setPreferredSize(new java.awt.Dimension(89, 25));
         Sobreturno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SobreturnoActionPerformed(evt);
@@ -451,6 +469,9 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         bcancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/eliminar.gif"))); // NOI18N
         bcancelar.setText("Cancelar");
         bcancelar.setActionCommand("");
+        bcancelar.setMaximumSize(new java.awt.Dimension(93, 27));
+        bcancelar.setMinimumSize(new java.awt.Dimension(93, 27));
+        bcancelar.setPreferredSize(new java.awt.Dimension(89, 25));
         bcancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bcancelarMouseClicked(evt);
@@ -496,15 +517,15 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Sobreturno)
-                        .addGap(34, 34, 34)
-                        .addComponent(bmodificar)
-                        .addGap(18, 18, 18)
-                        .addComponent(beliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(bguardar)
-                        .addGap(26, 26, 26)
-                        .addComponent(bcancelar)
+                        .addComponent(Sobreturno, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bmodificar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(beliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
@@ -532,30 +553,28 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(calendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(calendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(11, 11, 11)
-                                .addComponent(jScrollPane3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(gnota)
-                                    .addComponent(bnota)))
-                            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(27, 27, 27)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                        .addGap(11, 11, 11)
+                        .addComponent(jScrollPane3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(gnota)
+                            .addComponent(bnota)))
+                    .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Sobreturno, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bmodificar)
-                        .addComponent(jButton1)
-                        .addComponent(jButton2)
-                        .addComponent(bguardar)
-                        .addComponent(beliminar)
-                        .addComponent(bcancelar)))
+                        .addComponent(Sobreturno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bmodificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(beliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bguardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
                 .addGap(9, 9, 9)
                 .addComponent(aviso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
@@ -599,7 +618,13 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         resultado = "/" + resultado;
         resultado = String.valueOf(fecha.charAt(2)) + String.valueOf(fecha.charAt(3)) + resultado;
         resultado = "/" + resultado;
-        resultado = String.valueOf(fecha.charAt(4)) + resultado;
+        if (fecha.length() == 5 ){
+            resultado = String.valueOf(fecha.charAt(4)) + resultado;
+        }else
+        {
+            resultado = String.valueOf(fecha.charAt(4)) + String.valueOf(fecha.charAt(5)) + resultado;
+        }
+        
         return resultado;
     }
 
@@ -608,7 +633,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         actual[0] = actual[0].replaceAll("\\[", "");
         actual[2] = actual[2].replaceAll("\\]", "");
         if (Integer.valueOf(actual[0])<10){
-            actual[0] = String.valueOf(Integer.valueOf(actual[0]));
+            actual[0] = "0"+String.valueOf(Integer.valueOf(actual[0]));
         }else{
             return actual[2] + actual[1] + actual[0];
         }
@@ -730,19 +755,22 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         String actual = nuevaFecha(calendario.getSelection().toString());
         tiempo = Integer.valueOf(res[2]);
         o.generarHorario(res[0], res[1], Integer.valueOf(res[2]),tablaAgenda,id_profesional,actual);
-        
+        Sobreturno.setEnabled(true);
         }
     }
     
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
        generarTabla();
        tablaAgenda.setEnabled(false);
-       Archivo a=new Archivo();       
+       Archivo a = new Archivo();       
        String nota = a.leerTxt(id_profesional);
        notas.append(nota);
       
     }//GEN-LAST:event_formWindowOpened
-
+    /**
+     * Metodo para buscar el por nombre, obra social y documento
+     * @param evt 
+     */
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         try {
             Operaciones o=new Operaciones();
@@ -991,7 +1019,24 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_SobreturnoActionPerformed
 
     private void proximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proximoActionPerformed
-        // TODO add your handling code here:
+        try {
+            Operaciones o = new Operaciones();
+            ResultSet r = null;
+            SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yy", new Locale("es_ES"));
+            Date fechaDate = new Date();
+            String fecha = formateador.format(fechaDate);
+            String nuevaFecha = nuevaFecha("[" + fecha + "]");
+            String sql = "select *  from ocupados where fecha ='"+nuevaFecha+"' and id_profesional='"+id_profesional+"' order by fecha desc";
+            ResultSet res = o.consultar(sql);
+            if (res.next()){
+                int ultima = Integer.valueOf(res.getString("fecha"));
+                int actual = Integer.valueOf(nuevaFecha);
+                JOptionPane.showMessageDialog(null,ultima+" "+actual);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(consultaTurnosUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_proximoActionPerformed
 
     private void bcancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bcancelarMouseClicked
