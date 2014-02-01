@@ -63,7 +63,7 @@ public class Operaciones extends Conexion{
         return valor;
     }
     
-    public void borrar(String hora,String fecha,String id ){
+    public void borrarTurno(String hora,String fecha,String id ){
         
         conectar();
         try {
@@ -362,5 +362,14 @@ public class Operaciones extends Conexion{
         }
 
         return false;
+    }
+    /**
+     * Este metodo valida si el usuario es o no valido a traves de una propertie.
+     * @param nombre
+     * @param pass
+     * @return 
+     */
+    public boolean validarUsuario(String nombre, String pass) {
+        return nombre.equals(this.properties.getProperty("admin.user")) &&  pass.equals(this.properties.getProperty("admin.password"));
     }
 }
