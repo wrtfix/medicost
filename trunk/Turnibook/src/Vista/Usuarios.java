@@ -116,10 +116,10 @@ public class Usuarios extends javax.swing.JFrame {
             }
         });
         tablaProfesional.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 tablaProfesionalInputMethodTextChanged(evt);
-            }
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
         tablaProfesional.addKeyListener(new java.awt.event.KeyAdapter() {
