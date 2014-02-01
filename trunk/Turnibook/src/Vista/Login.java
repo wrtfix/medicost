@@ -162,8 +162,11 @@ public class Login extends javax.swing.JFrame {
     private void botonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLoginActionPerformed
         String nombre = this.jTextField1.getText();
         String pass = this.jPasswordField1.getText();
-        if (nombre.equals("wrtfix") && pass.equals("hanna64")){
+        Operaciones o = new Operaciones();
+        if (o.validarUsuario(nombre,pass)){
             this.setVisible(rootPaneCheckingEnabled);
+            
+            
             Usuarios u = new Usuarios();
             //Para que aparezca centrada la pantalla
             u.setLocationRelativeTo(null);
@@ -175,7 +178,7 @@ public class Login extends javax.swing.JFrame {
         }else
         {
             try {
-                Operaciones o = new Operaciones();
+                
                 
                 ResultSet resultado = o.consultar("select * from profesional where nombre like '"+nombre+"' and clave like '"+pass+"'");
                 if (resultado.next()){
@@ -184,7 +187,7 @@ public class Login extends javax.swing.JFrame {
                         ct.setId_horario(resultado.getString("id_horario"));
                         ct.setId_profesional(resultado.getString("id_profesional"));
                         if(!"null".equals(resultado.getString("email"))){
-                            ct.setId_profesional(resultado.getString("email"));
+                            ct.setEmail(resultado.getString("email"));
                         }
                         ct.setLocationRelativeTo(null);
                         ct.setVisible(true);

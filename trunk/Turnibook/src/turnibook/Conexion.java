@@ -23,7 +23,7 @@ public class Conexion{
 	Connection conexion;
 	Statement consulta;
 	public String ruta;
-    private final Properties properties;
+    protected final Properties properties;
 
     /**
      * Constructor for objects of class Conexion
@@ -32,7 +32,7 @@ public class Conexion{
     {
         this.properties = new Properties();
         try {
-            properties.load(new FileInputStream("base.properties"));
+            properties.load(this.getClass().getResourceAsStream("base.properties"));
             ruta = this.properties.getProperty("direccion.base");
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ""+ex.getMessage());
