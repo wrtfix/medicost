@@ -32,7 +32,7 @@ public class Conexion{
     {
         this.properties = new Properties();
         try {
-            properties.load(this.getClass().getResourceAsStream("base.properties"));
+            properties.load(this.getClass().getResourceAsStream("configuration.properties"));
             ruta = this.properties.getProperty("direccion.base");
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ""+ex.getMessage());
