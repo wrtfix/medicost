@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package turnibook;
+package turnibook.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -30,7 +30,7 @@ public class Archivo {
      public Archivo(){
          this.properties = new Properties();
         try {
-            properties.load(this.getClass().getResourceAsStream("configuration.properties"));
+            properties.load(this.getClass().getResourceAsStream("../resources/configuration.properties"));
             path = properties.getProperty("file.path");
         } catch (IOException ex) {
             Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
