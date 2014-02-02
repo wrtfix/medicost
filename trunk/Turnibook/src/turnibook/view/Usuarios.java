@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
-import turnibook.Operaciones;
+import turnibook.model.Operaciones;
 
 
 /**

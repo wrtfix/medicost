@@ -6,7 +6,7 @@ package turnibook.view;
 
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
-import turnibook.Operaciones;
+import turnibook.model.Operaciones;
 
 /**
  *
