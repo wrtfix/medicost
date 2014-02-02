@@ -1,4 +1,4 @@
-package turnibook;
+package turnibook.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class EnviadorMail {
         
         this.properties = new Properties();
         try {
-            properties.load(this.getClass().getResourceAsStream("configuration.properties"));
+            properties.load(this.getClass().getResourceAsStream("../resources/configuration.properties"));
             miCorreo = this.properties.getProperty("mail.smtp.user");
             miContrasenia = this.properties.getProperty("mail.smtp.password");
         } catch (IOException ex) {
