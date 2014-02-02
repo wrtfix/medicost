@@ -6,7 +6,7 @@
  */
 package turnibook.model;
 
-import turnibook.view.consultaTurnosUI;
+import turnibook.view.Agenda;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -44,7 +44,13 @@ public class Operaciones {
         SqlLiteUtil.getInstance().desconectar();
         return valor;
     }
-
+    
+    public boolean updateTurno(String sql){
+        SqlLiteUtil.getInstance().conectar();
+        boolean res = SqlLiteUtil.getInstance().update(sql);
+        SqlLiteUtil.getInstance().desconectar();
+        return res;
+    }
     public void borrarTurno(String hora, String fecha, String id) {
         SqlLiteUtil.getInstance().conectar();
         String sql = "delete from turno where fecha = '" + fecha + "' and hora ='" + hora + "' and id_profesional='" + id + "'";
@@ -229,7 +235,7 @@ public class Operaciones {
 
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(consultaTurnosUI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
             }
             aux = aux + intervalo;
             if (aux > 60) {
