@@ -4,7 +4,6 @@
  */
 package turnibook.view;
 
-
 import java.awt.event.ContainerListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,15 +26,14 @@ import turnibook.utils.CrearPdf;
 import turnibook.utils.EnviadorMail;
 import turnibook.model.Operaciones;
 
-
 /**
  *
  * @author Juli
  */
-public class consultaTurnosUI extends javax.swing.JFrame {
+public class Agenda extends javax.swing.JFrame {
 
     /**
-     * Creates new form consultaTurnosUI
+     * Creates new form Agenda
      */
     //Cada numero representa la columna de la tabla
     private static int ASISTENCIA = 6;
@@ -49,6 +47,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     private String id_profesional;
     private String email;
     private int tiempo;
+
     public String getEmail() {
         return email;
     }
@@ -56,7 +55,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getId_profesional() {
         return id_profesional;
     }
@@ -64,7 +63,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     public void setId_profesional(String id_profesional) {
         this.id_profesional = id_profesional;
     }
-    
+
     public String getId_horario() {
         return id_horario;
     }
@@ -72,15 +71,16 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     public void setId_horario(String id_horario) {
         this.id_horario = id_horario;
     }
-    public consultaTurnosUI() {
+
+    public Agenda() {
         initComponents();
         beliminar.setEnabled(false);
         bcancelar.setEnabled(false);
         bguardar.setEnabled(false);
         Sobreturno.setEnabled(false);
-        
+
     }
-  
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -398,8 +398,8 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(proximo)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addComponent(proximo, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         notas.setBackground(new java.awt.Color(240, 240, 240));
@@ -594,25 +594,25 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaAgendaMouseClicked
 
     private void bmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmodificarActionPerformed
-        if (tablaAgenda.getRowCount()>0){
+        if (tablaAgenda.getRowCount() > 0) {
             tablaAgenda.setEnabled(true);
             bcancelar.setEnabled(true);
             beliminar.setEnabled(true);
             bguardar.setEnabled(true);
-            bmodificar.setEnabled(false);        
-            calendario.setEnabled(false);        
-            jButton1.setEnabled(false); 
-            jButton2.setEnabled(false); 
-            panel1.setEnabled(false); 
-            botonBuscar.setEnabled(false); 
+            bmodificar.setEnabled(false);
+            calendario.setEnabled(false);
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
+            panel1.setEnabled(false);
+            botonBuscar.setEnabled(false);
             notas.setEnabled(false);
-            proximo.setEnabled(false);           
+            proximo.setEnabled(false);
             gnota.setEnabled(false);
             bnota.setEnabled(false);
             Sobreturno.setEnabled(false);
             Dni.setEnabled(false);
             Nombre.setEnabled(false);
-            obraSocial.setEnabled(false);        
+            obraSocial.setEnabled(false);
         }
     }//GEN-LAST:event_bmodificarActionPerformed
 
@@ -622,13 +622,12 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         resultado = "/" + resultado;
         resultado = String.valueOf(fecha.charAt(2)) + String.valueOf(fecha.charAt(3)) + resultado;
         resultado = "/" + resultado;
-        if (fecha.length() == 5 ){
+        if (fecha.length() == 5) {
             resultado = String.valueOf(fecha.charAt(4)) + resultado;
-        }else
-        {
+        } else {
             resultado = String.valueOf(fecha.charAt(4)) + String.valueOf(fecha.charAt(5)) + resultado;
         }
-        
+
         return resultado;
     }
 
@@ -636,75 +635,81 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         String[] actual = fecha.split("/");
         actual[0] = actual[0].replaceAll("\\[", "");
         actual[2] = actual[2].replaceAll("\\]", "");
-        if (Integer.valueOf(actual[0])<10){
-            actual[0] = "0"+String.valueOf(Integer.valueOf(actual[0]));
-        }else{
+        if (Integer.valueOf(actual[0]) < 10) {
+            actual[0] = "0" + String.valueOf(Integer.valueOf(actual[0]));
+        } else {
             return actual[2] + actual[1] + actual[0];
         }
         return actual[2] + actual[1] + actual[0];
     }
+
     /**
      * Elimino una fila seleccionada.
-     * @param evt 
+     *
+     * @param evt
      */
     private void beliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beliminarActionPerformed
-        if (bmodificar.isEnabled()==false){ 
+        if (bmodificar.isEnabled() == false) {
             int fila;
             fila = tablaAgenda.getSelectedRow();
             Operaciones o = new Operaciones();
             //hora y dia le paso para que borre        
             String fecha = nuevaFecha(calendario.getSelection().toString());
-            o.borrarTurno(tablaAgenda.getValueAt(fila,HORA).toString(),fecha,id_profesional);
-            int max = tablaAgenda.getColumnCount();    
-            for (int i=1;i<max;i++){
+            o.borrarTurno(tablaAgenda.getValueAt(fila, HORA).toString(), fecha, id_profesional);
+            int max = tablaAgenda.getColumnCount();
+            for (int i = 1; i < max; i++) {
                 tablaAgenda.setValueAt(null, fila, i);
             }
-           
-            tablaAgenda.setEnabled(false);        
+
+            tablaAgenda.setEnabled(false);
             aviso.setText("Los datos se eliminaron correctamente");
-        }  
+        }
     }//GEN-LAST:event_beliminarActionPerformed
     /**
      * Guarda los elementos de una tabla
-     * @param evt 
+     *
+     * @param evt
      */
     private void bguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bguardarActionPerformed
-        
-        if (bmodificar.isEnabled()==false){            
-            if (tablaAgenda.isCellEditable(tablaAgenda.getSelectedRow(),tablaAgenda.getSelectedColumn()) )
-            {
-                tablaAgenda.editCellAt(0, 0);            
+
+        if (bmodificar.isEnabled() == false) {
+            if (tablaAgenda.isCellEditable(tablaAgenda.getSelectedRow(), tablaAgenda.getSelectedColumn())) {
+                tablaAgenda.editCellAt(0, 0);
             }
 
-            Operaciones o  = new Operaciones();
-            int fila=0;
-            int max= tablaAgenda.getRowCount();
-            
+            Operaciones o = new Operaciones();
+            int fila = 0;
+            int max = tablaAgenda.getRowCount();
+
             String actual = nuevaFecha(calendario.getSelection().toString());
-            while(fila < max){           
-                if (tablaAgenda.getValueAt(fila,NOMBRE)!=null){
-                    if (!o.existeTurno(actual, tablaAgenda.getValueAt(fila,HORA).toString())) {
-                        String sql = "insert into turno(documento,telefono,asistencia,descripcion,os,nombre,hora,fecha,id_profesional) values ('"+tablaAgenda.getValueAt(fila,DOC)+"','"+tablaAgenda.getValueAt(fila,TEL)+"','"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"','"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"','"+tablaAgenda.getValueAt(fila,OS)+"','"+tablaAgenda.getValueAt(fila,NOMBRE)+"','"+tablaAgenda.getValueAt(fila,HORA)+"','"+actual+"','"+id_profesional+"')";
-                        o.insertar(sql,aviso);
-                    }
-                    else {
-                        String sql = "update turno set documento='"+tablaAgenda.getValueAt(fila,DOC)+"' , telefono='"+tablaAgenda.getValueAt(fila,TEL)+"' , asistencia='"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"' , descripcion='"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"' , os='"+tablaAgenda.getValueAt(fila,OS)+"' , nombre='"+tablaAgenda.getValueAt(fila,NOMBRE)+"' where hora='"+tablaAgenda.getValueAt(fila,HORA)+"' and fecha='"+actual+"' and id_profesional='"+id_profesional+"'";
-                        o.insertar(sql,aviso);
+            while (fila < max) {
+                if (tablaAgenda.getValueAt(fila, NOMBRE) != null) {
+                    if (!o.existeTurno(actual, tablaAgenda.getValueAt(fila, HORA).toString())) {
+                        String sql = "insert into turno(documento,telefono,asistencia,descripcion,os,nombre,hora,fecha,id_profesional) values ('" + tablaAgenda.getValueAt(fila, DOC) + "','" + tablaAgenda.getValueAt(fila, TEL) + "','" + tablaAgenda.getValueAt(fila, ASISTENCIA) + "','" + tablaAgenda.getValueAt(fila, DESCRIPCION) + "','" + tablaAgenda.getValueAt(fila, OS) + "','" + tablaAgenda.getValueAt(fila, NOMBRE) + "','" + tablaAgenda.getValueAt(fila, HORA) + "','" + actual + "','" + id_profesional + "')";
+                        o.insertar(sql, aviso);
+                    } else {
+                        String sql = "update turno set documento='" + tablaAgenda.getValueAt(fila, DOC) + "' , telefono='" + tablaAgenda.getValueAt(fila, TEL) + "' , asistencia='" + tablaAgenda.getValueAt(fila, ASISTENCIA) + "' , descripcion='" + tablaAgenda.getValueAt(fila, DESCRIPCION) + "' , os='" + tablaAgenda.getValueAt(fila, OS) + "' , nombre='" + tablaAgenda.getValueAt(fila, NOMBRE) + "' where hora='" + tablaAgenda.getValueAt(fila, HORA) + "' and fecha='" + actual + "' and id_profesional='" + id_profesional + "'";
+                        if (o.updateTurno(sql)) {
+                            aviso.setText("Los datos se actualizaron correctamente");
+                        } else {
+                            aviso.setText("Los datos no fueron actualizados");
+                        }
+
                     }
                 }
-                 fila++;
-            }   
-            
+                fila++;
+            }
+
             tablaAgenda.clearSelection();
             tablaAgenda.setEnabled(false);
             aviso.setText("El turno se guardo correctamente");
-            bmodificar.setEnabled(true);        
-            calendario.setEnabled(true);        
-            jButton1.setEnabled(true); 
-            jButton2.setEnabled(true); 
-            panel1.setEnabled(true); 
-            botonBuscar.setEnabled(true);       
-            proximo.setEnabled(true);           
+            bmodificar.setEnabled(true);
+            calendario.setEnabled(true);
+            jButton1.setEnabled(true);
+            jButton2.setEnabled(true);
+            panel1.setEnabled(true);
+            botonBuscar.setEnabled(true);
+            proximo.setEnabled(true);
             gnota.setEnabled(true);
             bnota.setEnabled(true);
             Sobreturno.setEnabled(true);
@@ -717,11 +722,10 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             bcancelar.setEnabled(false);
 
 
-            }
+        }
     }//GEN-LAST:event_bguardarActionPerformed
 
     private void bmodificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bmodificarMouseClicked
-       
     }//GEN-LAST:event_bmodificarMouseClicked
 
     private void bguardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bguardarMouseClicked
@@ -729,8 +733,6 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_bguardarMouseClicked
 
     private void beliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beliminarMouseClicked
-      
-               
     }//GEN-LAST:event_beliminarMouseClicked
 
     private void tablaAgendaMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAgendaMouseMoved
@@ -738,10 +740,8 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaAgendaMouseMoved
 
     private void tablaAgendaComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tablaAgendaComponentAdded
-                 
     }//GEN-LAST:event_tablaAgendaComponentAdded
 
-     
     private void calendarioOnSelectionChange(datechooser.events.SelectionChangedEvent evt) {//GEN-FIRST:event_calendarioOnSelectionChange
         generarTabla();
         tablaAgenda.setEnabled(false);
@@ -771,51 +771,55 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             Sobreturno.setEnabled(true);
         }
     }
-    
+
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       generarTabla();
-       tablaAgenda.setEnabled(false);
-       Archivo a = new Archivo();       
-       String nota = a.leerTxt(id_profesional);
-       notas.append(nota);
-      
+        generarTabla();
+        tablaAgenda.setEnabled(false);
+        Archivo a = new Archivo();
+        String nota = a.leerTxt(id_profesional);
+        notas.append(nota);
+
     }//GEN-LAST:event_formWindowOpened
     /**
      * Metodo para buscar el por nombre, obra social y documento
-     * @param evt 
+     *
+     * @param evt
      */
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         try {
-            Operaciones o=new Operaciones();
+            Operaciones o = new Operaciones();
             ResultSet r = null;
             SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yy", new Locale("es_ES"));
             Date fechaDate = new Date();
             String fecha = formateador.format(fechaDate);
-            String nuevaFecha = nuevaFecha("["+fecha+"]");
-            String sql = "select nombre,fecha,hora  from turno where fecha >="+nuevaFecha;
+            String nuevaFecha = nuevaFecha("[" + fecha + "]");
+            String sql = "select nombre,fecha,hora  from turno where fecha >=" + nuevaFecha;
             //busco por dni
-            if (Dni.isSelected())
-                sql = sql + " and documento like '"+buscar1.getText()+"%'";
-            
-                
-            if (Nombre.isSelected() && Nombre.isSelected())
-                sql = sql + " and nombre like '"+buscar2.getText()+"%'";
-            
-            if ( (obraSocial.isSelected() || Nombre.isSelected()) && obraSocial.isSelected())
-                sql = sql + " and os like '"+buscar3.getText()+"%'";
-            
-            
-            r=o.consultar(sql);      
+            if (Dni.isSelected()) {
+                sql = sql + " and documento like '" + buscar1.getText() + "%'";
+            }
+
+
+            if (Nombre.isSelected() && Nombre.isSelected()) {
+                sql = sql + " and nombre like '" + buscar2.getText() + "%'";
+            }
+
+            if ((obraSocial.isSelected() || Nombre.isSelected()) && obraSocial.isSelected()) {
+                sql = sql + " and os like '" + buscar3.getText() + "%'";
+            }
+
+
+            r = o.consultar(sql);
             DefaultListModel list = new DefaultListModel();
-            
-            while (r.next()){      
-               list.addElement("      "+r.getString("nombre")+"     "+fechaFormateada(r.getString("fecha")) +"     "+r.getString("hora")  );   
+
+            while (r.next()) {
+                list.addElement("      " + r.getString("nombre") + "     " + fechaFormateada(r.getString("fecha")) + "     " + r.getString("hora"));
             }
             lista.setModel(list);
             r.close();
             aviso.setText("La busqueda se realizo con exito");
-            
-            
+
+
             buscar1.setText("");
             buscar2.setText("");
             buscar3.setText("");
@@ -825,62 +829,59 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             Dni.setSelected(false);
             Nombre.setSelected(false);
             obraSocial.setSelected(false);
-            
+
         } catch (SQLException ex) {
-            Logger.getLogger(consultaTurnosUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
         }
         botonBuscar.setEnabled(false);
-        
-      
+
+
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String nombre = calendario.getSelection().toString().replace("/", "-");
-        CrearPdf pdf = new CrearPdf(nombre,tablaAgenda);
-        
+        CrearPdf pdf = new CrearPdf(nombre, tablaAgenda);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         
-        if (email!=""){
-            
-        String destino =email;
-            String asunto="Turnos que corresponden al dia: "+calendario.getSelection().toString();
-        String contenido = "Horario Nombre Documento Telefono Obra Social \n";        
-        int fila=0;
-        int max= tablaAgenda.getRowCount();      
-        while(fila < max){                        
-            if (tablaAgenda.getValueAt(fila, NOMBRE) !=null)
-                contenido = contenido +" "+ tablaAgenda.getValueAt(fila, HORA) +" "+ tablaAgenda.getValueAt(fila, NOMBRE) +" "+ tablaAgenda.getValueAt(fila, DOC) +" "+ tablaAgenda.getValueAt(fila, TEL) +" "+ tablaAgenda.getValueAt(fila, OS) + "\n";
-            fila++;            
-        }        
-        EnviadorMail email = new EnviadorMail(destino,asunto,contenido);
-         aviso.setText("El mail ha sido enviado con exito");    
-        
-        }else
-        {
+
+        if (email != "") {
+
+            String destino = email;
+            String asunto = "Turnos que corresponden al dia: " + calendario.getSelection().toString();
+            String contenido = "Horario Nombre Documento Telefono Obra Social \n";
+            int fila = 0;
+            int max = tablaAgenda.getRowCount();
+            while (fila < max) {
+                if (tablaAgenda.getValueAt(fila, NOMBRE) != null) {
+                    contenido = contenido + " " + tablaAgenda.getValueAt(fila, HORA) + " " + tablaAgenda.getValueAt(fila, NOMBRE) + " " + tablaAgenda.getValueAt(fila, DOC) + " " + tablaAgenda.getValueAt(fila, TEL) + " " + tablaAgenda.getValueAt(fila, OS) + "\n";
+                }
+                fila++;
+            }
+            EnviadorMail email = new EnviadorMail(destino, asunto, contenido);
+            aviso.setText("El mail ha sido enviado con exito");
+
+        } else {
             JOptionPane.showMessageDialog(null, "No se encuentra especificado el mail del profesional");
         }
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void DniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DniMouseClicked
-
     }//GEN-LAST:event_DniMouseClicked
 
     private void NombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NombreMouseClicked
-      
     }//GEN-LAST:event_NombreMouseClicked
 
     private void obraSocialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_obraSocialMouseClicked
-       
     }//GEN-LAST:event_obraSocialMouseClicked
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-            Acerca u = new Acerca();
-            u.setLocationRelativeTo(null);
-            u.setVisible(true);
-            u.pack();
+        Acerca u = new Acerca();
+        u.setLocationRelativeTo(null);
+        u.setVisible(true);
+        u.pack();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -888,53 +889,50 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void DniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DniActionPerformed
-        if (Dni.isSelected()){
+        if (Dni.isSelected()) {
             buscar1.enable(true);
             buscar1.grabFocus();
-        }
-        else{
+        } else {
             buscar1.setText("");
             buscar1.enable(false);
             botonBuscar.enable(false);
         }
-        
+
     }//GEN-LAST:event_DniActionPerformed
 
     private void NombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreActionPerformed
-          if (Nombre.isSelected()){
-             buscar2.enable(true);
-             buscar2.grabFocus();
-          }
-          else{
+        if (Nombre.isSelected()) {
+            buscar2.enable(true);
+            buscar2.grabFocus();
+        } else {
             buscar2.setText("");
             buscar2.enable(false);
             botonBuscar.enable(false);
-          }            
+        }
     }//GEN-LAST:event_NombreActionPerformed
 
     private void obraSocialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obraSocialActionPerformed
-        if (obraSocial.isSelected()){
-             buscar3.enable(true);
-             buscar3.grabFocus();
-          }
-          else{
+        if (obraSocial.isSelected()) {
+            buscar3.enable(true);
+            buscar3.grabFocus();
+        } else {
             buscar3.setText("");
             buscar3.enable(false);
             botonBuscar.enable(false);
-          }
-        
+        }
+
     }//GEN-LAST:event_obraSocialActionPerformed
 
     private void buscar1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscar1KeyPressed
-       
     }//GEN-LAST:event_buscar1KeyPressed
 
     private void buscar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscar1KeyTyped
-        if(buscar1.getText().length()>0){
+        if (buscar1.getText().length() > 0) {
             botonBuscar.setEnabled(true);
-            
-        }else
+
+        } else {
             botonBuscar.setEnabled(false);
+        }
     }//GEN-LAST:event_buscar1KeyTyped
 
     private void buscar2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscar2KeyTyped
@@ -942,41 +940,39 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_buscar2KeyTyped
 
     private void buscar2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscar2KeyPressed
-        if(buscar2.getText().length()>0){
+        if (buscar2.getText().length() > 0) {
             botonBuscar.setEnabled(true);
-            
-        }else
+
+        } else {
             botonBuscar.setEnabled(false);
+        }
     }//GEN-LAST:event_buscar2KeyPressed
 
     private void buscar3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscar3KeyTyped
-        if(buscar3.getText().length()>0){
+        if (buscar3.getText().length() > 0) {
             botonBuscar.setEnabled(true);
-            
-        }else
+
+        } else {
             botonBuscar.setEnabled(false);
+        }
     }//GEN-LAST:event_buscar3KeyTyped
 
     private void gnotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gnotaActionPerformed
-         String n=notas.getText();
-          Archivo a = new Archivo();
-          a.crearTxt(n,id_profesional);
-          aviso.setText("La nota se guardo correctamente");
+        String n = notas.getText();
+        Archivo a = new Archivo();
+        a.crearTxt(n, id_profesional);
+        aviso.setText("La nota se guardo correctamente");
     }//GEN-LAST:event_gnotaActionPerformed
 
     private void notasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_notasKeyPressed
-        
     }//GEN-LAST:event_notasKeyPressed
 
     private void notasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notasMouseClicked
-   
-        
-        
-                    // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_notasMouseClicked
 
     private void notasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notasMousePressed
-             // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_notasMousePressed
 
     private void notasFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_notasFocusGained
@@ -984,26 +980,25 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_notasFocusGained
 
     private void notasComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_notasComponentAdded
-      // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_notasComponentAdded
 
     private void notasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_notasKeyReleased
-                 // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_notasKeyReleased
 
     private void bnotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnotaActionPerformed
-      
-      int confirmado=JOptionPane.showConfirmDialog(null,"¿Esta seguro que desea borrar la nota?","Borrar",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
-      
+
+        int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea borrar la nota?", "Borrar", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
 
-      if (JOptionPane.YES_OPTION == confirmado)
-        {
-            Archivo a = new Archivo(); 
-            a.crearTxt("",id_profesional);
+
+        if (JOptionPane.YES_OPTION == confirmado) {
+            Archivo a = new Archivo();
+            a.crearTxt("", id_profesional);
             notas.setText("");
-        }    
-                
+        }
+
     }//GEN-LAST:event_bnotaActionPerformed
 
     private void avisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avisoActionPerformed
@@ -1011,24 +1006,25 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_avisoActionPerformed
 
     private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
-           aviso.setText(""); 
+        aviso.setText("");
     }//GEN-LAST:event_formMouseMoved
 
     private void SobreturnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SobreturnoActionPerformed
         DefaultTableModel model = (DefaultTableModel) tablaAgenda.getModel();
-        String  t = (String) tablaAgenda.getValueAt(tablaAgenda.getRowCount()-1,0);
+        String t = (String) tablaAgenda.getValueAt(tablaAgenda.getRowCount() - 1, 0);
         String[] resultado = t.split(":");
-        int min =  Integer.valueOf(resultado[1]);
+        int min = Integer.valueOf(resultado[1]);
         int hora = Integer.valueOf(resultado[0]);
         min = min + tiempo;
         if (min >= 60) {
             min = min - 60;
             hora = hora + 1;
         }
-        if (min==0)
-            model.addRow(new Object[]{hora+":00"});
-        else
-            model.addRow(new Object[]{hora+":"+min});
+        if (min == 0) {
+            model.addRow(new Object[]{hora + ":00"});
+        } else {
+            model.addRow(new Object[]{hora + ":" + min});
+        }
     }//GEN-LAST:event_SobreturnoActionPerformed
 
     private void proximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proximoActionPerformed
@@ -1039,17 +1035,17 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             Date fechaDate = new Date();
             String fecha = formateador.format(fechaDate);
             String nuevaFecha = nuevaFecha("[" + fecha + "]");
-            String sql = "select *  from ocupados where fecha ='"+nuevaFecha+"' and id_profesional='"+id_profesional+"' order by fecha desc";
+            String sql = "select *  from ocupados where fecha ='" + nuevaFecha + "' and id_profesional='" + id_profesional + "' order by fecha desc";
             ResultSet res = o.consultar(sql);
-            if (res.next()){
+            if (res.next()) {
                 int ultima = Integer.valueOf(res.getString("fecha"));
                 int actual = Integer.valueOf(nuevaFecha);
-                JOptionPane.showMessageDialog(null,ultima+" "+actual);
+                JOptionPane.showMessageDialog(null, ultima + " " + actual);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(consultaTurnosUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_proximoActionPerformed
 
     private void bcancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bcancelarMouseClicked
@@ -1057,30 +1053,29 @@ public class consultaTurnosUI extends javax.swing.JFrame {
     }//GEN-LAST:event_bcancelarMouseClicked
 
     private void bcancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bcancelarActionPerformed
-            tablaAgenda.setEnabled(false);
-            beliminar.setEnabled(false);
-            bguardar.setEnabled(false);
-            bmodificar.setEnabled(true);        
-            calendario.setEnabled(true);        
-            jButton1.setEnabled(true); 
-            jButton2.setEnabled(true); 
-            panel1.setEnabled(true); 
-            botonBuscar.setEnabled(true); 
-            notas.setEnabled(true);
-            proximo.setEnabled(true);           
-            gnota.setEnabled(true);
-            bnota.setEnabled(true);
-            Sobreturno.setEnabled(true);
-            Dni.setEnabled(true);
-            Nombre.setEnabled(true);
-            obraSocial.setEnabled(true); 
-            bcancelar.setEnabled(false);
+        tablaAgenda.setEnabled(false);
+        beliminar.setEnabled(false);
+        bguardar.setEnabled(false);
+        bmodificar.setEnabled(true);
+        calendario.setEnabled(true);
+        jButton1.setEnabled(true);
+        jButton2.setEnabled(true);
+        panel1.setEnabled(true);
+        botonBuscar.setEnabled(true);
+        notas.setEnabled(true);
+        proximo.setEnabled(true);
+        gnota.setEnabled(true);
+        bnota.setEnabled(true);
+        Sobreturno.setEnabled(true);
+        Dni.setEnabled(true);
+        Nombre.setEnabled(true);
+        obraSocial.setEnabled(true);
+        bcancelar.setEnabled(false);
     }//GEN-LAST:event_bcancelarActionPerformed
-   
-    
+
     /**
      * @param args the command line arguments
-    */
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1095,20 +1090,20 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(consultaTurnosUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Agenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(consultaTurnosUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Agenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(consultaTurnosUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Agenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(consultaTurnosUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Agenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new consultaTurnosUI().setVisible(true);
+                new Agenda().setVisible(true);
             }
         });
     }
