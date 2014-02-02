@@ -22,11 +22,10 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import turnibook.Archivo;
-import turnibook.CrearPdf;
-import turnibook.EnviadorMail;
-import turnibook.Operaciones;
-import turnibook.*;
+import turnibook.utils.Archivo;
+import turnibook.utils.CrearPdf;
+import turnibook.utils.EnviadorMail;
+import turnibook.model.Operaciones;
 
 
 /**
@@ -249,6 +248,9 @@ public class consultaTurnosUI extends javax.swing.JFrame {
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icono_impresora.jpg"))); // NOI18N
         jButton1.setText("Imprimir");
+        jButton1.setMaximumSize(new java.awt.Dimension(93, 27));
+        jButton1.setMinimumSize(new java.awt.Dimension(93, 27));
+        jButton1.setPreferredSize(new java.awt.Dimension(89, 25));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -257,6 +259,8 @@ public class consultaTurnosUI extends javax.swing.JFrame {
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icono_carta3.jpg"))); // NOI18N
         jButton2.setText("Enviar");
+        jButton2.setMaximumSize(new java.awt.Dimension(93, 27));
+        jButton2.setMinimumSize(new java.awt.Dimension(93, 27));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -395,7 +399,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(proximo)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         notas.setBackground(new java.awt.Color(240, 240, 240));
@@ -527,9 +531,9 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(62, 62, 62)
@@ -567,15 +571,14 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Sobreturno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Sobreturno, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                         .addComponent(bmodificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(beliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bguardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(9, 9, 9)
                 .addComponent(aviso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
@@ -640,7 +643,10 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         }
         return actual[2] + actual[1] + actual[0];
     }
-    //Elimino una fila seleccionada.
+    /**
+     * Elimino una fila seleccionada.
+     * @param evt 
+     */
     private void beliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beliminarActionPerformed
         if (bmodificar.isEnabled()==false){ 
             int fila;
@@ -658,7 +664,10 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             aviso.setText("Los datos se eliminaron correctamente");
         }  
     }//GEN-LAST:event_beliminarActionPerformed
-//Guardo todas las filas
+    /**
+     * Guarda los elementos de una tabla
+     * @param evt 
+     */
     private void bguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bguardarActionPerformed
         
         if (bmodificar.isEnabled()==false){            
@@ -670,13 +679,12 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             Operaciones o  = new Operaciones();
             int fila=0;
             int max= tablaAgenda.getRowCount();
+            
             String actual = nuevaFecha(calendario.getSelection().toString());
-            o.conectar();
             while(fila < max){           
                 if (tablaAgenda.getValueAt(fila,NOMBRE)!=null){
                     if (!o.existeTurno(actual, tablaAgenda.getValueAt(fila,HORA).toString())) {
                         String sql = "insert into turno(documento,telefono,asistencia,descripcion,os,nombre,hora,fecha,id_profesional) values ('"+tablaAgenda.getValueAt(fila,DOC)+"','"+tablaAgenda.getValueAt(fila,TEL)+"','"+tablaAgenda.getValueAt(fila,ASISTENCIA)+"','"+tablaAgenda.getValueAt(fila,DESCRIPCION)+"','"+tablaAgenda.getValueAt(fila,OS)+"','"+tablaAgenda.getValueAt(fila,NOMBRE)+"','"+tablaAgenda.getValueAt(fila,HORA)+"','"+actual+"','"+id_profesional+"')";
-
                         o.insertar(sql,aviso);
                     }
                     else {
@@ -685,7 +693,8 @@ public class consultaTurnosUI extends javax.swing.JFrame {
                     }
                 }
                  fila++;
-            }              
+            }   
+            
             tablaAgenda.clearSelection();
             tablaAgenda.setEnabled(false);
             aviso.setText("El turno se guardo correctamente");
@@ -705,7 +714,7 @@ public class consultaTurnosUI extends javax.swing.JFrame {
             beliminar.setEnabled(false);
             bguardar.setEnabled(false);
             notas.setEnabled(true);
-
+            bcancelar.setEnabled(false);
 
 
             }
@@ -737,8 +746,11 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         generarTabla();
         tablaAgenda.setEnabled(false);
     }//GEN-LAST:event_calendarioOnSelectionChange
-    private void generarTabla(){
-         Operaciones o = new Operaciones();
+    /**
+     * Este metodo generar la tabla con la informacion de la base de datos
+     */
+    private void generarTabla() {
+        Operaciones o = new Operaciones();
         ArrayList<String> dia = new ArrayList<String>();
         dia.add("domingo");
         dia.add("lunes");
@@ -748,15 +760,15 @@ public class consultaTurnosUI extends javax.swing.JFrame {
         dia.add("viernes");
         dia.add("sabado");
         // Con esto hago la consulta de cual horario pertenece al profesional con ese id_horario en el dia de la semana 
-        String intervalo = o.getIntervalo(dia.get(calendario.getSelectedDate().getTime().getDay()), id_horario);        
+        String intervalo = o.getIntervalo(dia.get(calendario.getSelectedDate().getTime().getDay()), id_horario);
         //Separo las variables inicio fin intervalo
-        if (!"fin".equals(intervalo)){
-            String[] res = intervalo.split("-");        
-        
-        String actual = nuevaFecha(calendario.getSelection().toString());
-        tiempo = Integer.valueOf(res[2]);
-        o.generarHorario(res[0], res[1], Integer.valueOf(res[2]),tablaAgenda,id_profesional,actual);
-        Sobreturno.setEnabled(true);
+        if (!"fin".equals(intervalo)) {
+            String[] res = intervalo.split("-");
+
+            String actual = nuevaFecha(calendario.getSelection().toString());
+            tiempo = Integer.valueOf(res[2]);
+            o.generarHorario(res[0], res[1], Integer.valueOf(res[2]), tablaAgenda, id_profesional, actual);
+            Sobreturno.setEnabled(true);
         }
     }
     

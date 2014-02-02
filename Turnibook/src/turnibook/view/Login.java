@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import turnibook.Operaciones;
+import turnibook.model.Operaciones;
 
 /**
  *
@@ -55,18 +55,33 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setText("Nombre");
 
         jTextField1.setName("textNombre"); // NOI18N
+        jTextField1.setNextFocusableComponent(jPasswordField1);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
             }
         });
 
         jLabel2.setText("Contraseña");
 
         jPasswordField1.setName("textPass"); // NOI18N
+        jPasswordField1.setNextFocusableComponent(botonLogin);
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPasswordField1ActionPerformed(evt);
+            }
+        });
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyPressed(evt);
             }
         });
 
@@ -78,6 +93,7 @@ public class Login extends javax.swing.JFrame {
         });
 
         botonLogin.setText("Login");
+        botonLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         botonLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 botonLoginMouseClicked(evt);
@@ -132,9 +148,9 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonSalir)
@@ -147,8 +163,6 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonLoginMouseClicked
-            
-        
     }//GEN-LAST:event_botonLoginMouseClicked
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
@@ -158,13 +172,16 @@ public class Login extends javax.swing.JFrame {
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1ActionPerformed
-
+    /**
+     * Este metodo autentica los usuarios
+     * @param evt 
+     */
     private void botonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLoginActionPerformed
         String nombre = this.jTextField1.getText();
         String pass = this.jPasswordField1.getText();
-        
+
         Operaciones o = new Operaciones();
-        if (o.validarUsuario(nombre, pass)){
+        if (o.validarUsuario(nombre, pass)) {
             this.setVisible(rootPaneCheckingEnabled);
             Usuarios u = new Usuarios();
             //Para que aparezca centrada la pantalla
@@ -174,17 +191,16 @@ public class Login extends javax.swing.JFrame {
             u.pack();
             //Para sacar la pantalla anterior
             this.setVisible(false);
-        }else
-        {
+        } else {
             try {
-                ResultSet resultado = o.consultar("select * from profesional where nombre like '"+nombre+"' and clave like '"+pass+"'");
-                if (resultado.next()){
+                ResultSet resultado = o.consultar("select * from profesional where nombre like '" + nombre + "' and clave like '" + pass + "'");
+                if (resultado.next()) {
                     try {
                         consultaTurnosUI ct = new consultaTurnosUI();
                         ct.setId_horario(resultado.getString("id_horario"));
                         ct.setId_profesional(resultado.getString("id_profesional"));
-                        if(!"null".equals(resultado.getString("email"))){
-                            ct.setId_profesional(resultado.getString("email"));
+                        if (!"null".equals(resultado.getString("email"))) {
+                            ct.setEmail(resultado.getString("email"));
                         }
                         ct.setLocationRelativeTo(null);
                         ct.setVisible(true);
@@ -193,9 +209,10 @@ public class Login extends javax.swing.JFrame {
                     } catch (SQLException ex) {
                         Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                     
-                }else
+
+                } else {
                     JOptionPane.showMessageDialog(null, "Nombre de usuario o password incorrectos");
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -217,11 +234,31 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                Acerca u = new Acerca();
-            u.setLocationRelativeTo(null);
-            u.setVisible(true);
-            u.pack();
+        Acerca u = new Acerca();
+        u.setLocationRelativeTo(null);
+        u.setVisible(true);
+        u.pack();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+
+        int knum = 10;
+        int tp = evt.getKeyChar();
+        if (knum == tp) {
+            jPasswordField1.requestFocus();
+        }
+    }//GEN-LAST:event_jTextField1KeyTyped
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+    }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
+        int knum = 10;
+        int tp = evt.getKeyChar();
+        if (knum == tp) {
+            botonLogin.requestFocus();
+        }
+    }//GEN-LAST:event_jPasswordField1KeyPressed
 
     /**
      * @param args the command line arguments
