@@ -95,6 +95,15 @@ public class SqlLiteUtil {
         }
     }
     
+    public boolean update(String sql){
+        try {
+            return consulta.execute(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlLiteUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
     public String getPass() {
         return pass;
     }
