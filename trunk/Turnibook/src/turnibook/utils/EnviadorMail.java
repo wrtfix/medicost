@@ -23,7 +23,16 @@ public class EnviadorMail {
         
         this.properties = new Properties();
         try {
-            properties.load(this.getClass().getResourceAsStream("../resources/configuration.properties"));
+            
+               String versionString = null;
+            Properties mainProperties = new Properties();
+            FileInputStream file;
+            String path = "C:\\configuration.properties";
+
+
+            file = new FileInputStream(path);
+            
+            properties.load(file);
             miCorreo = this.properties.getProperty("mail.smtp.user");
             miContrasenia = this.properties.getProperty("mail.smtp.password");
         } catch (IOException ex) {
@@ -41,8 +50,7 @@ public class EnviadorMail {
             msg.setText(cuerpo);
             msg.setSubject(asunto);
             msg.setFrom(new InternetAddress(miCorreo));
-            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(
-                    mailReceptor));
+            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailReceptor));
             Transport.send(msg);
         } catch (Exception mex) {
             mex.printStackTrace();
