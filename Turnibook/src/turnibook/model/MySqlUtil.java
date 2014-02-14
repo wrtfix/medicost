@@ -48,8 +48,17 @@ public class MySqlUtil {
      */
     private MySqlUtil() {
         this.properties = new Properties();
+
         try {
-            properties.load(this.getClass().getResourceAsStream("../resources/configuration.properties"));
+
+            String versionString = null;
+            Properties mainProperties = new Properties();
+            FileInputStream file;
+            String path = "C:\\configuration.properties";
+
+
+            file = new FileInputStream(path);
+            properties.load(file);
             ruta = this.properties.getProperty("direccion.base");
             user = this.properties.getProperty("admin.user");
             pass = this.properties.getProperty("admin.password");
