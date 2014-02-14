@@ -42,7 +42,7 @@ public class Acerca extends javax.swing.JFrame {
         jTextArea2.setColumns(20);
         jTextArea2.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jTextArea2.setRows(4);
-        jTextArea2.setText("\n                                  TURNIbook \nSoftware desarrollado por Jorge Mendiola  y Julieta González.\n");
+        jTextArea2.setText("\n                                    TURNIbook \n                          Software desarrollado por \n                   Jorge Mendiola  y Julieta González\n");
         jTextArea2.setBorder(null);
         jTextArea2.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jTextArea2.setEnabled(false);
@@ -52,7 +52,7 @@ public class Acerca extends javax.swing.JFrame {
         jTextArea3.setColumns(20);
         jTextArea3.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jTextArea3.setRows(3);
-        jTextArea3.setText("                 \n                 Para mas informaciòn mandanos un correo a \n                wrtfix@gmail.com  o  julietapoume@gmail.com ");
+        jTextArea3.setText("                 \n             Si desea realizar modificaciones envie un correo a \n                wrtfix@gmail.com  o  julietapoume@gmail.com ");
         jTextArea3.setAutoscrolls(false);
         jTextArea3.setBorder(null);
         jTextArea3.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -89,14 +89,14 @@ public class Acerca extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
