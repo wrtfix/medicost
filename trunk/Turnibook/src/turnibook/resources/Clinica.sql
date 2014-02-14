@@ -1,4 +1,6 @@
 CREATE TABLE sqlite_sequence(name,seq);
+
+
 CREATE TABLE horario (
     "id_horario" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     "lunes_desde" TEXT,
@@ -18,7 +20,17 @@ CREATE TABLE horario (
     "intervalo" INTEGER
     
 );
-CREATE TABLE Turno (id_profesional , documento NUMERIC, telefono TEXT, asistencia TEXT, descripcion TEXT, os TEXT, nombre TEXT, hora TEXT, fecha NUMERIC);
+CREATE TABLE Turno (
+id_profesional , documento NUMERIC, 
+telefono TEXT,
+asistencia TEXT,
+descripcion TEXT,
+os TEXT,
+nombre TEXT,
+hora TEXT,
+fecha NUMERIC
+);
+
 CREATE TABLE profesional (
     "id_profesional" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     "id_horario" INTEGER NOT NULL,
@@ -26,3 +38,20 @@ CREATE TABLE profesional (
     "clave" TEXT NOT NULL,
     "email" TEXT
 );
+
+--Esta tabla permite calcular cuantos turnos se pueden otorgar en un determinado dia
+create view tuno_intervalos as
+select id_horario, (lunes_hasta-lunes_desde)*(60/intervalo) as lunes,
+(martes_hasta-martes_desde)*(60/intervalo)as martes,
+(miercoles_hasta-miercoles_desde)*(60/intervalo) as miercoles,
+(jueves_hasta-jueves_desde)*(60/intervalo) as jueves,
+(viernes_hasta-viernes_desde)*(60/intervalo) as viernes,
+(sabado_hasta-sabado_desde)*(60/intervalo) as sabado,
+(domingo_hasta-domingo_desde)*(60/intervalo) as domingo
+ from horario;
+
+-- Esta vista permite evaluar los turnos que fueron dados por fecha
+create view turno_dados as
+select count(*) as dados,fecha,id_profesional
+from turno 
+group by fecha;
