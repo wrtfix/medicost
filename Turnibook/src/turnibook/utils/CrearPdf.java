@@ -56,7 +56,7 @@ public class CrearPdf {
                 if (agendaTabla.getValueAt(i, 2) != null){
                      tabla.addCell(agendaTabla.getValueAt(i,HORA).toString());
                      tabla.addCell(agendaTabla.getValueAt(i,NOMBRE).toString());
-                     tabla.addCell(agendaTabla.getValueAt(i,OS).toString());
+                     tabla.addCell(agendaTabla.getValueAt(i,OS)!=null ?agendaTabla.getValueAt(i,OS).toString():"");
                      tabla.addCell(""); 
                 }             
             }

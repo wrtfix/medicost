@@ -30,7 +30,16 @@ public class Archivo {
      public Archivo(){
          this.properties = new Properties();
         try {
-            properties.load(this.getClass().getResourceAsStream("../resources/configuration.properties"));
+            
+               String versionString = null;
+            Properties mainProperties = new Properties();
+            FileInputStream file;
+            String path = "C:\\configuration.properties";
+
+
+            file = new FileInputStream(path);
+            
+            properties.load(file);
             path = properties.getProperty("file.path");
         } catch (IOException ex) {
             Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
