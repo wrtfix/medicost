@@ -4,6 +4,7 @@
  */
 package turnibook.view;
 
+import java.awt.Color;
 import java.awt.event.ContainerListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -28,10 +30,13 @@ import turnibook.model.Operaciones;
 
 /**
  *
- * @author Juli
+ * @author julietapoume wrtfix
+ * @version 1.0
  */
 public class Agenda extends javax.swing.JFrame {
 
+    
+    private ArrayList<String> dia;
     /**
      * Creates new form Agenda
      */
@@ -48,6 +53,12 @@ public class Agenda extends javax.swing.JFrame {
     private String email;
     private int tiempo;
 
+     HashMap<String,Boolean> diasLaborales;
+
+    public void setDiasLaborales(HashMap<String, Boolean> diasLaborales) {
+        this.diasLaborales = diasLaborales;
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -74,6 +85,19 @@ public class Agenda extends javax.swing.JFrame {
 
     public Agenda() {
         initComponents();
+        
+        //TODO Terminar el coloreo del calendario.        
+
+        
+        dia = new ArrayList<String>();
+        dia.add("domingo");
+        dia.add("lunes");
+        dia.add("martes");
+        dia.add("miercoles");
+        dia.add("jueves");
+        dia.add("viernes");
+        dia.add("sabado");                
+
         beliminar.setEnabled(false);
         bcancelar.setEnabled(false);
         bguardar.setEnabled(false);
@@ -192,401 +216,443 @@ public class Agenda extends javax.swing.JFrame {
             }
         });
 
-        calendario.setNothingAllowed(false);
-        calendario.setWeekStyle(datechooser.view.WeekDaysStyle.FULL);
-        calendario.setNavigateFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11));
-        calendario.setBehavior(datechooser.model.multiple.MultyModelBehavior.SELECT_PERIOD);
-        calendario.addSelectionChangedListener(new datechooser.events.SelectionChangedListener() {
-            public void onSelectionChange(datechooser.events.SelectionChangedEvent evt) {
-                calendarioOnSelectionChange(evt);
-            }
-        });
+        calendario.setCurrentView(new datechooser.view.appearance.AppearancesList("custom",
+            new datechooser.view.appearance.ViewAppearance("custom",
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(0, 0, 255),
+                    false,
+                    true,
+                    new datechooser.view.appearance.swing.ButtonPainter()),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(0, 0, 255),
+                    true,
+                    true,
+                    new datechooser.view.appearance.swing.ButtonPainter()),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(0, 0, 255),
+                    new java.awt.Color(0, 0, 255),
+                    false,
+                    true,
+                    new datechooser.view.appearance.swing.ButtonPainter()),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(128, 128, 128),
+                    new java.awt.Color(0, 0, 255),
+                    false,
+                    true,
+                    new datechooser.view.appearance.swing.LabelPainter()),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(0, 0, 255),
+                    false,
+                    true,
+                    new datechooser.view.appearance.swing.LabelPainter()),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(255, 0, 0),
+                    false,
+                    false,
+                    new datechooser.view.appearance.swing.ButtonPainter()),
+                (datechooser.view.BackRenderer)null,
+                false,
+                true)));
+    calendario.setNothingAllowed(false);
+    calendario.setWeekStyle(datechooser.view.WeekDaysStyle.FULL);
+    calendario.setNavigateFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11));
+    calendario.setBehavior(datechooser.model.multiple.MultyModelBehavior.SELECT_PERIOD);
+    calendario.addSelectionChangedListener(new datechooser.events.SelectionChangedListener() {
+        public void onSelectionChange(datechooser.events.SelectionChangedEvent evt) {
+            calendarioOnSelectionChange(evt);
+        }
+    });
 
-        tablaAgenda.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+    tablaAgenda.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
 
-            },
-            new String [] {
-                "Hora", "Paciente", "Dni", "Telefono", "Obra Social", "Otra descripcion", "Asistencia"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
-            };
+        },
+        new String [] {
+            "Hora", "Paciente", "Dni", "Telefono", "Obra Social", "Otra descripcion", "Asistencia"
+        }
+    ) {
+        Class[] types = new Class [] {
+            java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+        };
+        boolean[] canEdit = new boolean [] {
+            false, true, true, true, true, true, true
+        };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
+        public Class getColumnClass(int columnIndex) {
+            return types [columnIndex];
+        }
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tablaAgenda.setEnabled(false);
-        tablaAgenda.setSelectionBackground(new java.awt.Color(255, 204, 204));
-        tablaAgenda.setSelectionForeground(new java.awt.Color(0, 0, 0));
-        tablaAgenda.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaAgendaMouseClicked(evt);
-            }
-        });
-        tablaAgenda.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                tablaAgendaMouseMoved(evt);
-            }
-        });
-        tablaAgenda.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                tablaAgendaComponentAdded(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tablaAgenda);
-        tablaAgenda.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+        }
+    });
+    tablaAgenda.setColumnSelectionAllowed(true);
+    tablaAgenda.setEnabled(false);
+    tablaAgenda.setSelectionBackground(new java.awt.Color(255, 204, 204));
+    tablaAgenda.setSelectionForeground(new java.awt.Color(0, 0, 0));
+    tablaAgenda.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            tablaAgendaMouseClicked(evt);
+        }
+    });
+    tablaAgenda.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        public void mouseMoved(java.awt.event.MouseEvent evt) {
+            tablaAgendaMouseMoved(evt);
+        }
+    });
+    tablaAgenda.addContainerListener(new java.awt.event.ContainerAdapter() {
+        public void componentAdded(java.awt.event.ContainerEvent evt) {
+            tablaAgendaComponentAdded(evt);
+        }
+    });
+    jScrollPane1.setViewportView(tablaAgenda);
+    tablaAgenda.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icono_impresora.jpg"))); // NOI18N
-        jButton1.setText("Imprimir");
-        jButton1.setMaximumSize(new java.awt.Dimension(93, 27));
-        jButton1.setMinimumSize(new java.awt.Dimension(93, 27));
-        jButton1.setPreferredSize(new java.awt.Dimension(89, 25));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+    jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icono_impresora.jpg"))); // NOI18N
+    jButton1.setText("Imprimir");
+    jButton1.setMaximumSize(new java.awt.Dimension(93, 27));
+    jButton1.setMinimumSize(new java.awt.Dimension(93, 27));
+    jButton1.setPreferredSize(new java.awt.Dimension(89, 25));
+    jButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton1ActionPerformed(evt);
+        }
+    });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icono_carta3.jpg"))); // NOI18N
-        jButton2.setText("Enviar");
-        jButton2.setMaximumSize(new java.awt.Dimension(93, 27));
-        jButton2.setMinimumSize(new java.awt.Dimension(93, 27));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+    jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/icono_carta3.jpg"))); // NOI18N
+    jButton2.setText("Enviar");
+    jButton2.setMaximumSize(new java.awt.Dimension(93, 27));
+    jButton2.setMinimumSize(new java.awt.Dimension(93, 27));
+    jButton2.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton2ActionPerformed(evt);
+        }
+    });
 
-        panel1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
+    panel1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
 
-        Dni.setText("Dni");
-        Dni.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                DniMouseClicked(evt);
-            }
-        });
-        Dni.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DniActionPerformed(evt);
-            }
-        });
+    Dni.setText("Dni");
+    Dni.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            DniMouseClicked(evt);
+        }
+    });
+    Dni.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            DniActionPerformed(evt);
+        }
+    });
 
-        Nombre.setText("Nombre");
-        Nombre.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                NombreMouseClicked(evt);
-            }
-        });
-        Nombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NombreActionPerformed(evt);
-            }
-        });
+    Nombre.setText("Nombre");
+    Nombre.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            NombreMouseClicked(evt);
+        }
+    });
+    Nombre.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            NombreActionPerformed(evt);
+        }
+    });
 
-        obraSocial.setText("O.S");
-        obraSocial.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                obraSocialMouseClicked(evt);
-            }
-        });
-        obraSocial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                obraSocialActionPerformed(evt);
-            }
-        });
+    obraSocial.setText("O.S");
+    obraSocial.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            obraSocialMouseClicked(evt);
+        }
+    });
+    obraSocial.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            obraSocialActionPerformed(evt);
+        }
+    });
 
-        buscar1.setEnabled(false);
-        buscar1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                buscar1KeyPressed(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                buscar1KeyTyped(evt);
-            }
-        });
+    buscar1.setEnabled(false);
+    buscar1.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyPressed(java.awt.event.KeyEvent evt) {
+            buscar1KeyPressed(evt);
+        }
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+            buscar1KeyTyped(evt);
+        }
+    });
 
-        buscar2.setEnabled(false);
-        buscar2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                buscar2KeyPressed(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                buscar2KeyTyped(evt);
-            }
-        });
+    buscar2.setEnabled(false);
+    buscar2.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyPressed(java.awt.event.KeyEvent evt) {
+            buscar2KeyPressed(evt);
+        }
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+            buscar2KeyTyped(evt);
+        }
+    });
 
-        buscar3.setEnabled(false);
-        buscar3.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                buscar3KeyTyped(evt);
-            }
-        });
+    buscar3.setEnabled(false);
+    buscar3.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+            buscar3KeyTyped(evt);
+        }
+    });
 
-        botonBuscar.setActionCommand("buscar");
-        botonBuscar.setEnabled(false);
-        botonBuscar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        botonBuscar.setLabel("Buscar");
-        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonBuscarActionPerformed(evt);
-            }
-        });
+    botonBuscar.setActionCommand("buscar");
+    botonBuscar.setEnabled(false);
+    botonBuscar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+    botonBuscar.setLabel("Buscar");
+    botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            botonBuscarActionPerformed(evt);
+        }
+    });
 
-        lista.setBackground(new java.awt.Color(240, 240, 240));
-        lista.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        lista.setForeground(new java.awt.Color(102, 102, 255));
-        jScrollPane2.setViewportView(lista);
+    lista.setBackground(new java.awt.Color(240, 240, 240));
+    lista.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+    lista.setForeground(new java.awt.Color(102, 102, 255));
+    jScrollPane2.setViewportView(lista);
 
-        proximo.setText("Proximo Turno");
-        proximo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                proximoActionPerformed(evt);
-            }
-        });
+    proximo.setText("Proximo Turno");
+    proximo.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            proximoActionPerformed(evt);
+        }
+    });
 
-        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
-        panel1.setLayout(panel1Layout);
-        panel1Layout.setHorizontalGroup(
-            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(obraSocial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                            .addComponent(Dni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(buscar1)
-                            .addComponent(buscar2)
-                            .addComponent(buscar3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(proximo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panel1Layout.setVerticalGroup(
-            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(buscar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Dni))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(buscar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Nombre))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(obraSocial)
-                            .addComponent(buscar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(proximo, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
-        );
+    javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+    panel1.setLayout(panel1Layout);
+    panel1Layout.setHorizontalGroup(
+        panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(panel1Layout.createSequentialGroup()
+            .addGap(17, 17, 17)
+            .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                .addGroup(panel1Layout.createSequentialGroup()
+                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(obraSocial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                        .addComponent(Dni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(buscar1)
+                        .addComponent(buscar2)
+                        .addComponent(buscar3))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(proximo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addContainerGap())
+    );
+    panel1Layout.setVerticalGroup(
+        panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(panel1Layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panel1Layout.createSequentialGroup()
+                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(buscar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Dni))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(buscar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Nombre))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(obraSocial)
+                        .addComponent(buscar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGap(18, 18, 18)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(proximo, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(38, Short.MAX_VALUE))
+    );
 
-        notas.setBackground(new java.awt.Color(240, 240, 240));
-        notas.setColumns(20);
-        notas.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
-        notas.setForeground(new java.awt.Color(255, 51, 102));
-        notas.setLineWrap(true);
-        notas.setRows(5);
-        notas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Notas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe Print", 0, 10), new java.awt.Color(102, 0, 153))); // NOI18N
-        notas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                notasMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                notasMousePressed(evt);
-            }
-        });
-        notas.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                notasComponentAdded(evt);
-            }
-        });
-        notas.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                notasFocusGained(evt);
-            }
-        });
-        notas.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                notasKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                notasKeyReleased(evt);
-            }
-        });
-        jScrollPane3.setViewportView(notas);
+    notas.setBackground(new java.awt.Color(240, 240, 240));
+    notas.setColumns(20);
+    notas.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
+    notas.setForeground(new java.awt.Color(255, 51, 102));
+    notas.setLineWrap(true);
+    notas.setRows(5);
+    notas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Notas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe Print", 0, 10), new java.awt.Color(102, 0, 153))); // NOI18N
+    notas.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            notasMouseClicked(evt);
+        }
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+            notasMousePressed(evt);
+        }
+    });
+    notas.addContainerListener(new java.awt.event.ContainerAdapter() {
+        public void componentAdded(java.awt.event.ContainerEvent evt) {
+            notasComponentAdded(evt);
+        }
+    });
+    notas.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            notasFocusGained(evt);
+        }
+    });
+    notas.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyPressed(java.awt.event.KeyEvent evt) {
+            notasKeyPressed(evt);
+        }
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            notasKeyReleased(evt);
+        }
+    });
+    jScrollPane3.setViewportView(notas);
 
-        gnota.setText("Guardar");
-        gnota.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gnotaActionPerformed(evt);
-            }
-        });
+    gnota.setText("Guardar");
+    gnota.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            gnotaActionPerformed(evt);
+        }
+    });
 
-        bnota.setText("Borrar");
-        bnota.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bnotaActionPerformed(evt);
-            }
-        });
+    bnota.setText("Borrar");
+    bnota.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            bnotaActionPerformed(evt);
+        }
+    });
 
-        aviso.setEditable(false);
-        aviso.setBorder(null);
-        aviso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                avisoActionPerformed(evt);
-            }
-        });
+    aviso.setEditable(false);
+    aviso.setBorder(null);
+    aviso.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            avisoActionPerformed(evt);
+        }
+    });
 
-        Sobreturno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/ico_agregar.gif"))); // NOI18N
-        Sobreturno.setText("Agregar Sobreturno");
-        Sobreturno.setMaximumSize(new java.awt.Dimension(93, 27));
-        Sobreturno.setMinimumSize(new java.awt.Dimension(93, 27));
-        Sobreturno.setPreferredSize(new java.awt.Dimension(89, 25));
-        Sobreturno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SobreturnoActionPerformed(evt);
-            }
-        });
+    Sobreturno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/ico_agregar.gif"))); // NOI18N
+    Sobreturno.setText("Agregar Sobreturno");
+    Sobreturno.setMaximumSize(new java.awt.Dimension(93, 27));
+    Sobreturno.setMinimumSize(new java.awt.Dimension(93, 27));
+    Sobreturno.setPreferredSize(new java.awt.Dimension(89, 25));
+    Sobreturno.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            SobreturnoActionPerformed(evt);
+        }
+    });
 
-        bcancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/eliminar.gif"))); // NOI18N
-        bcancelar.setText("Cancelar");
-        bcancelar.setActionCommand("");
-        bcancelar.setMaximumSize(new java.awt.Dimension(93, 27));
-        bcancelar.setMinimumSize(new java.awt.Dimension(93, 27));
-        bcancelar.setPreferredSize(new java.awt.Dimension(89, 25));
-        bcancelar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bcancelarMouseClicked(evt);
-            }
-        });
-        bcancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bcancelarActionPerformed(evt);
-            }
-        });
+    bcancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/turnibook/images/eliminar.gif"))); // NOI18N
+    bcancelar.setText("Cancelar");
+    bcancelar.setActionCommand("");
+    bcancelar.setMaximumSize(new java.awt.Dimension(93, 27));
+    bcancelar.setMinimumSize(new java.awt.Dimension(93, 27));
+    bcancelar.setPreferredSize(new java.awt.Dimension(89, 25));
+    bcancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            bcancelarMouseClicked(evt);
+        }
+    });
+    bcancelar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            bcancelarActionPerformed(evt);
+        }
+    });
 
-        jMenu3.setText("Ayuda");
+    jMenu3.setText("Ayuda");
 
-        jMenuItem2.setText("Tutorial");
-        jMenu3.add(jMenuItem2);
+    jMenuItem2.setText("Tutorial");
+    jMenu3.add(jMenuItem2);
 
-        jMenuItem1.setText("Acerca de...");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem1);
-        jMenu3.add(jSeparator1);
+    jMenuItem1.setText("Acerca de...");
+    jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem1ActionPerformed(evt);
+        }
+    });
+    jMenu3.add(jMenuItem1);
+    jMenu3.add(jSeparator1);
 
-        jMenuItem3.setText("Salir");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem3);
+    jMenuItem3.setText("Salir");
+    jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem3ActionPerformed(evt);
+        }
+    });
+    jMenu3.add(jMenuItem3);
 
-        jMenuBar1.add(jMenu3);
+    jMenuBar1.add(jMenu3);
 
-        setJMenuBar(jMenuBar1);
+    setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(Sobreturno, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bmodificar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(beliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(gnota, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(bnota, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane3))
-                        .addGap(51, 51, 51)
-                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(aviso, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(calendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(jScrollPane3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(gnota)
-                            .addComponent(bnota)))
-                    .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    getContentPane().setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(Sobreturno, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(bmodificar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(beliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(bguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(62, 62, 62)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(gnota, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bnota, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane3))
+                    .addGap(51, 51, 51)
+                    .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(10, 10, 10))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(aviso, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addContainerGap())
+    );
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(calendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(11, 11, 11)
+                    .addComponent(jScrollPane3)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Sobreturno, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                        .addComponent(bmodificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(beliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bguardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(9, 9, 9)
-                .addComponent(aviso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6))
-        );
+                        .addComponent(gnota)
+                        .addComponent(bnota)))
+                .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Sobreturno, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                    .addComponent(bmodificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(beliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bguardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGap(9, 9, 9)
+            .addComponent(aviso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(6, 6, 6))
+    );
 
-        getAccessibleContext().setAccessibleDescription("");
+    getAccessibleContext().setAccessibleDescription("");
 
-        pack();
+    pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void tablaAgendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAgendaMouseClicked
@@ -631,16 +697,20 @@ public class Agenda extends javax.swing.JFrame {
         return resultado;
     }
 
-    private String nuevaFecha(String fecha) {
-        String[] actual = fecha.split("/");
-        actual[0] = actual[0].replaceAll("\\[", "");
-        actual[2] = actual[2].replaceAll("\\]", "");
-        if (Integer.valueOf(actual[0]) < 10) {
-            actual[0] = "0" + String.valueOf(Integer.valueOf(actual[0]));
-        } else {
-            return actual[2] + actual[1] + actual[0];
-        }
-        return actual[2] + actual[1] + actual[0];
+    private String nuevaFecha(Date fecha) {
+        String patron = "yyyy-MM-dd";
+        SimpleDateFormat formato = new SimpleDateFormat(patron);
+        String result = formato.format(fecha);
+        return result;
+//        String[] actual = fecha.split("/");
+//        actual[0] = actual[0].replaceAll("\\[", "");
+//        actual[2] = actual[2].replaceAll("\\]", "");
+//        if (Integer.valueOf(actual[0]) < 10) {
+//            actual[0] = "0" + String.valueOf(Integer.valueOf(actual[0]));
+//        } else {
+//            return actual[2] + actual[1] + actual[0];
+//        }
+//        return actual[2] + actual[1] + actual[0];
     }
 
     /**
@@ -654,7 +724,7 @@ public class Agenda extends javax.swing.JFrame {
             fila = tablaAgenda.getSelectedRow();
             Operaciones o = new Operaciones();
             //hora y dia le paso para que borre        
-            String fecha = nuevaFecha(calendario.getSelection().toString());
+            String fecha = nuevaFecha(calendario.getSelectedDate().getTime());
             o.borrarTurno(tablaAgenda.getValueAt(fila, HORA).toString(), fecha, id_profesional);
             int max = tablaAgenda.getColumnCount();
             for (int i = 1; i < max; i++) {
@@ -671,7 +741,7 @@ public class Agenda extends javax.swing.JFrame {
      * @param evt
      */
     private void bguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bguardarActionPerformed
-
+try{
         if (bmodificar.isEnabled() == false) {
             if (tablaAgenda.isCellEditable(tablaAgenda.getSelectedRow(), tablaAgenda.getSelectedColumn())) {
                 tablaAgenda.editCellAt(0, 0);
@@ -681,20 +751,79 @@ public class Agenda extends javax.swing.JFrame {
             int fila = 0;
             int max = tablaAgenda.getRowCount();
 
-            String actual = nuevaFecha(calendario.getSelection().toString());
+            String actual = nuevaFecha(calendario.getSelectedDate().getTime());
             while (fila < max) {
                 if (tablaAgenda.getValueAt(fila, NOMBRE) != null) {
                     if (!o.existeTurno(actual, tablaAgenda.getValueAt(fila, HORA).toString())) {
                         String sql = "insert into turno(documento,telefono,asistencia,descripcion,os,nombre,hora,fecha,id_profesional) values ('" + tablaAgenda.getValueAt(fila, DOC) + "','" + tablaAgenda.getValueAt(fila, TEL) + "','" + tablaAgenda.getValueAt(fila, ASISTENCIA) + "','" + tablaAgenda.getValueAt(fila, DESCRIPCION) + "','" + tablaAgenda.getValueAt(fila, OS) + "','" + tablaAgenda.getValueAt(fila, NOMBRE) + "','" + tablaAgenda.getValueAt(fila, HORA) + "','" + actual + "','" + id_profesional + "')";
                         o.insertar(sql, aviso);
                     } else {
-                        String sql = "update turno set documento='" + tablaAgenda.getValueAt(fila, DOC) + "' , telefono='" + tablaAgenda.getValueAt(fila, TEL) + "' , asistencia='" + tablaAgenda.getValueAt(fila, ASISTENCIA) + "' , descripcion='" + tablaAgenda.getValueAt(fila, DESCRIPCION) + "' , os='" + tablaAgenda.getValueAt(fila, OS) + "' , nombre='" + tablaAgenda.getValueAt(fila, NOMBRE) + "' where hora='" + tablaAgenda.getValueAt(fila, HORA) + "' and fecha='" + actual + "' and id_profesional='" + id_profesional + "'";
-                        if (o.updateTurno(sql)) {
-                            aviso.setText("Los datos se actualizaron correctamente");
-                        } else {
-                            aviso.setText("Los datos no fueron actualizados");
+                        String sql = "update turno set ";
+                        String documento = (String) tablaAgenda.getValueAt(fila, DOC);
+                        String telefono = (String) tablaAgenda.getValueAt(fila, TEL);
+                        Boolean asistencia = (Boolean) tablaAgenda.getValueAt(fila, ASISTENCIA);
+                        String descripcion = (String) tablaAgenda.getValueAt(fila, DESCRIPCION);
+                        String os = (String) tablaAgenda.getValueAt(fila, OS);
+                        String nombre = (String)tablaAgenda.getValueAt(fila, NOMBRE);
+                        boolean entro = false;                        
+                        if (documento!=null){
+                            sql = sql + "documento='" + tablaAgenda.getValueAt(fila, DOC)+"'";
+                            entro=true;
                         }
+                        if (telefono!=null){
+                            if (!entro){
+                                sql = sql + "telefono='" + tablaAgenda.getValueAt(fila, TEL)+"'";
+                            }else{
+                                sql = sql + ",telefono='" + tablaAgenda.getValueAt(fila, TEL)+"'";
+                            }
+                            entro=true;
+                        }
+                        if (asistencia != null && asistencia){
+                           if (!entro){
+                            sql = sql + "asistencia='" + tablaAgenda.getValueAt(fila, ASISTENCIA)+"'";
+                           }else{
+                               sql = sql + ", asistencia='" + tablaAgenda.getValueAt(fila, ASISTENCIA)+"'";
+                           }
+                           
+                            entro=true;
+                        }
+                        if(descripcion!=null){
+                            if (!entro){
+                                sql = sql + "descripcion='" + tablaAgenda.getValueAt(fila, DESCRIPCION)+"'";
+                            }else{
+                                sql = sql + ", descripcion='" + tablaAgenda.getValueAt(fila, DESCRIPCION)+"'";
+                            }
+                            
+                            entro=true;
+                        }                        
+                        if (os!=null){
+                            if (!entro){
+                                sql = sql + "os='" + tablaAgenda.getValueAt(fila, OS)+"'";
+                            }else{
+                                sql = sql + ", os='" + tablaAgenda.getValueAt(fila, OS)+"'";
+                            }
+                            entro=true;
+                        }
+                        if (nombre!=null){
+                            if (!entro){
+                                sql = sql + "nombre='" + tablaAgenda.getValueAt(fila, NOMBRE)+"'";
+                            }else{
+                                sql = sql + ", nombre='" + tablaAgenda.getValueAt(fila, NOMBRE)+"'";
+                            }
+                            
+                            entro=true;
+                        }
+                        if (entro){
+                            sql = sql + "where hora='" + tablaAgenda.getValueAt(fila, HORA);
+                            sql = sql + "' and fecha='" + actual;
+                            sql = sql + "' and id_profesional='" + id_profesional + "'";
 
+                            if (o.updateTurno(sql)) {
+                                aviso.setText("Los datos se actualizaron correctamente");
+                            } else {
+                                aviso.setText("Los datos no fueron actualizados");
+                            }
+                        }
                     }
                 }
                 fila++;
@@ -720,8 +849,10 @@ public class Agenda extends javax.swing.JFrame {
             bguardar.setEnabled(false);
             notas.setEnabled(true);
             bcancelar.setEnabled(false);
+        }
 
-
+        }catch (Exception ex){
+           aviso.setText("Ocurrio un ERROR."); 
         }
     }//GEN-LAST:event_bguardarActionPerformed
 
@@ -746,29 +877,32 @@ public class Agenda extends javax.swing.JFrame {
         generarTabla();
         tablaAgenda.setEnabled(false);
     }//GEN-LAST:event_calendarioOnSelectionChange
+    
+    private String getNombreDay(int nombredia){
+        return dia.get(nombredia);
+    }
+    
     /**
      * Este metodo generar la tabla con la informacion de la base de datos
      */
+    
     private void generarTabla() {
         Operaciones o = new Operaciones();
-        ArrayList<String> dia = new ArrayList<String>();
-        dia.add("domingo");
-        dia.add("lunes");
-        dia.add("martes");
-        dia.add("miercoles");
-        dia.add("jueves");
-        dia.add("viernes");
-        dia.add("sabado");
+        
         // Con esto hago la consulta de cual horario pertenece al profesional con ese id_horario en el dia de la semana 
         String intervalo = o.getIntervalo(dia.get(calendario.getSelectedDate().getTime().getDay()), id_horario);
         //Separo las variables inicio fin intervalo
-        if (!"fin".equals(intervalo)) {
+        if (!"".equals(intervalo) && !"fin".equals(intervalo)) {
             String[] res = intervalo.split("-");
 
-            String actual = nuevaFecha(calendario.getSelection().toString());
+            String actual = nuevaFecha(calendario.getSelectedDate().getTime());
+//            Date select;
+//            select = calendario.getSelectedDate().getTime();
             tiempo = Integer.valueOf(res[2]);
             o.generarHorario(res[0], res[1], Integer.valueOf(res[2]), tablaAgenda, id_profesional, actual);
             Sobreturno.setEnabled(true);
+        }else{
+            o.generarHorario("0:0", "0:0", 0, tablaAgenda, id_profesional, "0");
         }
     }
 
@@ -789,10 +923,9 @@ public class Agenda extends javax.swing.JFrame {
         try {
             Operaciones o = new Operaciones();
             ResultSet r = null;
-            SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yy", new Locale("es_ES"));
+            
             Date fechaDate = new Date();
-            String fecha = formateador.format(fechaDate);
-            String nuevaFecha = nuevaFecha("[" + fecha + "]");
+            String nuevaFecha = nuevaFecha(fechaDate);
             String sql = "select nombre,fecha,hora  from turno where fecha >=" + nuevaFecha;
             //busco por dni
             if (Dni.isSelected()) {
@@ -819,7 +952,6 @@ public class Agenda extends javax.swing.JFrame {
             r.close();
             aviso.setText("La busqueda se realizo con exito");
 
-
             buscar1.setText("");
             buscar2.setText("");
             buscar3.setText("");
@@ -829,12 +961,12 @@ public class Agenda extends javax.swing.JFrame {
             Dni.setSelected(false);
             Nombre.setSelected(false);
             obraSocial.setSelected(false);
-
+            o.closeDB();
         } catch (SQLException ex) {
             Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
         }
         botonBuscar.setEnabled(false);
-
+        
 
     }//GEN-LAST:event_botonBuscarActionPerformed
 
@@ -991,8 +1123,6 @@ public class Agenda extends javax.swing.JFrame {
 
         int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea borrar la nota?", "Borrar", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
-
-
         if (JOptionPane.YES_OPTION == confirmado) {
             Archivo a = new Archivo();
             a.crearTxt("", id_profesional);
@@ -1025,29 +1155,35 @@ public class Agenda extends javax.swing.JFrame {
         } else {
             model.addRow(new Object[]{hora + ":" + min});
         }
+        
+        
     }//GEN-LAST:event_SobreturnoActionPerformed
 
     private void proximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proximoActionPerformed
-        try {
-            Operaciones o = new Operaciones();
-            ResultSet r = null;
-            SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yy", new Locale("es_ES"));
-            Date fechaDate = new Date();
-            String fecha = formateador.format(fechaDate);
-            String nuevaFecha = nuevaFecha("[" + fecha + "]");
-            String sql = "select *  from ocupados where fecha ='" + nuevaFecha + "' and id_profesional='" + id_profesional + "' order by fecha desc";
-            ResultSet res = o.consultar(sql);
-            if (res.next()) {
-                int ultima = Integer.valueOf(res.getString("fecha"));
-                int actual = Integer.valueOf(nuevaFecha);
-                JOptionPane.showMessageDialog(null, ultima + " " + actual);
+        int i = 0;
+        boolean hayTurno = false;
+        Date hoy = new Date();
+        Date actual = null;
+        Operaciones o = new Operaciones();
+        while (!hayTurno) {
+            actual = this.calendario.getModel().getCellDate(0, i).getTime();
+            if (actual.compareTo(hoy) > 0) {
+              
+                    if (o.hayTurno(nuevaFecha(actual), getNombreDay(this.calendario.getModel().getCellDate(0, i).getTime().getDay()),id_horario,id_profesional)) {
+                        hayTurno = true;
+                    }
+              
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+            i++;
 
     }//GEN-LAST:event_proximoActionPerformed
+        DefaultListModel list = new DefaultListModel();
+        list.addElement("Proximo turno " + nuevaFecha(actual));
+        lista.setModel(list);
 
+
+    }
     private void bcancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bcancelarMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_bcancelarMouseClicked

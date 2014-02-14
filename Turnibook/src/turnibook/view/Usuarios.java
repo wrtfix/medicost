@@ -629,7 +629,7 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_checkDomingoActionPerformed
 
     private void botonAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgendaActionPerformed
-            consultaTurnosUI ct = new consultaTurnosUI();
+            Agenda ct = new Agenda();
             
             Operaciones o = new Operaciones();
             String id_profesional = tablaProfesional.getValueAt(tablaProfesional.getSelectedRow(),0).toString();
@@ -672,7 +672,7 @@ public class Usuarios extends javax.swing.JFrame {
             domingoHasta.setText(res.getString("domingo_hasta"));
             intervalo.setText(res.getString("intervalo"));
             }
-            res.close();
+            o.closeDB();
         } catch (SQLException ex) {
             Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
         }

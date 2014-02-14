@@ -196,12 +196,17 @@ public class Login extends javax.swing.JFrame {
                 ResultSet resultado = o.consultar("select * from profesional where nombre like '" + nombre + "' and clave like '" + pass + "'");
                 if (resultado.next()) {
                     try {
-                        consultaTurnosUI ct = new consultaTurnosUI();
-                        ct.setId_horario(resultado.getString("id_horario"));
+                        Agenda ct = new Agenda();
+                        String idhorario = resultado.getString("id_horario");
+                        
+                        ct.setId_horario(idhorario);
                         ct.setId_profesional(resultado.getString("id_profesional"));
                         if (!"null".equals(resultado.getString("email"))) {
                             ct.setEmail(resultado.getString("email"));
                         }
+                        
+                        ct.setDiasLaborales(o.getDiasLaborales(idhorario));
+                        
                         ct.setLocationRelativeTo(null);
                         ct.setVisible(true);
                         ct.pack();
