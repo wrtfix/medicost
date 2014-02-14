@@ -20,36 +20,40 @@ import javax.swing.JPanel;
  * @author Jorge Mendiola
  * @version 1.0
  */
-public class SqlLiteUtil {
+public class MySqlUtil {
 
     private Connection conexion;
     private Statement consulta;
     public String ruta;
     protected final Properties properties;
-    private static SqlLiteUtil INSTANCE = null;
+    private static MySqlUtil INSTANCE = null;
     private String user = null;
     private String pass = null;
-    
+    private String driver = null;
+
     private synchronized static void createInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new SqlLiteUtil();
+            INSTANCE = new MySqlUtil();
         }
 
-    }    
-    public static SqlLiteUtil getInstance() {
+    }
+
+    public static MySqlUtil getInstance() {
         createInstance();
         return INSTANCE;
     }
+
     /**
-     * Constructor for objects of class SqlLiteUtil
+     * Constructor for objects of class MySqlUtil
      */
-    private SqlLiteUtil() {
+    private MySqlUtil() {
         this.properties = new Properties();
-        try {                                                       
+        try {
             properties.load(this.getClass().getResourceAsStream("../resources/configuration.properties"));
             ruta = this.properties.getProperty("direccion.base");
             user = this.properties.getProperty("admin.user");
             pass = this.properties.getProperty("admin.password");
+            driver = this.properties.getProperty("base.driver");
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "" + ex.getMessage());
         }
@@ -57,53 +61,55 @@ public class SqlLiteUtil {
     }
 
     public void conectar() {
+
         try {
-            Class.forName("org.sqlite.JDBC");
-            conexion = DriverManager.getConnection("jdbc:sqlite:" + ruta);
+            Class.forName(driver);
+            conexion = DriverManager.getConnection(ruta, user, pass);
             consulta = conexion.createStatement();
         } catch (SQLException ex) {
-            Logger.getLogger(SqlLiteUtil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MySqlUtil.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SqlLiteUtil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MySqlUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void desconectar(){
+
+    public void desconectar() {
         try {
             consulta.close();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(SqlLiteUtil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MySqlUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public ResultSet query(String sql){
+
+    public ResultSet query(String sql) {
         try {
             ResultSet resultado = consulta.executeQuery(sql);
             return resultado;
         } catch (SQLException ex) {
-            Logger.getLogger(SqlLiteUtil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MySqlUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
-    public void insert(String sql){
+
+    public void insert(String sql) {
         try {
-            int resultado = consulta.executeUpdate(sql);
+            consulta.executeUpdate(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(SqlLiteUtil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MySqlUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public boolean update(String sql){
+
+    public boolean update(String sql) {
         try {
-            return consulta.execute(sql);
+            consulta.executeUpdate(sql);
+            return true;
         } catch (SQLException ex) {
-            Logger.getLogger(SqlLiteUtil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MySqlUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
-    
+
     public String getPass() {
         return pass;
     }
@@ -111,5 +117,4 @@ public class SqlLiteUtil {
     public String getUser() {
         return user;
     }
-    
 }
