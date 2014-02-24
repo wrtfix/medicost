@@ -6,13 +6,11 @@ package turnibook.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -31,16 +29,12 @@ public class Archivo {
          this.properties = new Properties();
         try {
             
-               String versionString = null;
-            Properties mainProperties = new Properties();
             FileInputStream file;
-            String path = "C:\\configuration.properties";
-
-
+            path = "C:\\configuration.properties";
             file = new FileInputStream(path);
-            
             properties.load(file);
             path = properties.getProperty("file.path");
+
         } catch (IOException ex) {
             Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -52,7 +46,7 @@ public class Archivo {
            f = new File(nombre);
            //Escritura
             try{
-                FileWriter w = new FileWriter(path+f);
+                FileWriter w = new FileWriter(path+f+".txt");
                 BufferedWriter bw = new BufferedWriter(w);
                 PrintWriter wr = new PrintWriter(bw);  
                 wr.write(texto);//escribimos en el archivo
@@ -65,7 +59,7 @@ public class Archivo {
      
      public String leerTxt(String nombre){
                        
-            File f = new File(path+nombre);
+            File f = new File(path+nombre+".txt");
             BufferedReader entrada;
             String r = "";
             try {

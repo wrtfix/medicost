@@ -5,31 +5,27 @@ import java.io.IOException;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class EnviadorMail {
     private String miCorreo;
     private String miContrasenia;
     private String mailReceptor;
-    private String asunto;
-    private String cuerpo;
 
    private final Properties properties;
     
     public EnviadorMail(String mailReceptor, String asunto, String cuerpo) {
         this.mailReceptor = mailReceptor;
-        this.asunto = asunto;
-        this.cuerpo = cuerpo;
-        
+
         this.properties = new Properties();
         try {
             
-               String versionString = null;
+            String versionString = null;
             Properties mainProperties = new Properties();
             FileInputStream file;
             String path = "C:\\configuration.properties";
-
-
             file = new FileInputStream(path);
             
             properties.load(file);
@@ -47,13 +43,13 @@ public class EnviadorMail {
             // session.setDebug(true);
 
             MimeMessage msg = new MimeMessage(session);
-            msg.setText(cuerpo);
+            msg.setContent(cuerpo,"text/html; charset=utf-8");
             msg.setSubject(asunto);
             msg.setFrom(new InternetAddress(miCorreo));
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailReceptor));
             Transport.send(msg);
         } catch (Exception mex) {
-            mex.printStackTrace();
+            Logger.getLogger(EnviadorMail.class.getName()).log(Level.SEVERE, null, mex);
         }
 
     }
