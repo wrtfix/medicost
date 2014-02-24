@@ -4,24 +4,18 @@
  */
 package turnibook.view;
 
-import java.awt.Color;
-import java.awt.event.ContainerListener;
+import datechooser.model.multiple.PeriodSet;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import turnibook.utils.Archivo;
 import turnibook.utils.CrearPdf;
@@ -728,7 +722,29 @@ public class Agenda extends javax.swing.JFrame {
             }
 
             tablaAgenda.setEnabled(false);
-            aviso.setText("Los datos se eliminaron correctamente");
+            
+            tablaAgenda.clearSelection();
+            tablaAgenda.setEnabled(false);
+             aviso.setText("Los datos se eliminaron correctamente");
+            bmodificar.setEnabled(true);
+            calendario.setEnabled(true);
+            jButton1.setEnabled(true);
+            jButton2.setEnabled(true);
+            panel1.setEnabled(true);
+            botonBuscar.setEnabled(true);
+            proximo.setEnabled(true);
+            gnota.setEnabled(true);
+            bnota.setEnabled(true);
+            Sobreturno.setEnabled(true);
+            Dni.setEnabled(true);
+            Nombre.setEnabled(true);
+            obraSocial.setEnabled(true);
+            beliminar.setEnabled(false);
+            bguardar.setEnabled(false);
+            notas.setEnabled(true);
+            bcancelar.setEnabled(false);
+            
+           
         }
     }//GEN-LAST:event_beliminarActionPerformed
     /**
@@ -827,7 +843,6 @@ try{
 
             tablaAgenda.clearSelection();
             tablaAgenda.setEnabled(false);
-            aviso.setText("El turno se guardo correctamente");
             bmodificar.setEnabled(true);
             calendario.setEnabled(true);
             jButton1.setEnabled(true);
@@ -942,7 +957,7 @@ try{
             DefaultListModel list = new DefaultListModel();
 
             while (r.next()) {
-                list.addElement("      " + r.getString("nombre") + "     " + fechaFormateada(r.getString("fecha")) + "     " + r.getString("hora"));
+                list.addElement("      " + r.getString("nombre") + "     " + r.getString("fecha") + "     " + r.getString("hora"));
             }
             lista.setModel(list);
             r.close();
@@ -978,15 +993,25 @@ try{
 
             String destino = email;
             String asunto = "Turnos que corresponden al dia: " + calendario.getSelection().toString();
-            String contenido = "Horario Nombre Documento Telefono Obra Social \n";
+            String contenido = "<table> <tr><th>Horario</th> <th>Nombre </th> <th>Documento</th><th> Telefono </th><th>Obra Social </th></tr>\n";
             int fila = 0;
             int max = tablaAgenda.getRowCount();
             while (fila < max) {
                 if (tablaAgenda.getValueAt(fila, NOMBRE) != null) {
-                    contenido = contenido + " " + tablaAgenda.getValueAt(fila, HORA) + " " + tablaAgenda.getValueAt(fila, NOMBRE) + " " + tablaAgenda.getValueAt(fila, DOC) + " " + tablaAgenda.getValueAt(fila, TEL) + " " + tablaAgenda.getValueAt(fila, OS) + "\n";
+                    contenido = contenido + "<tr><td>" + tablaAgenda.getValueAt(fila, HORA) + "</td> <td>" + tablaAgenda.getValueAt(fila, NOMBRE) + "</td> <td>" + tablaAgenda.getValueAt(fila, DOC) + "</td> ";
+                    if (tablaAgenda.getValueAt(fila, TEL) !=null)
+                        contenido = contenido +"<td>"+ tablaAgenda.getValueAt(fila, TEL) + "</td>";
+                    else
+                        contenido = contenido +"<td></td>";
+                    if (tablaAgenda.getValueAt(fila, OS) !=null)
+                        contenido = contenido + tablaAgenda.getValueAt(fila, OS);
+                    else
+                        contenido = contenido +"<td></td>";
+                    contenido = contenido  + "</tr>\n";
                 }
                 fila++;
             }
+            contenido = contenido + "</table>";
             EnviadorMail email = new EnviadorMail(destino, asunto, contenido);
             aviso.setText("El mail ha sido enviado con exito");
 
@@ -1176,9 +1201,10 @@ try{
     }//GEN-LAST:event_proximoActionPerformed
         DefaultListModel list = new DefaultListModel();
         list.addElement("Proximo turno " + nuevaFecha(actual));
+        Calendar cal=Calendar.getInstance();
+        cal.setTime(actual);
+        this.calendario.setSelectedDate(cal);
         lista.setModel(list);
-
-
     }
     private void bcancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bcancelarMouseClicked
         // TODO add your handling code here:
