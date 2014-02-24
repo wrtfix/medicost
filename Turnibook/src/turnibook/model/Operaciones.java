@@ -39,11 +39,18 @@ public class Operaciones {
 
     public boolean insertar(String sql, JTextField aviso) {
         boolean valor = true;
-        MySqlUtil.getInstance().conectar();
-        MySqlUtil.getInstance().insert(sql);
-        aviso.setText("Los datos se guardaron correctamente");
-        MySqlUtil.getInstance().desconectar();
-        return valor;
+        try {
+            MySqlUtil.getInstance().conectar();
+            MySqlUtil.getInstance().insert(sql);
+            
+            MySqlUtil.getInstance().desconectar();
+            aviso.setText("Los datos se guardaron correctamente");
+            return valor;
+        } catch (SQLException ex) {
+            aviso.setText("ERROR: Los datos no fueron insertados con exito");
+            return valor;
+        }
+        
     }
     
     public boolean updateTurno(String sql){
@@ -56,7 +63,7 @@ public class Operaciones {
     public void borrarTurno(String hora, String fecha, String id) {
         MySqlUtil.getInstance().conectar();
         String sql = "delete from turno where fecha = '" + fecha + "' and hora ='" + hora + "' and id_profesional='" + id + "'";
-        MySqlUtil.getInstance().query(sql);
+        MySqlUtil.getInstance().update(sql);
         MySqlUtil.getInstance().desconectar();
     }
 
@@ -167,94 +174,101 @@ public class Operaciones {
     }
     
     public void generarHorario(String inicio, String fin, Integer intervalo, JTable tablaAgenda, String id_profesional, String fecha) {
-
-        Integer h_inicio;
-        Integer m_inicio = 0;
-        Integer h_fin;
-        Integer m_fin = 0;
-
-
-        if (inicio.contains(":")) {
-            String[] aux = inicio.split(":");
-            h_inicio = Integer.valueOf(aux[0]);
-            m_inicio = Integer.valueOf(aux[1]);
-        } else {
-            h_inicio = Integer.valueOf(inicio);
-        }
-        if (fin.contains(":")) {
-            String[] aux = inicio.split(":");
-            h_fin = Integer.valueOf(aux[0]);
-            m_fin = Integer.valueOf(aux[1]);
-        } else {
-            h_fin = Integer.valueOf(fin);
-        }
+        try {
+            Integer h_inicio;
+            Integer m_inicio = 0;
+            Integer h_fin;
+            Integer m_fin = 0;
 
 
-        tablaAgenda.setEnabled(true);
-        int i = 0;
-        int fila = 0;
-        int aux = m_inicio;
-        String hora;
-
-        DefaultTableModel model = (DefaultTableModel) tablaAgenda.getModel();
-        model.setRowCount(0);
-        MySqlUtil.getInstance().conectar();
-
-        ResultSet res2 = MySqlUtil.getInstance().query("select * from turno where fecha ='" + fecha + "' and id_profesional ='" + id_profesional + "'");
-        int cant = getCantTurnos(res2);
-        ResultSet res = MySqlUtil.getInstance().query("select * from turno where fecha ='" + fecha + "' and id_profesional ='" + id_profesional + "'");
-        while (h_inicio < h_fin || fila < cant) {
-            if (aux != 0) {
-                if (aux == 60) {
-                    hora = h_inicio + 1 + ":00";
-                } else {
-                    hora = h_inicio + ":" + aux;
-                }
+            if (inicio.contains(":")) {
+                String[] aux = inicio.split(":");
+                h_inicio = Integer.valueOf(aux[0]);
+                m_inicio = Integer.valueOf(aux[1]);
             } else {
-                hora = h_inicio + ":00";
+                h_inicio = Integer.valueOf(inicio);
             }
-            model.addRow(new Object[7]);
-            model.setValueAt(hora, fila, HORA);
-            try {
-                if (res.next() && res.getString("nombre") != null && hora.equals(res.getString("hora"))) {
-                    if (!"null".equals(res.getString("documento"))) {
-                        model.setValueAt(res.getString("documento"), fila, DOC);
-                    }
-                    if (!"null".equals(res.getString("telefono"))) {
-                        model.setValueAt(res.getString("telefono"), fila, TEL);
-                    }
-                    if (!"null".equals(res.getString("descripcion"))) {
-                        model.setValueAt(res.getString("descripcion"), fila, DESCRIPCION);
-                    }
-                    if (!"null".equals(res.getString("nombre"))) {
-                        model.setValueAt(res.getString("nombre"), fila, NOMBRE);
-                    }
-                    if (!"null".equals((res.getString("os")))) {
-                        model.setValueAt(res.getString("os"), fila, OS);
-                    }
+            if (fin.contains(":")) {
+                String[] aux = inicio.split(":");
+                h_fin = Integer.valueOf(aux[0]);
+                m_fin = Integer.valueOf(aux[1]);
+            } else {
+                h_fin = Integer.valueOf(fin);
+            }
 
-                    if ("true".equals(res.getString("Asistencia"))) {
-                        model.setValueAt(true, fila, ASISTENCIA);
+
+            tablaAgenda.setEnabled(true);
+            int i = 0;
+            int fila = 0;
+            int aux = m_inicio;
+            String hora;
+
+            DefaultTableModel model = (DefaultTableModel) tablaAgenda.getModel();
+            model.setRowCount(0);
+            MySqlUtil.getInstance().conectar();
+
+            ResultSet res2 = MySqlUtil.getInstance().query("select * from turno where fecha ='" + fecha + "' and id_profesional ='" + id_profesional + "'");
+            int cant = getCantTurnos(res2);
+            ResultSet res = MySqlUtil.getInstance().query("select * from turno where fecha ='" + fecha + "' and id_profesional ='" + id_profesional + "'");
+            res.next();
+            
+            while (h_inicio < h_fin || cant>0) {
+                if (aux != 0) {
+                    if (aux == 60) {
+                        hora = h_inicio + 1 + ":00";
                     } else {
-                        model.setValueAt(false, fila, ASISTENCIA);
+                        hora = h_inicio + ":" + aux;
                     }
+                } else {
+                    hora = h_inicio + ":00";
+                }
+                model.addRow(new Object[7]);
+                model.setValueAt(hora, fila, HORA);
+                try {
+                        if(res.getRow()>0){
+                        if (hora.equals(res.getString("hora")) && res.getString("nombre") != null ) {
+                            cant=cant-1;
+                            if (!"null".equals(res.getString("documento"))) {
+                                model.setValueAt(res.getString("documento"), fila, DOC);
+                            }
+                            if (!"null".equals(res.getString("telefono"))) {
+                                model.setValueAt(res.getString("telefono"), fila, TEL);
+                            }
+                            if (!"null".equals(res.getString("descripcion"))) {
+                                model.setValueAt(res.getString("descripcion"), fila, DESCRIPCION);
+                            }
+                            if (!"null".equals(res.getString("nombre"))) {
+                                model.setValueAt(res.getString("nombre"), fila, NOMBRE);
+                            }
+                            if (!"null".equals((res.getString("os")))) {
+                                model.setValueAt(res.getString("os"), fila, OS);
+                            }
 
+                            if ("true".equals(res.getString("Asistencia"))) {
+                                model.setValueAt(true, fila, ASISTENCIA);
+                            } else {
+                                model.setValueAt(false, fila, ASISTENCIA);
+                            }
+                            res.next();
+                        }
 
+                        }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                aux = aux + intervalo;
+                if (aux > 60) {
+                    aux = aux - 60;
+                    h_inicio = h_inicio + 1;
 
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
+                fila++;
+                i++;
             }
-            aux = aux + intervalo;
-            if (aux > 60) {
-                aux = aux - 60;
-                h_inicio = h_inicio + 1;
-
-            }
-            fila++;
-            i++;
+            MySqlUtil.getInstance().desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(Operaciones.class.getName()).log(Level.SEVERE, null, ex);
         }
-        MySqlUtil.getInstance().desconectar();
     }
 
     public String getIdProfesional(String nombre, String mail) {

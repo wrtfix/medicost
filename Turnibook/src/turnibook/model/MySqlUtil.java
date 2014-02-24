@@ -101,12 +101,8 @@ public class MySqlUtil {
         return null;
     }
 
-    public void insert(String sql) {
-        try {
+    public void insert(String sql) throws SQLException {
             consulta.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(MySqlUtil.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public boolean update(String sql) {
